@@ -1,0 +1,5 @@
+package DomainLayer;
+
+interface IPayment{
+
+}

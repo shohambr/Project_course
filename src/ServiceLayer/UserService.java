@@ -6,6 +6,7 @@ import java.util.*;
 
 public class UserService {
 
+    //Should hold IUserRepository (that practically will always be UserRepository)
     private BCrypt passwordEncoder;
     private TokenService tokenService;
 

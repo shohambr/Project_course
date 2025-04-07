@@ -6,7 +6,7 @@ import java.util.*;
 
 public class User {
     private int id;
-    private String name;
+    private String name;                 //No need
     private Role role;
     private ShoppingCart shoppingCart;
 
@@ -29,11 +29,11 @@ public class User {
 
     public void signUp(String username, String password){
         TokenService.signUp(username, password);
-    }
+    }               //Should be instead UserService.signUp...
 
     public void Login(String username, String password){
         TokenService.login(username, password);
-    }
+    }      //Should be instead UserService.login...
 
 }
 

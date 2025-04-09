@@ -1,21 +1,27 @@
 package infrastructureLayer;
+import DomainLayer.IUserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.*;
 import java.util.HashMap;
-import
-
-public interface UserRepository extends MongoRepository<String,String> {
-
-    HashMap<String , String> rep = new HashMap<String ,String>;
 
 
+public class UserRepository implements IUserRepository {
 
-    public static String findPassByName(String username){
+    HashMap<String , String> rep = new HashMap<String ,String>();
+
+    public String getUserPass(String username){
         return rep.get(username);
     }
 
-    static String insert(String username, String hashedPassword) {
+    public boolean addUser(String username, String hashedPassword) {
+        if(rep.containsKey(username)){
+            return false;
+        }
+        rep.put(username , hashedPassword);
+        return true;
     }
 
-
+    public boolean isUserExist(String username) {
+        return rep.containsKey(username);
+    }
 }

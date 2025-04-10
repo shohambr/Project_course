@@ -54,6 +54,6 @@ public class RegisteredUser extends User {
     }
 
     public void ownershipRequest(String request) {
-
+        //to implement
     }
 }

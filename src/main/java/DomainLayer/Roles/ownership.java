@@ -30,10 +30,10 @@ public class ownership {
     public void changeProductDescription(int productID, String description){
         myStore.changeProductDescription(productID,description);
     }
-    public int appointingNewOwner(RegisteredUser newOwner){
+    public int sendAppointingNewOwnerRequest(RegisteredUser newOwner){
         int newOwnerID = newOwner.getID();
-        String requestMassage = "hee"
-        newOwner.ownershipRequest(String);
+        String requestMassage = "hello I would like for you to become a co-owner in my store: "+myStore.getName()+"\n";
+        newOwner.ownershipRequest(requestMassage);
     }
     public
 

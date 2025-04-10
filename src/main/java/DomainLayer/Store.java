@@ -1,4 +1,6 @@
 package DomainLayer;
+import DomainLayer.Roles.Guest;
+
 import java.util.*;
 
 public class Store {
@@ -12,20 +14,20 @@ public class Store {
         this.name = name;
     }
 
-    public User registerUser(String name, String username, String password, Role role, ShoppingCart sc) {
-        User user = new User(nextUserId++, name, username, password, role, sc);
-        users.add(user);
-        return user;
-    }
+//    public User registerUser(String name, String username, String password, Role role, ShoppingCart sc) {
+//        User user = new Guest();
+//        users.add(user);
+//        return user;
+//    }
 
-    public Product createProduct(String name, String description, int price, int quantity) {
-        Product product = new Product(nextProductId++, name, description, price, quantity);
+    public Product createProduct(String Iname, String description, int price, int quantity) {
+        Product product = new Product("" + nextProductId++ , name , Iname, description, price, quantity);
         allProducts.add(product);
         return product;
     }
 
     public void assignProductToUser(User user, Product product) {
-        user.addProduct(product);
+        user.addProduct(this , product);
     }
 
     public List<User> getUsers() {

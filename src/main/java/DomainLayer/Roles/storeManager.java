@@ -3,14 +3,13 @@ package DomainLayer.Roles;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class storeManager {
+public class storeManager extends RegisteredUser{
 
     private Dictionary<String,Boolean> permissions;
-    private int storeID;
+    private int managedStoreID;
 
-    storeManager(int StoreID){
-        permissions = new Hashtable<String,Boolean>();
-        this.storeID = StoreID;
+    public storeManager(String json) {
+
     }
 
 

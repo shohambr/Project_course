@@ -10,9 +10,10 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\ProductService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\ShoppingBag.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\UserService.java
+C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Roles\Guest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\ShoppingCart.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\IShipping.java
-C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Roles\Role.java
+C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Roles\RegisteredUser.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\OrderService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\PaymentService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\PurchasePolicy.java
@@ -25,6 +26,8 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\infrastructur
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Order.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\ShippingService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\IStoreRepository.java
+C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Roles\storeManager.java
+C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Roles\systemManager.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\User.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\IUserRepository.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\Market.java

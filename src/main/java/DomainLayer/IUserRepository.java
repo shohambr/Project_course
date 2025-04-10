@@ -6,4 +6,6 @@ public interface IUserRepository {
     public boolean addUser(String username, String password);
     public String getUserPass(String username);
     public boolean isUserExist(String username);
+    public boolean update(String name ,String s);
+    public String getUser(String username);
 }

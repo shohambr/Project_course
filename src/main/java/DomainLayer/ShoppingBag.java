@@ -3,7 +3,7 @@ package DomainLayer;
 import java.util.ArrayList;
 import java.util.List;
 
-private class ProductAmount {
+class ProductAmount {
     public Product product;
     public int amount;
 

@@ -40,7 +40,7 @@ class ProductServiceTest {
     @Test
     void getProductById_ShouldReturnProduct_WhenExists() {
         // Arrange
-        Product product = new Product("p2", 1, "Phone", "Smartphone", 2000, 10);
+        Product product = new Product("p2", "1", "Phone", "Smartphone", 2000, 10);
         when(productRepo.findById("p2")).thenReturn(Optional.of(product));
 
         // Act
@@ -54,7 +54,7 @@ class ProductServiceTest {
     @Test
     void increaseQuantity_ShouldAddToQuantityAndSave() {
         // Arrange
-        Product product = new Product("p3", 1, "Tablet", "Android tablet", 1500, 3);
+        Product product = new Product("p3", "1", "Tablet", "Android tablet", 1500, 3);
         when(productRepo.findById("p3")).thenReturn(Optional.of(product));
 
         // Act

@@ -1,16 +1,16 @@
-package DomainLayer.Roles;
+// package DomainLayer.Roles;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+// import java.util.Dictionary;
+// import java.util.Hashtable;
 
-public class storeManager extends RegisteredUser{
+// public class storeManager extends RegisteredUser{
 
-    private Dictionary<String,Boolean> permissions;
-    private int managedStoreID;
+//     private Dictionary<String,Boolean> permissions;
+//     private int managedStoreID;
 
-    public storeManager(String json) {
+//     public storeManager(String json) {
 
-    }
+//     }
 
 
-}
+// }

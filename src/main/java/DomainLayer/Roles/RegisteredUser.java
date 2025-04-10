@@ -2,7 +2,7 @@ package DomainLayer.Roles;
 
 import java.util.*;
 
-import DomainLayer.Store;
+
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,7 @@ public class RegisteredUser extends User {
     }
     public void logout()  {
         try{
-            userService.logoutRegistered(id, mapper.writeValueAsString(this));
+            userService.logoutRegistered(this.myToken, mapper.writeValueAsString(this));
             myToken=null;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

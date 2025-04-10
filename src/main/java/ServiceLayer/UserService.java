@@ -42,8 +42,6 @@ public class UserService {
     }
 
     public void logoutRegistered(String id ,String json) {
-
-
         userRepo.update(id , json);
     }
 

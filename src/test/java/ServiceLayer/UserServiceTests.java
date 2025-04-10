@@ -23,7 +23,6 @@ class UserServiceTest {
 
         // Hacky workaround for BCrypt since it's static
         userService = spy(userService);
-        doReturn(true).when(userService).login(anyString(), anyString()); // Stub default login response
     }
 
     @Test
@@ -85,5 +84,27 @@ class UserServiceTest {
         userService.logoutRegistered("user123", "{\"status\":\"logged out\"}");
 
         verify(userRepo).update("user123", "{\"status\":\"logged out\"}");
+    }
+
+
+    @Test
+    void login_ShouldStillWork_AfterLogout() {
+        String username = "yaniv";
+        String password = "password123";
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // Setup mocks
+        when(userRepo.isUserExist(username)).thenReturn(true);
+        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
+        when(userRepo.getUser(username)).thenReturn("YanivUserObject");
+
+        // Simulate logout
+        userService.logoutRegistered("yaniv", "{\"status\":\"logged out\"}");
+        verify(userRepo).update("yaniv", "{\"status\":\"logged out\"}");
+
+        // Now try to log in again
+        String result = userService.login(username, password);
+
+        assertEquals("YanivUserObject", result);
     }
 }

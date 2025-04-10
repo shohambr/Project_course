@@ -1,5 +1,0 @@
-package DomainLayer;
-
-interface IProductRepository {
-
-}

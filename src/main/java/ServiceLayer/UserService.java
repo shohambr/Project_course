@@ -2,8 +2,6 @@ package ServiceLayer;
 import infrastructureLayer.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.*;
-
 public class UserService {
 
     //Should hold IUserRepository (that practically will always be UserRepository)

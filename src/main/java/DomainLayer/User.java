@@ -9,7 +9,7 @@ public abstract class User {
     protected UserService userService;
 
     public User() {
-        this.shoppingCart = new ShoppingCart();
+        this.shoppingCart = new ShoppingCart(id);
     }
 
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag

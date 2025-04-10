@@ -1,4 +1,4 @@
 package DomainLayer.Roles;
 
-public class Role {
+public class systemManager {
 }

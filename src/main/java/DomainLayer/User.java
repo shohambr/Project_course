@@ -2,8 +2,6 @@ package DomainLayer;
 import DomainLayer.Roles.Role;
 import ServiceLayer.TokenService;
 
-import java.util.*;
-
 public class User {
     private int id;
     private String name;                 //No need

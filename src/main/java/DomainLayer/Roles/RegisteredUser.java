@@ -1,8 +1,9 @@
 package DomainLayer.Roles;
 
 import java.util.*;
-
-
+import DomainLayer.Roles.Jobs.Job;
+import DomainLayer.Roles.Jobs.Ownership;
+import DomainLayer.Store;
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +14,7 @@ public class RegisteredUser extends User {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    private HashMap<Integer, HashMap<String,Boolean>> jobs;
+    private List<Job> jobs;
 
     public RegisteredUser(String json) {
         try {
@@ -24,8 +25,6 @@ public class RegisteredUser extends User {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        this.jobs = new HashMap<>();
-
     }
     public void logout()  {
         try{
@@ -38,22 +37,21 @@ public class RegisteredUser extends User {
     public String register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
     }
-    public HashMap<Integer, HashMap<String, Boolean>> getJobs() {
-        return jobs;
-    }
-    public void setJobs(HashMap<Integer, HashMap<String, Boolean>> jobs) {
-        this.jobs = jobs;
-    }
 
-    public void createStore(String storeName){
-        //to implement
-    }
 
     public int getID() {
         return this.id;
     }
+    public void addJob(Job job) {
+        jobs.add(job);
+    }
+    public List<Job> getJobs() {
+        return jobs;
+    }
+    public void createStore(String storeName){
+        this.jobs.add(new Ownership(storeName));
+    }
+    public boolean receivedOwnershipRequest(String request) {
 
-    public void ownershipRequest(String request) {
-        //to implement
     }
 }

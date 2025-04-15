@@ -1,6 +1,6 @@
 package DomainLayer;
 
-public class ProxyPayment implements PaymentSystem {
+public class ProxyPayment implements IPayment {
     public ProxyPayment() {}
     public void processPayment(double payment, String creditCardNumber, String expirationDate, String backNumber) throws Exception {
         String creditCardType = getCreditCardType(creditCardNumber);

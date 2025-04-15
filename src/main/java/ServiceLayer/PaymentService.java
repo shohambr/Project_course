@@ -1,12 +1,12 @@
 package ServiceLayer;
 
-import DomainLayer.PaymentSystem;
+import DomainLayer.IPayment;
 
 public class PaymentService {
 
-    private PaymentSystem paymentSystem;
+    private IPayment paymentSystem;
 
-    public PaymentService(PaymentSystem paymentSystem) {
+    public PaymentService(IPayment paymentSystem) {
         this.paymentSystem = paymentSystem;
     }
 

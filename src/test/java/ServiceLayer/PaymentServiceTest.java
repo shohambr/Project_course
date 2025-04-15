@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 import DomainLayer.ProxyPayment;
+import Mocks.MockPayment;
 import ServiceLayer.PaymentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,8 @@ class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
-        ProxyPayment proxyPayment = new ProxyPayment();
+        MockPayment mockPayment = new MockPayment();
+        ProxyPayment proxyPayment = new ProxyPayment(mockPayment);
         paymentService = new PaymentService(proxyPayment);
     }
 
@@ -73,7 +75,7 @@ class PaymentServiceTest {
     @Test
     public void testProcessPayment_InvalidBackNumber_Failure() {
         boolean response = paymentService.processPayment("100.0", "5555555555554444", "10/26", "kfjeowia0");
-        assertTrue(response);
+        assertFalse(response);
     }
 
     @Test

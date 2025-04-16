@@ -1,61 +1,55 @@
 package DomainLayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-private class ProductAmount {
-    public Product product;
-    public int amount;
-
-    public ProductAmount() {}
-}
 
 public class ShoppingBag {
-    private String storeName;
-    private List<ProductAmount> products;
+    private Store store;
+    private Map<Product, Integer> products;
 
     public ShoppingBag(Store store) {
-        this.storeName = store.getName();
-        this.products = new ArrayList<ProductAmount>();
+        this.store = store;
+        this.products = new HashMap<Product, Integer>();
     }
 
     public String getStoreName() {
-        return storeName;
+        return store.getName();
     }
 
-    public List<ProductAmount> getProducts() { return products; }
+    public Map<Product, Integer> getProducts() { return products; }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product productToAdd) {
         boolean found = false;
-        for (ProductAmount productAmount : products) {
-            if (product.getId() == productAmount.product.getId()) {
-                productAmount.amount = productAmount.amount + 1;
+        for (Product product : products.keySet()) {
+            if (productToAdd.getId() == product.getId()) {
+                products.put(product, products.get(product) + 1);
                 found = true;
             }
         }
 
         if (!found) {
-            ProductAmount newProductAmount = new ProductAmount();
-            newProductAmount.product = product;
-            newProductAmount.amount = 1;
-            products.add(newProductAmount); //needs update to use with database
+            products.put(productToAdd, 1); //needs update to use with database
 
         }
     }
 
-    public void removeProduct(Product product) {
-        for (ProductAmount productAmount : products) {
-            if (product.getId() == productAmount.product.getId()) {
-                productAmount.amount = productAmount.amount - 1;
-                if (productAmount.amount == 0) {
-                        products.remove(productAmount); //needs update to use with database
-                    }
+    public void removeProduct(Product productToRemove) {
+        for (Product product : products.keySet()) {
+            if (productToRemove.getId() == product.getId()) {
+                products.put(product, products.get(product) - 1);
+                if (products.get(product) == 0) {
+                    products.remove(product);
                 }
             }
+        }
+
     }
 
-    public void removeAllProducts(Product product) {
+    public void removeAllProducts(Product productToRemove) {
         //needs update to use with database
-        products.removeIf(productAmount -> product.getId() == productAmount.product.getId());
+        products.remove(productToRemove);
     }
 }

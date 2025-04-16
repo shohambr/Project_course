@@ -27,7 +27,7 @@ class StoreServiceTest {
     @Test
     void addStore_ShouldCallAddStore() {
 
-        Store store = new Store(dummyUser);
+        Store store = new Store();
 
         storeService.addStore(store);
 
@@ -36,7 +36,7 @@ class StoreServiceTest {
 
     @Test
     void removeStore_ShouldCallRemoveStore_WhenStoreExists() {
-        Store store = new Store(dummyUser);
+        Store store = new Store();
         storeService.addStore(store);
 
         storeService.removeStore(store);

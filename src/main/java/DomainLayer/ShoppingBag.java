@@ -48,10 +48,6 @@ public class ShoppingBag {
         return found;
     }
 
-    public void removeAllProducts(Product productToRemove) {
-        //needs update to use with database
-        products.remove(productToRemove);
-    }
 
     public boolean availablePurchaseShoppingBag() {
         for (Map.Entry<Product, Integer> product : products.entrySet()) {

@@ -65,4 +65,10 @@ public class ShoppingCart {
         return -1;
     }
 
+    public void sold (){
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            shoppingBag.sold();
+        }
+    }
+
 }

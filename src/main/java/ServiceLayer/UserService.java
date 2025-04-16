@@ -65,7 +65,7 @@ public class UserService {
             return "Invalid or expired token";
         }
 
-        double totalPrice = cart.purchaseCart();
+        double totalPrice = cart.calculatePurchaseCart();
 
         if (totalPrice <= 0) {
             return "Cart is empty";

@@ -1,46 +1,99 @@
 package DomainLayer;
-import DomainLayer.Roles.Guest;
+import ServiceLayer.ProductService;
 
 import java.util.*;
 
 public class Store {
-    private String name;
+    private String id;
+    private User owner;
+    private PurchasePolicy purchasePolicy;
     private List<User> users = new ArrayList<>();
-    private List<Product> allProducts = new ArrayList<>();
-    private int nextUserId = 1;
-    private int nextProductId = 1;
+    private Map<Product, Integer> products = new HashMap<>();
+    private ProductService productService;
 
-    public Store(String name) {
-        this.name = name;
+
+    public Store(User owner) {
+        this.owner = owner;
     }
 
-//    public User registerUser(String name, String username, String password, Role role, ShoppingCart sc) {
-//        User user = new Guest();
-//        users.add(user);
-//        return user;
-//    }
-
-    public Product createProduct(String Iname, String description, int price, int quantity) {
-        Product product = new Product("" + nextProductId++ , name , Iname, description, price, quantity);
-        allProducts.add(product);
-        return product;
+    public String getId() {
+        return id;
     }
 
-    public void assignProductToUser(User user, Product product) {
-        user.addProduct(this , product);
+    public void setId(String id) {
+        this.id = id;
+
     }
 
-    public List<User> getUsers() {
-        return users;
+    public Boolean registerUser(User user) {
+        if(users.contains(user)) {
+            return false;
+        }
+        users.add(user);
+        return true;
     }
 
-    public List<Product> getAllProducts() {
-        return allProducts;
+    public boolean addProduct(Product product, int quantity) {
+        if(quantity <= 0) {
+            return false;
+        }
+
+        if (products.containsKey(product)) {
+            int currentQuantity = products.get(product);
+            products.put(product, currentQuantity + quantity);
+        }
+        else {
+            products.put(product, quantity);
+        }
+        return true;
+
     }
+
+    public boolean removeProduct(Product product, int quantity) {
+        if (quantity <= 0) {
+            return false;
+        }
+        if (!products.containsKey(product)) {
+            return false;
+        }
+        if (quantity > products.get(product)) {
+            return false;
+        }
+
+        int updatedQuantity = products.get(product) - quantity;
+        if (updatedQuantity == 0) {
+            products.remove(product);
+        } else {
+            products.put(product, updatedQuantity);
+        }
+        productService.decreaseQuantity(product.getId(), quantity);       //Changed according productService implementation
+        return true;
+    }
+
+    public int sellProduct(Product product, int quantity) {
+        if (quantity <= 0) {
+            return -1;
+        }
+        if (!products.containsKey(product)) {
+            return -1;
+        }
+        if (quantity > products.get(product)) {
+            return -1;
+        }
+
+        int updatedQuantity = products.get(product) - quantity;
+        if (updatedQuantity == 0) {
+            products.remove(product);
+        } else {
+            products.put(product, updatedQuantity);
+        }
+        productService.decreaseQuantity(product.getId(), quantity);       //Changed according productService implementation
+        return product.getPrice() * quantity * purchasePolicy;            //got to decide how purchase policy works
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Store Name: ").append(name).append("\n");
 
         sb.append("\nUsers:\n");
         for (User user : users) {
@@ -48,37 +101,11 @@ public class Store {
         }
 
         sb.append("\nAll Products in Store:\n");
-        for (Product product : allProducts) {
+        for (Product product : products.keySet()) {
             sb.append(product.toString()).append("\n");
         }
 
         return sb.toString();
     }
-    
-    public String getName() { return name; }
 
-    public void close() {
-        //to implement
-        //implementation should include a way to reopen
-    }
-
-    public void reOpen() {
-        //to implement
-    }
-
-    public void changeProductInventory(int productID, int quantity) {
-        //to implement
-    }
-
-    public void changeProductPrice(int productID, int price) {
-        //to implement
-    }
-
-    public void changeProductDescription(int productID, String description) {
-        //to implement
-    }
-
-    public void removeProductFromInventory(int productID) {
-        //to implement
-    }
 }

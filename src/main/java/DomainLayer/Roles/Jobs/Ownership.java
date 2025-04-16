@@ -11,7 +11,7 @@ public class Ownership extends Job {
         super(id);
         mySubordinates = new LinkedList<>();
         mySuperiors = new LinkedList<>();
-        this.myStore = new Store(storeName);
+        this.myStore = new Store();
         this.appointingOwnerID = -1;
 
     }
@@ -38,7 +38,7 @@ public class Ownership extends Job {
         StringBuilder sb = new StringBuilder();
         sb.append("Hi").append(newOwner.getName()).append(",\n")
                 .append("I would like for you to become a co-owner for my store: \"")
-                .append(this.myStore.getName()).append("\"\n")
+                .append(this.myStore.getId()).append("\"\n")
                 .append("please pleaseeee say YES!\n");
         newOwner.becomeNewOwnerRequest(sb.toString(),new Ownership(myStore,this,newOwner.getID()),this);
     }
@@ -64,7 +64,7 @@ public class Ownership extends Job {
         StringBuilder sb = new StringBuilder();
         sb.append("Hi").append(newManager.getName()).append(",\n")
                 .append("I would like for you to become a manager for my store: \"")
-                .append(this.myStore.getName()).append("\"\n")
+                .append(this.myStore.getId()).append("\"\n")
                 .append("please pleaseeee say YES!\n");
         newManager.becomeNewManagerRequest(sb.toString(),new Managing(myStore, this, newManager.getID(),permissions),this);
     }
@@ -81,7 +81,7 @@ public class Ownership extends Job {
     }
     public void closeStore(){
         if(this.appointingOwnerID == -1){
-            this.myStore.close();
+            this.myStore.closeTheStore();
             for(Job j : mySubordinates){
                 j.alertStoreClosed();
             }
@@ -90,7 +90,7 @@ public class Ownership extends Job {
     }
     public void reOpenStore(){
         if(this.appointingOwnerID == -1){
-            this.myStore.reOpen();
+            this.myStore.openTheStore();
             for(Job j : mySubordinates){
                 j.alertStoreReOpened();
                 j.reHire();

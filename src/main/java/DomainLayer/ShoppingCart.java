@@ -44,9 +44,25 @@ public class ShoppingCart {
 
     public int getUserId() { return userId; }
 
-    public double purchaseCart() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'purchaseCart'");
+    public boolean availablePurchaseCart() {
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            if(!shoppingBag.availablePurchaseShoppingBag()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public double calculatePurchaseCart() {
+        if(availablePurchaseCart()) {
+            double price = 0;
+            for (ShoppingBag shoppingBag : shoppingBags) {
+                price = price + shoppingBag.calculatePurchaseShoppingBag();
+                shoppingBags.remove(shoppingBag);
+            }
+            return price;
+        }
+        return -1;
     }
 
 }

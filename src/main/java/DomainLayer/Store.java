@@ -1,4 +1,5 @@
 package DomainLayer;
+import ServiceLayer.PaymentService;
 import ServiceLayer.ProductService;
 
 import java.util.*;
@@ -14,6 +15,21 @@ public class Store {
 
     public Store(User owner) {
         this.owner = owner;
+    }
+
+    /**
+     * use this function to detect if the store is open now so the logic is not depended on the boolean itself.
+     * for example a store that despite being open would like to automatically open and close in certain hours.
+     * @return a boolean that says if the store is open right now
+     */
+    public boolean isOpenNow() {
+        return openNow;
+    }
+    public void openTheStore() {
+        openNow = true;
+    }
+    public void closeTheStore() {
+        openNow = false;
     }
 
     public String getId() {
@@ -33,21 +49,20 @@ public class Store {
         return true;
     }
 
-    public boolean addProduct(Product product, int quantity) {
-        if(quantity <= 0) {
+    public boolean increaseProduct(Product product, int quantity) {
+        if (quantity <= 0) {
             return false;
         }
 
-        if (products.containsKey(product)) {
-            int currentQuantity = products.get(product);
-            products.put(product, currentQuantity + quantity);
+        if (!products.containsKey(product)) {
+            return false;
         }
-        else {
-            products.put(product, quantity);
-        }
-        return true;
 
+        int currentQuantity = products.get(product);
+        products.put(product, Integer.valueOf(currentQuantity + quantity));
+        return true;
     }
+
 
     public boolean removeProduct(Product product, int quantity) {
         if (quantity <= 0) {

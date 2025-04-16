@@ -14,9 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RegisteredUser extends User {
 
     ObjectMapper mapper = new ObjectMapper();
-
     private List<Job> jobs;
-
     private String name;
 
     public RegisteredUser(String json) {
@@ -34,8 +32,10 @@ public class RegisteredUser extends User {
     }
 
 
-    public RegisteredUser() {
-        // needed for Jackson
+    public RegisteredUser(List<Job> jobs , String name) {
+         //needed for Jackson
+        this.jobs = jobs;
+        this.name = name;
     }
 
 
@@ -51,7 +51,6 @@ public class RegisteredUser extends User {
         throw new UnsupportedOperationException("allready registered.");
     }
 
-
     public int getID() {
         return this.id;
     }
@@ -62,27 +61,37 @@ public class RegisteredUser extends User {
         return jobs;
     }
     public void createStore(String storeName){
-        userService.createStore(storeName, this.id, this.myToken);
         this.jobs.add(new Ownership(storeName,this.id));
     }
+
 
     public boolean receivedOwnershipRequest(String request) {
         return false;
     }
-
     public String getName() {
         return this.name;
     }
-
     public void becomeNewOwnerRequest(String messageFromTheOwner, Job jobOffer, Ownership owner) {
         //print the string received
-        boolean jobOfferAnswer = userService.becomeNewOwnerRequest(messageFromTheOwner);
+        /*boolean jobOfferAnswer = userService.becomeNewOwnerRequest(messageFromTheOwner);
         if(jobOfferAnswer){
             this.jobs.add(jobOffer);
             owner.jobOfferAccepted(jobOffer);
         }else{
             owner.jobOfferDeclined(jobOffer);
-        }
+        }*/
+    }
+
+
+    public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
+        //print the string received
+        /*boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);
+        if(jobOfferAnswer){
+            this.jobs.add(jobOffer);
+            owner.jobOfferAccepted(jobOffer);
+        }else{
+            owner.jobOfferDeclined(jobOffer);
+        }*/
     }
 
 

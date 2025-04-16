@@ -2,33 +2,19 @@ package DomainLayer;
 import java.util.*;
 
 public class Order {
-    private int id;
-    double totalPrice;
-    String buyerId;
-    String storeId;
-    String shippingAddress;
+    private String id;
+    private final String info;
 
-    public Order(int id, double totalPrice, String buyerId, String storeId, String shippingAdress) {
-        this.id = id;
+    public Order(String info ) {
+        this.info = info;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getBuyerId() {
-        return buyerId;
-    }
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
 }

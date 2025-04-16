@@ -28,16 +28,19 @@ public class ShoppingCart {
         }
     }
 
-    public void removeProduct(Store store, Product product) {
+    public boolean removeProduct(Store store, Product product) {
         for (ShoppingBag shoppingBag : shoppingBags) {
             if (shoppingBag.getStoreName().equals(store.getName())) {
                 shoppingBag.removeProduct(product);
                 if (shoppingBag.getProducts().isEmpty()) {
-                    shoppingBags.remove(shoppingBag);
+                    return shoppingBags.remove(shoppingBag);
                 }
             }
         }
+        return false;
     }
+
+    public List<ShoppingBag> getShoppingBags() {return shoppingBags;}
 
     public int getUserId() { return userId; }
 

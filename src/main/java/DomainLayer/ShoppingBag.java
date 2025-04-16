@@ -36,20 +36,23 @@ public class ShoppingBag {
         }
     }
 
-    public void removeProduct(Product productToRemove) {
+    public boolean removeProduct(Product productToRemove) {
+        boolean found = false;
         for (Product product : products.keySet()) {
             if (productToRemove.getId() == product.getId()) {
                 products.put(product, products.get(product) - 1);
                 if (products.get(product) == 0) {
                     products.remove(product);
+                    found = true;
                 }
             }
         }
-
+        return found;
     }
 
     public void removeAllProducts(Product productToRemove) {
         //needs update to use with database
         products.remove(productToRemove);
     }
+
 }

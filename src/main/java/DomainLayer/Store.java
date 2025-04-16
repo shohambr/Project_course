@@ -56,5 +56,29 @@ public class Store {
     }
     
     public String getName() { return name; }
-        
+
+    public void close() {
+        //to implement
+        //implementation should include a way to reopen
+    }
+
+    public void reOpen() {
+        //to implement
+    }
+
+    public void changeProductInventory(int productID, int quantity) {
+        //to implement
+    }
+
+    public void changeProductPrice(int productID, int price) {
+        //to implement
+    }
+
+    public void changeProductDescription(int productID, String description) {
+        //to implement
+    }
+
+    public void removeProductFromInventory(int productID) {
+        //to implement
+    }
 }

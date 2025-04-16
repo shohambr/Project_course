@@ -46,4 +46,11 @@ public class UserService {
     }
 
 
+    public boolean becomeNewOwnerRequest(String messageFromTheOwner) {
+        //to implement
+    }
+
+    public boolean becomeNewManagerRequest(String messageFromTheOwner) {
+        //to implement
+    }
 }

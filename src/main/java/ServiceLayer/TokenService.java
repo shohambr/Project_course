@@ -6,15 +6,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public class TokenService {
 
-    private final String secret = "fzhfbvklyanivlkd675548!!!jogfh/sdgoiu8dhf=="; // replace this with an actual secret key
+    private final String secret = "fzhfbvklyanivlkd675548!!!jogfh/sdgoiu8dhf=="; // make sure it's 256 bits (32 chars)
     private final SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
-    private final long expirationTime = 1000 * 60 * 60 ; // one hour
+    private final long expirationTime = 1000 * 60 * 60; // one hour
+
+    private final Set<String> blacklistedTokens = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public String generateToken(String username) {
         return Jwts.builder()
@@ -27,6 +30,8 @@ public class TokenService {
 
     public boolean validateToken(String token) {
         try {
+            if (blacklistedTokens.contains(token)) return false;
+
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
@@ -56,5 +61,9 @@ public class TokenService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public void invalidateToken(String token) {
+        blacklistedTokens.add(token);
     }
 }

@@ -12,9 +12,10 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ProxyShipping.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/PurchasePolicy.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Guest.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Job.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Managing.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Ownership.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/RegisteredUser.java
-/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/ownership.java
-/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/storeManager.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/systemManager.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ShoppingBag.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ShoppingCart.java

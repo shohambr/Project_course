@@ -21,16 +21,16 @@ public class Job {
          myStore.createProduct(name,description,price,quantity);
      }
     public void changeProductQuantity(int productID, int quantity){
-         myStore.changeProductInventory(productID,quantity);
+         //myStore.changeProductInventory(productID,quantity);
      }
     public void changeProductPrice(int productID, int price){
-         myStore.changeProductPrice(productID,price);
+         //myStore.changeProductPrice(productID,price);
      }
     public void changeProductDescription(int productID, String description){
-         myStore.changeProductDescription(productID,description);
+         //myStore.changeProductDescription(productID,description);
      }
     public void removeProductFromInventory(int productID){
-         myStore.removeProductFromInventory(productID);
+         //myStore.removeProductFromInventory(productID);
      }
 
 

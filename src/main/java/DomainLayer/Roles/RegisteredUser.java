@@ -26,6 +26,13 @@ public class RegisteredUser extends User {
             throw new RuntimeException(e);
         }
     }
+
+
+    public RegisteredUser() {
+        // needed for Jackson
+    }
+
+
     public void logout()  {
         try{
             userService.logoutRegistered(this.myToken, mapper.writeValueAsString(this));
@@ -49,9 +56,11 @@ public class RegisteredUser extends User {
         return jobs;
     }
     public void createStore(String storeName){
+        userService.createStore(storeName, this.id, this.myToken);
         this.jobs.add(new Ownership(storeName));
     }
-    public boolean receivedOwnershipRequest(String request) {
 
+    public boolean receivedOwnershipRequest(String request) {
+        return false;
     }
 }

@@ -22,7 +22,6 @@ public class RegisteredUser extends User {
             this.id = temp.id;
             this.name = temp.name;
             this.shoppingCart = temp.shoppingCart;
-            this.userService = temp.userService;
             this.myToken = temp.myToken;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -38,13 +37,9 @@ public class RegisteredUser extends User {
 
 
     public void logout()  {
-        try{
-            userService.logoutRegistered(this.myToken, mapper.writeValueAsString(this));
-            myToken=null;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        myToken=null;
     }
+
     public RegisteredUser register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
     }
@@ -52,12 +47,18 @@ public class RegisteredUser extends User {
     public int getID() {
         return this.id;
     }
+
+
     public void addJob(Job job) {
         jobs.add(job);
     }
+
+
     public List<Job> getJobs() {
         return jobs;
     }
+
+
     public void createStore(String storeName){
         this.jobs.add(new Ownership(storeName,this.id));
     }
@@ -95,14 +96,5 @@ public class RegisteredUser extends User {
 
     public void setToken(String token) {
         myToken = token;
-    public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
-        //print the string received
-        boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);
-        if(jobOfferAnswer){
-            this.jobs.add(jobOffer);
-            owner.jobOfferAccepted(jobOffer);
-        }else{
-            owner.jobOfferDeclined(jobOffer);
-        }
     }
 }

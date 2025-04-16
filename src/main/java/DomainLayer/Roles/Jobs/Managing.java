@@ -29,7 +29,7 @@ public class Managing extends Job {
         }
     }
 
-    public void changeProductQuantity(int productID, int quantity) {
+    public void changeProductQuantity(String productID, int quantity) {
         if (permissions.get("changeProductQuantity")) {
             super.changeProductQuantity(productID, quantity);
         } else {

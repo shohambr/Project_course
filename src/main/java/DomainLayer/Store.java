@@ -10,7 +10,9 @@ public class Store {
     private List<User> users = new ArrayList<>();
     private Map<Product, Integer> products = new HashMap<>();
     private ProductService productService;
-
+    private PaymentService paymentService;
+    private boolean openNow;
+    private int rating;
 
     public Store() {
         this.id = "-1"; //currently doesnt have id as it gets one only when its added to the store repository

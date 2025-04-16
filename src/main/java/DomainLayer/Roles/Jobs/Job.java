@@ -16,14 +16,14 @@ public abstract class Job {
 
     public Job(int id) {
         myID = id;
-        currentlyWorking = true;
+        currentlyWorking = (Boolean) true;
 
     }
 
     public Job(Store myStore, int appointingOwnerID) {
         this.appointingOwnerID = appointingOwnerID;
         this.myStore = myStore;
-        currentlyWorking = true;
+        currentlyWorking = (Boolean) true;
     }
 
     public void sendErrorMessage(String message) {

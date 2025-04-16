@@ -1,10 +1,20 @@
 package ServiceLayer;
 
 import DomainLayer.IUserRepository;
+import DomainLayer.Product;
+import DomainLayer.Roles.Guest;
+import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
+import DomainLayer.Store;
+import DomainLayer.User;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,57 +30,69 @@ class UserServiceTest {
         userRepo = mock(IUserRepository.class);
         tokenService = mock(TokenService.class);
         userService = new UserService(userRepo, tokenService);
-
-        // Hacky workaround for BCrypt since it's static
-        userService = spy(userService);
     }
 
     @Test
-    void login_ShouldReturnUser_WhenCredentialsMatch() {
-        when(userRepo.isUserExist("yaniv")).thenReturn(true);
-        when(userRepo.getUserPass("yaniv")).thenReturn(BCrypt.hashpw("password", BCrypt.gensalt()));
-        when(userRepo.getUser("yaniv")).thenReturn("YanivUserObject");
+    void login_ShouldReturnJson_WhenCredentialsMatch() throws JsonProcessingException {
+        String username = "yaniv";
+        String password = "password";
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser();
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(user);
 
-        UserService actualService = new UserService(userRepo, tokenService);
-        String result = actualService.login("yaniv", "password");
+        when(userRepo.isUserExist(username)).thenReturn(true);
+        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
 
-        assertEquals("YanivUserObject", result);
+        String result = userService.login(username, password);
+
+        assertEquals(expectedJson, result);
     }
 
     @Test
-    void login_ShouldReturnNull_WhenPasswordIncorrect() {
-        when(userRepo.isUserExist("yaniv")).thenReturn(true);
-        when(userRepo.getUserPass("yaniv")).thenReturn(BCrypt.hashpw("wrongpass", BCrypt.gensalt()));
+    void login_ShouldReturnNull_WhenPasswordIncorrect()  throws JsonProcessingException {
+        String username = "yaniv";
+        String password = "password";
+        String wrongHash = BCrypt.hashpw("wrongpassword", BCrypt.gensalt());
 
-        UserService actualService = new UserService(userRepo, tokenService);
-        String result = actualService.login("yaniv", "password");
+        when(userRepo.isUserExist(username)).thenReturn(true);
+        when(userRepo.getUserPass(username)).thenReturn(wrongHash);
 
-        assertNull(result);
+        String result = userService.login(username, password);
+
+        assertEquals("incorrect password", result);
     }
 
     @Test
-    void login_ShouldReturnMessage_WhenUserDoesNotExist() {
+    void login_ShouldReturnMessage_WhenUserDoesNotExist() throws JsonProcessingException {
         when(userRepo.isUserExist("yaniv")).thenReturn(false);
 
         String result = userService.login("yaniv", "password");
 
-        assertEquals("username already exists", result);
+        assertEquals("username does not exist", result);
     }
 
     @Test
-    void signUp_ShouldReturnToken_WhenUserIsNew() {
-        when(userRepo.isUserExist("newuser")).thenReturn(false);
-        when(tokenService.generateToken("newuser")).thenReturn("token123");
+    void signUp_ShouldReturnJson_WhenUserIsNew() throws JsonProcessingException {
+        String username = "newUser";
+        String password = "password";
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser();
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(user);
 
-        UserService actualService = new UserService(userRepo, tokenService);
-        String result = actualService.signUp("newuser", "securepassword");
+        when(userRepo.isUserExist(username)).thenReturn(false);
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
+        when(userRepo.addUser(username, hashedPassword)).thenReturn(true);
 
-        assertEquals("token123", result);
-        verify(userRepo, times(1)).addUser(eq("newuser"), anyString());
+        String result = userService.signUp(username, password);
+
+        assertEquals(expectedJson, result);
     }
 
     @Test
-    void signUp_ShouldReturnMessage_WhenUserExists() {
+    void signUp_ShouldReturnMessage_WhenUserExists() throws JsonProcessingException {
         when(userRepo.isUserExist("existing")).thenReturn(true);
 
         String result = userService.signUp("existing", "password");
@@ -80,31 +102,65 @@ class UserServiceTest {
     }
 
     @Test
-    void logoutRegistered_ShouldCallUpdate() {
-        userService.logoutRegistered("user123", "{\"status\":\"logged out\"}");
+    void logoutRegistered_ShouldCallUpdate() throws JsonProcessingException {
+        RegisteredUser mockUser = mock(RegisteredUser.class);
+        when(mockUser.getID()).thenReturn(42);
 
-        verify(userRepo).update("user123", "{\"status\":\"logged out\"}");
+        ObjectMapper mapper = new ObjectMapper();
+        String userJson = mapper.writeValueAsString(mockUser);
+
+        UserService spyService = spy(userService);
+        doReturn(mockUser).when(spyService).deserializeUser(userJson);
+
+        spyService.logoutRegistered("mockToken", userJson);
+
+        verify(userRepo).update("42", userJson);
+        verify(tokenService).invalidateToken("mockToken");
     }
 
-
     @Test
-    void login_ShouldStillWork_AfterLogout() {
+    void login_ShouldStillWork_AfterLogout() throws JsonProcessingException {
         String username = "yaniv";
         String password = "password123";
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser();
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(user);
 
-        // Setup mocks
         when(userRepo.isUserExist(username)).thenReturn(true);
         when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
-        when(userRepo.getUser(username)).thenReturn("YanivUserObject");
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
 
-        // Simulate logout
-        userService.logoutRegistered("yaniv", "{\"status\":\"logged out\"}");
-        verify(userRepo).update("yaniv", "{\"status\":\"logged out\"}");
-
-        // Now try to log in again
         String result = userService.login(username, password);
 
-        assertEquals("YanivUserObject", result);
+        assertEquals(expectedJson, result);
     }
-}
+
+    @Test
+    void rateItem_ShouldSucceed_WhenTokenIsValid() {
+        when(tokenService.validateToken("token")).thenReturn(true);
+        String result = userService.rateItem("Laptop", 5, "token");
+        assertEquals("Rated item 'Laptop' with 5 stars.", result);
+    }
+
+    @Test
+    void rateItem_ShouldFail_WhenTokenInvalid() {
+        when(tokenService.validateToken("token")).thenReturn(false);
+        String result = userService.rateItem("Laptop", 5, "token");
+        assertEquals("Invalid or expired token", result);
+    }
+
+    @Test
+    void createStore_ShouldSucceed_WhenTokenValid() {
+        when(tokenService.validateToken("token")).thenReturn(true);
+        String result = userService.createStore("CoolStore", 101, "token");
+        assertEquals("Store 'CoolStore' created by user ID: 101", result);
+    }
+
+    @Test
+    void createStore_ShouldFail_WhenTokenInvalid() {
+        when(tokenService.validateToken("token")).thenReturn(false);
+        String result = userService.createStore("CoolStore", 101, "token");
+        assertEquals("Invalid or expired token", result);
+    }
+} 

@@ -1,16 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: ServiceLayer.UserServiceTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.077 s <<< FAILURE! -- in ServiceLayer.UserServiceTest
-ServiceLayer.UserServiceTest.login_ShouldStillWork_AfterLogout -- Time elapsed: 0.139 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <$2a$10$0QOSQyc9fA5CVlRHh8EeieBF0JXJYjunh8SMsCLOtIx4CYL6mhC32> but was: <YanivUserObject>
+Tests run: 12, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.451 s <<< FAILURE! -- in ServiceLayer.UserServiceTest
+ServiceLayer.UserServiceTest.guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken -- Time elapsed: 0.172 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
-	at ServiceLayer.UserServiceTest.login_ShouldStillWork_AfterLogout(UserServiceTests.java:107)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:228)
+	at ServiceLayer.UserServiceTest.guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken(UserServiceTests.java:165)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

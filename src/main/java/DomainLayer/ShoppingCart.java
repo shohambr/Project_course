@@ -41,4 +41,9 @@ public class ShoppingCart {
 
     public int getUserId() { return userId; }
 
+    public double purchaseCart() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'purchaseCart'");
+    }
+
 }

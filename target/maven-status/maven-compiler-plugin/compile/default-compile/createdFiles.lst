@@ -2,7 +2,9 @@ ServiceLayer/OrderService.class
 DomainLayer/ShoppingCart.class
 infrastructureLayer/ProductRepository.class
 ServiceLayer/NotificationService.class
+DomainLayer/Roles/Jobs/Ownership.class
 ServiceLayer/ShippingService.class
+DomainLayer/Roles/Jobs/Job.class
 DomainLayer/PurchasePolicy.class
 DomainLayer/ShoppingBag.class
 DomainLayer/IShipping.class
@@ -23,6 +25,7 @@ DomainLayer/User.class
 DomainLayer/Order.class
 ServiceLayer/ProductService.class
 DomainLayer/Store.class
+DomainLayer/Roles/Jobs/Managing.class
 DomainLayer/Market.class
 DomainLayer/IOrderRepository.class
 ServiceLayer/UserService.class

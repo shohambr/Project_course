@@ -4,6 +4,7 @@ import java.util.*;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.Jobs.Managing;
 import DomainLayer.Roles.Jobs.Ownership;
+import DomainLayer.Store;
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +26,19 @@ public class RegisteredUser extends User {
             this.id = temp.id;
             this.name = temp.name;
             this.shoppingCart = temp.shoppingCart;
+            this.userService = temp.userService;
+            this.myToken = temp.myToken;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
+
+
+    public RegisteredUser() {
+        // needed for Jackson
+    }
+
+
     public void logout()  {
         try{
             userService.logoutRegistered(this.myToken, mapper.writeValueAsString(this));
@@ -37,7 +47,7 @@ public class RegisteredUser extends User {
             throw new RuntimeException(e);
         }
     }
-    public String register(String u , String p){
+    public RegisteredUser register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
     }
 
@@ -52,7 +62,12 @@ public class RegisteredUser extends User {
         return jobs;
     }
     public void createStore(String storeName){
+        userService.createStore(storeName, this.id, this.myToken);
         this.jobs.add(new Ownership(storeName,this.id));
+    }
+
+    public boolean receivedOwnershipRequest(String request) {
+        return false;
     }
 
     public String getName() {
@@ -70,6 +85,9 @@ public class RegisteredUser extends User {
         }
     }
 
+
+    public void setToken(String token) {
+        myToken = token;
     public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
         //print the string received
         boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);

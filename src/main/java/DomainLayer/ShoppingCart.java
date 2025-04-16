@@ -14,7 +14,7 @@ public class ShoppingCart {
 
         boolean found = false;
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreName().equals(store.getName())) {
+            if (shoppingBag.getStoreId().equals(store.getId())) {
                 shoppingBag.addProduct(product);
                 found = true;
             }
@@ -30,7 +30,7 @@ public class ShoppingCart {
 
     public boolean removeProduct(Store store, Product product) {
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreName().equals(store.getName())) {
+            if (shoppingBag.getStoreId().equals(store.getId())) {
                 shoppingBag.removeProduct(product);
                 if (shoppingBag.getProducts().isEmpty()) {
                     return shoppingBags.remove(shoppingBag);

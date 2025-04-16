@@ -12,6 +12,11 @@ public abstract class User {
         this.shoppingCart = new ShoppingCart(id++);
     }
 
+    public User(UserService userService) {
+        this.userService = userService;
+        this.shoppingCart = new ShoppingCart(id++);
+    }
+
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag
         shoppingCart.addProduct(store , product);
     }
@@ -41,8 +46,16 @@ public abstract class User {
 
     public abstract void logout();
 
-    public String register(String username , String pass){
-        return userService.login(username , pass);
+    public RegisteredUser register(String username , String pass) throws Exception{
+        return new RegisteredUser(userService.signUp(username , pass));
+    }
+
+    public String getToken() {
+        return myToken;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
 }

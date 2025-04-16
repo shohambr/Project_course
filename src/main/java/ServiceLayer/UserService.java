@@ -22,7 +22,7 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public String login(String username, String password) {
+    public String login(String username, String password) throws JsonProcessingException {
         if (!userRepo.isUserExist(username)) {
             return "username does not exist";
         }
@@ -30,20 +30,27 @@ public class UserService {
         String hashedPassword = userRepo.getUserPass(username);
         if (BCrypt.checkpw(password, hashedPassword)) {
             String token = tokenService.generateToken(username);
-            return token;
+            String userJson = userRepo.getUser(username);
+            RegisteredUser user = deserializeUser(userJson);
+            user.setToken(token);
+            return mapper.writeValueAsString(user);
         }
 
         return "incorrect password";
     }
 
-    public String signUp(String username, String password) {
+    public String signUp(String username, String password)  throws JsonProcessingException {
         if (userRepo.isUserExist(username)) {
             return "username already exists";
         }
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         userRepo.addUser(username, hashedPassword);
-        return tokenService.generateToken(username);
+        String token = tokenService.generateToken(username);
+        String userJson = userRepo.getUser(username);
+        RegisteredUser user = deserializeUser(userJson);
+        user.setToken(token);
+        return mapper.writeValueAsString(user);
     }
 
     public void logoutRegistered(String token, String userValue) throws JsonProcessingException {
@@ -71,17 +78,17 @@ public class UserService {
         return mapper.readValue(json, RegisteredUser.class);
     }
 
-    public List<String> searchItems(String description , String category) {
+    public List<String> searchItems(String description , String category) {//should be in product service?
         // Dummy implementation
         return new ArrayList<>();
     }
 
-    public List<String> searchItemsInStore(String description , String category , String storeName) {
+    public List<String> searchItemsInStore(String description , String category , String storeName) {//should be in product service?
         // Dummy implementation with sort by rating logic placeholder
         return new ArrayList<>();
     }
 
-    public String createStore(String storeName, int userId, String token) {
+    public String createStore(String storeName, int userId, String token) {//should be in store service?
         if (!tokenService.validateToken(token)) {
             return "Invalid or expired token";
         }

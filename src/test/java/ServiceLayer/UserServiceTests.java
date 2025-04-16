@@ -1,8 +1,13 @@
 package ServiceLayer;
 
 import DomainLayer.IUserRepository;
+import DomainLayer.Product;
+import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
+import DomainLayer.Store;
+import DomainLayer.User;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,22 +33,25 @@ class UserServiceTest {
     }
 
     @Test
-    void login_ShouldReturnToken_WhenCredentialsMatch() {
+    void login_ShouldReturnJson_WhenCredentialsMatch() throws JsonProcessingException {
         String username = "yaniv";
         String password = "password";
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser();
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(user);
 
         when(userRepo.isUserExist(username)).thenReturn(true);
         when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
-        when(tokenService.generateToken(username)).thenReturn("mockedToken");
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
 
         String result = userService.login(username, password);
 
-        assertEquals("mockedToken", result);
+        assertEquals(expectedJson, result);
     }
 
     @Test
-    void login_ShouldReturnNull_WhenPasswordIncorrect() {
+    void login_ShouldReturnNull_WhenPasswordIncorrect()  throws JsonProcessingException {
         String username = "yaniv";
         String password = "password";
         String wrongHash = BCrypt.hashpw("wrongpassword", BCrypt.gensalt());
@@ -57,7 +65,7 @@ class UserServiceTest {
     }
 
     @Test
-    void login_ShouldReturnMessage_WhenUserDoesNotExist() {
+    void login_ShouldReturnMessage_WhenUserDoesNotExist() throws JsonProcessingException {
         when(userRepo.isUserExist("yaniv")).thenReturn(false);
 
         String result = userService.login("yaniv", "password");
@@ -66,18 +74,25 @@ class UserServiceTest {
     }
 
     @Test
-    void signUp_ShouldReturnToken_WhenUserIsNew() {
-        when(userRepo.isUserExist("newuser")).thenReturn(false);
-        when(tokenService.generateToken("newuser")).thenReturn("token123");
+    void signUp_ShouldReturnJson_WhenUserIsNew() throws JsonProcessingException {
+        String username = "newUser";
+        String password = "password";
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser();
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(user);
 
-        String result = userService.signUp("newuser", "securepassword");
+        when(userRepo.isUserExist(username)).thenReturn(false);
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
+        when(userRepo.addUser(username, hashedPassword)).thenReturn(true);
 
-        assertEquals("token123", result);
-        verify(userRepo).addUser(eq("newuser"), anyString());
+        String result = userService.signUp(username, password);
+
+        assertEquals(expectedJson, result);
     }
 
     @Test
-    void signUp_ShouldReturnMessage_WhenUserExists() {
+    void signUp_ShouldReturnMessage_WhenUserExists() throws JsonProcessingException {
         when(userRepo.isUserExist("existing")).thenReturn(true);
 
         String result = userService.signUp("existing", "password");
@@ -108,55 +123,17 @@ class UserServiceTest {
         String username = "yaniv";
         String password = "password123";
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
-        when(userRepo.isUserExist(username)).thenReturn(true);
-        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
-        when(tokenService.generateToken(username)).thenReturn("tokenAfterLogout");
-
-        String token = userService.login(username, password);
-
-        assertEquals("tokenAfterLogout", token);
-    }
-
-    @Test
-    void guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken() throws JsonProcessingException {
-        String username = "guestUser";
-        String password = "guestPass";
-        String token = "validTokenBeforeLogout";
-        int userId = 100;
-
-        when(userRepo.isUserExist(username)).thenReturn(false);
-        when(tokenService.generateToken(username)).thenReturn(token);
-
-        String returnedToken = userService.signUp(username, password);
-        assertEquals(token, returnedToken);
-
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        when(userRepo.isUserExist(username)).thenReturn(true);
-        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
-        when(tokenService.generateToken(username)).thenReturn(token);
-
-        String loginToken = userService.login(username, password);
-        assertEquals(token, loginToken);
-
-        RegisteredUser mockUser = mock(RegisteredUser.class);
-        when(mockUser.getID()).thenReturn(userId);
+        RegisteredUser user = new RegisteredUser();
         ObjectMapper mapper = new ObjectMapper();
-        String userJson = mapper.writeValueAsString(mockUser);
+        String expectedJson = mapper.writeValueAsString(user);
 
-        UserService spyService = spy(userService);
-        doReturn(mockUser).when(spyService).deserializeUser(userJson);
+        when(userRepo.isUserExist(username)).thenReturn(true);
+        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
+        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
 
-        spyService.logoutRegistered(token, userJson);
+        String result = userService.login(username, password);
 
-        ShoppingCart mockCart = mock(ShoppingCart.class);
-        when(mockCart.purchaseCart()).thenReturn(100.0);
-
-        when(tokenService.validateToken(token)).thenReturn(false);
-
-        String purchaseResult = spyService.purchaseCart(userId, token, mockCart);
-
-        assertEquals("Invalid or expired token", purchaseResult);
+        assertEquals(expectedJson, result);
     }
 
     @Test

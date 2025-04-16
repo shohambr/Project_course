@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceTest" time="1.443" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceTest" time="1.451" tests="12" errors="0" skipped="0" failures="1">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IL"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@17/17.0.13/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250416153410460_3.jar /Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire 2025-04-16T15-34-10_407-jvmRun1 surefire-20250416153410460_1tmp surefire_0-20250416153410460_2tmp"/>
+    <property name="sun.java.command" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250416183459926_3.jar /Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire 2025-04-16T18-34-59_875-jvmRun1 surefire-20250416183459926_1tmp surefire_0-20250416183459926_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/test-classes:/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/classes:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.3/junit-jupiter-5.9.3.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.3/junit-jupiter-api-5.9.3.jar:/Users/yanivefremov/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/yanivefremov/.m2/repository/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.jar:/Users/yanivefremov/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.3/junit-jupiter-params-5.9.3.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.3/junit-jupiter-engine-5.9.3.jar:/Users/yanivefremov/.m2/repository/org/junit/platform/junit-platform-engine/1.9.3/junit-platform-engine-1.9.3.jar:/Users/yanivefremov/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/yanivefremov/.m2/repository/net/bytebuddy/byte-buddy/1.14.9/byte-buddy-1.14.9.jar:/Users/yanivefremov/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.9/byte-buddy-agent-1.14.9.jar:/Users/yanivefremov/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/yanivefremov/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.2/jackson-databind-2.15.2.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.2/jackson-annotations-2.15.2.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.2/jackson-core-2.15.2.jar:/Users/yanivefremov/.m2/repository/org/springframework/data/spring-data-mongodb/4.2.5/spring-data-mongodb-4.2.5.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/Users/yanivefremov/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/Users/yanivefremov/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/Users/yanivefremov/.m2/repository/org/mongodb/mongodb-driver-core/4.11.2/mongodb-driver-core-4.11.2.jar:/Users/yanivefremov/.m2/repository/org/mongodb/bson-record-codec/4.11.2/bson-record-codec-4.11.2.jar:/Users/yanivefremov/.m2/repository/org/slf4j/slf4j-api/2.0.2/slf4j-api-2.0.2.jar:/Users/yanivefremov/.m2/repository/org/mongodb/mongodb-driver-sync/4.11.1/mongodb-driver-sync-4.11.1.jar:/Users/yanivefremov/.m2/repository/org/mongodb/bson/4.11.1/bson-4.11.1.jar:"/>
@@ -29,7 +29,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250416153410460_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250416183459926_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="17.0.13+0"/>
@@ -57,16 +57,97 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="logoutRegistered_ShouldCallUpdate" classname="ServiceLayer.UserServiceTest" time="0.69"/>
+  <testcase name="logoutRegistered_ShouldCallUpdate" classname="ServiceLayer.UserServiceTest" time="0.655"/>
   <testcase name="rateItem_ShouldFail_WhenTokenInvalid" classname="ServiceLayer.UserServiceTest" time="0.003"/>
-  <testcase name="signUp_ShouldReturnMessage_WhenUserExists" classname="ServiceLayer.UserServiceTest" time="0.001"/>
-  <testcase name="signUp_ShouldReturnToken_WhenUserIsNew" classname="ServiceLayer.UserServiceTest" time="0.084"/>
-  <testcase name="login_ShouldReturnToken_WhenCredentialsMatch" classname="ServiceLayer.UserServiceTest" time="0.143"/>
-  <testcase name="guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken" classname="ServiceLayer.UserServiceTest" time="0.222"/>
-  <testcase name="login_ShouldStillWork_AfterLogout" classname="ServiceLayer.UserServiceTest" time="0.142"/>
+  <testcase name="signUp_ShouldReturnMessage_WhenUserExists" classname="ServiceLayer.UserServiceTest" time="0.002"/>
+  <testcase name="login_ShouldReturnJson_WhenCredentialsMatch" classname="ServiceLayer.UserServiceTest" time="0.163"/>
+  <testcase name="guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken" classname="ServiceLayer.UserServiceTest" time="0.172">
+    <failure message="expected: &lt;false&gt; but was: &lt;true&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:228)
+	at ServiceLayer.UserServiceTest.guestLoginLogoutThenPurchase_ShouldFailDueToInvalidToken(UserServiceTests.java:165)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></failure>
+  </testcase>
+  <testcase name="login_ShouldStillWork_AfterLogout" classname="ServiceLayer.UserServiceTest" time="0.145"/>
   <testcase name="createStore_ShouldFail_WhenTokenInvalid" classname="ServiceLayer.UserServiceTest" time="0.001"/>
-  <testcase name="login_ShouldReturnNull_WhenPasswordIncorrect" classname="ServiceLayer.UserServiceTest" time="0.138"/>
+  <testcase name="login_ShouldReturnNull_WhenPasswordIncorrect" classname="ServiceLayer.UserServiceTest" time="0.143"/>
+  <testcase name="signUp_ShouldReturnJson_WhenUserIsNew" classname="ServiceLayer.UserServiceTest" time="0.145"/>
   <testcase name="rateItem_ShouldSucceed_WhenTokenIsValid" classname="ServiceLayer.UserServiceTest" time="0.001"/>
-  <testcase name="login_ShouldReturnMessage_WhenUserDoesNotExist" classname="ServiceLayer.UserServiceTest" time="0.0"/>
+  <testcase name="login_ShouldReturnMessage_WhenUserDoesNotExist" classname="ServiceLayer.UserServiceTest" time="0.001"/>
   <testcase name="createStore_ShouldSucceed_WhenTokenValid" classname="ServiceLayer.UserServiceTest" time="0.001"/>
 </testsuite>

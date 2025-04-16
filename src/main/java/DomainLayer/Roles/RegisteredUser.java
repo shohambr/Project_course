@@ -22,6 +22,8 @@ public class RegisteredUser extends User {
             this.jobs = temp.jobs;
             this.id = temp.id;
             this.shoppingCart = temp.shoppingCart;
+            this.userService = temp.userService;
+            this.myToken = temp.myToken;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +43,7 @@ public class RegisteredUser extends User {
             throw new RuntimeException(e);
         }
     }
-    public String register(String u , String p){
+    public RegisteredUser register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
     }
 
@@ -62,5 +64,10 @@ public class RegisteredUser extends User {
 
     public boolean receivedOwnershipRequest(String request) {
         return false;
+    }
+
+
+    public void setToken(String token) {
+        myToken = token;
     }
 }

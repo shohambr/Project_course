@@ -25,6 +25,11 @@ public class Store {
 
     }
 
+    public String getName() {
+        return id;
+    }
+
+
     public Boolean registerUser(User user) {
         if(users.contains(user)) {
             return false;

@@ -9,9 +9,6 @@ public class Guest extends User {
         super();
     }
     
-    public Guest(UserService userService) {
-        super(userService);
-    }
 
     @Override
     public void logout() {

@@ -2,10 +2,10 @@ package DomainLayer;
 import java.util.*;
 
 public class ShoppingCart {
-    private int userId;
+    private String userId;
     private List<ShoppingBag> shoppingBags;
 
-    public ShoppingCart(int userId) {
+    public ShoppingCart(String userId) {
         this.userId = userId;
         this.shoppingBags = new ArrayList<ShoppingBag>();
     }
@@ -14,7 +14,7 @@ public class ShoppingCart {
 
         boolean found = false;
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreName().equals(store.getName())) {
+            if (shoppingBag.getStoreId().equals(store.getId())) {
                 shoppingBag.addProduct(product);
                 found = true;
             }
@@ -30,7 +30,7 @@ public class ShoppingCart {
 
     public boolean removeProduct(Store store, Product product) {
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreName().equals(store.getName())) {
+            if (shoppingBag.getStoreId().equals(store.getId())) {
                 shoppingBag.removeProduct(product);
                 if (shoppingBag.getProducts().isEmpty()) {
                     return shoppingBags.remove(shoppingBag);
@@ -42,11 +42,33 @@ public class ShoppingCart {
 
     public List<ShoppingBag> getShoppingBags() {return shoppingBags;}
 
-    public int getUserId() { return userId; }
+    public String getUserId() { return userId; }
 
-    public double purchaseCart() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'purchaseCart'");
+    public boolean availablePurchaseCart() {
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            if(!shoppingBag.availablePurchaseShoppingBag()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public double calculatePurchaseCart() {
+        if(availablePurchaseCart()) {
+            double price = 0;
+            for (ShoppingBag shoppingBag : shoppingBags) {
+                price = price + shoppingBag.calculatePurchaseShoppingBag();
+                shoppingBags.remove(shoppingBag);
+            }
+            return price;
+        }
+        return -1;
+    }
+
+    public void sold (){
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            shoppingBag.sold();
+        }
     }
 
 }

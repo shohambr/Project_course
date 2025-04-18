@@ -24,8 +24,22 @@ public class StoreService{
         StoreRepository.addStore(store);
     }
 
+    public Store createStore(){
+        Store store = new Store();
+        store.setId(id);
+        int numericId = Integer.parseInt(id);
+        numericId++;
+        id = String.valueOf(numericId);
+        StoreRepository.addStore(store);
+        return store;
+    }
+
     public void removeStore(Store store){
         StoreRepository.removeStore(store);
+    }
+
+    public void setRating(Store store, int rating){
+        store.setRating(rating);
     }
 
 }

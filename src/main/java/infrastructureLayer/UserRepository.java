@@ -10,6 +10,7 @@ public class UserRepository implements IUserRepository {
     //entry in the hashmap is of the form <username , (pass;json)>
     HashMap<String , String> rep = new HashMap<String ,String>();
     HashMap<String , String> pass = new HashMap<String ,String>();
+
     public static void sendNewOwnershipRequest(int newOwnerId, Store myStore) {
 
     }

@@ -12,7 +12,7 @@ public abstract class User {
         this.shoppingCart = new ShoppingCart(id++);
     }
 
-    public User(UserService userService) {
+    public User() {
         this.userService = userService;
         this.shoppingCart = new ShoppingCart(id++);
     }

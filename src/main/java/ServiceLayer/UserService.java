@@ -106,12 +106,14 @@ public class UserService {
 
     public boolean becomeNewOwnerRequest(String messageFromTheOwner) {
         //to implement
+        return false;
     }
 
     public boolean becomeNewManagerRequest(String messageFromTheOwner) {
         //to implement
+        return false;
     }
-}
+
     public String rateStore(String storeName, int rating, String token) {
         if (!tokenService.validateToken(token)) {
             return "Invalid or expired token";

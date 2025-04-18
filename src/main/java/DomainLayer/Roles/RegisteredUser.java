@@ -88,6 +88,12 @@ public class RegisteredUser extends User {
 
     public void setToken(String token) {
         myToken = token;
+    }
+
+    public String getToken() {
+        return myToken;
+    }
+    
     public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
         //print the string received
         boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);

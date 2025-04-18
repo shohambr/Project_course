@@ -4,7 +4,6 @@ import java.util.*;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.Jobs.Managing;
 import DomainLayer.Roles.Jobs.Ownership;
-import DomainLayer.Store;
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,58 +42,34 @@ public class RegisteredUser extends User {
     public RegisteredUser register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
     }
-
-    public int getID() {
-        return this.id;
-    }
-
-
-    public void addJob(Job job) {
-        jobs.add(job);
-    }
-
-
     public List<Job> getJobs() {
         return jobs;
-    }
-
-
-    public void createStore(String storeName){
-        this.jobs.add(new Ownership(storeName,this.id));
-    }
-
-
-    public boolean receivedOwnershipRequest(String request) {
-        return false;
     }
     public String getName() {
         return this.name;
     }
-    public void becomeNewOwnerRequest(String messageFromTheOwner, Job jobOffer, Ownership owner) {
-        //print the string received
-        /*boolean jobOfferAnswer = userService.becomeNewOwnerRequest(messageFromTheOwner);
-        if(jobOfferAnswer){
-            this.jobs.add(jobOffer);
-            owner.jobOfferAccepted(jobOffer);
-        }else{
-            owner.jobOfferDeclined(jobOffer);
-        }*/
-    }
-
-
-    public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
-        //print the string received
-        /*boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);
-        if(jobOfferAnswer){
-            this.jobs.add(jobOffer);
-            owner.jobOfferAccepted(jobOffer);
-        }else{
-            owner.jobOfferDeclined(jobOffer);
-        }*/
-    }
-
 
     public void setToken(String token) {
         myToken = token;
+    }
+
+    public boolean receivedOwnershipRequest(String request) {
+        //some logic for how to show the user that he received an ownership request
+        return returnOwnershipRequestAnswer();
+    }
+    public boolean returnOwnershipRequestAnswer() {
+        return false;
+    }
+
+    public boolean receivedManagingRequest(String request) {
+        //some logic for how to show the user that he received a managing request
+        return returnManagingRequestAnswer();
+    }
+    private boolean returnManagingRequestAnswer() {
+        return false;
+    }
+
+    public void acceptQueryResponse(String s) {
+
     }
 }

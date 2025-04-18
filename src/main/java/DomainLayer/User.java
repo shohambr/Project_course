@@ -3,12 +3,12 @@ import DomainLayer.Roles.RegisteredUser;
 import ServiceLayer.UserService;
 
 public abstract class User {
-    protected int id = 1;
+    protected String id = "1";
     protected ShoppingCart shoppingCart;
     protected String myToken;
 
     public User() {
-        this.shoppingCart = new ShoppingCart(id++);
+        this.shoppingCart = new ShoppingCart((id));
     }
 
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag
@@ -21,6 +21,9 @@ public abstract class User {
 
     public String getToken() {
         return myToken;
+    }
+    public String getID() {
+        return this.id;
     }
 
 }

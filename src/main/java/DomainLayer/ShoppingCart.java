@@ -2,10 +2,10 @@ package DomainLayer;
 import java.util.*;
 
 public class ShoppingCart {
-    private int userId;
+    private String userId;
     private List<ShoppingBag> shoppingBags;
 
-    public ShoppingCart(int userId) {
+    public ShoppingCart(String userId) {
         this.userId = userId;
         this.shoppingBags = new ArrayList<ShoppingBag>();
     }
@@ -42,7 +42,7 @@ public class ShoppingCart {
 
     public List<ShoppingBag> getShoppingBags() {return shoppingBags;}
 
-    public int getUserId() { return userId; }
+    public String getUserId() { return userId; }
 
     public boolean availablePurchaseCart() {
         for (ShoppingBag shoppingBag : shoppingBags) {

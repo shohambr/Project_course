@@ -297,4 +297,8 @@ public class Store {
         return sb.toString();
     }
 
+    public String getOrderHistory() {
+        //returns an order history
+        return "";
+    }
 }

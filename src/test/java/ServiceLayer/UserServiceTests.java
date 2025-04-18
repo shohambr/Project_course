@@ -1,9 +1,11 @@
 package ServiceLayer;
 
+import DomainLayer.IJobRepository;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.IUserRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IProductRepository;
+import infrastructureLayer.JobRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,20 +24,24 @@ class UserServiceTest {
     private IUserRepository userRepo;
     private IStoreRepository storeRepo;
     private IProductRepository productRepo;
+    private IJobRepository jobRepo;
     private TokenService tokenService;
     private UserService userService;
     private StoreService storeService;
     private ProductService productService;
+    private JobService jobService;
 
     @BeforeEach
     void setUp() {
         userRepo = Mockito.mock(IUserRepository.class);
         storeRepo = Mockito.mock(IStoreRepository.class);
         productRepo = Mockito.mock(IProductRepository.class);
+        jobRepo = Mockito.mock(IJobRepository.class);
         tokenService = new TokenService();
         productService = new ProductService(productRepo);
-        storeService = new StoreService( storeRepo ,  productService);
-        userService = new UserService(userRepo, tokenService , storeService);
+        storeService = new StoreService(storeRepo, productService);
+        jobService = new JobService(jobRepo, storeService);
+        userService = new UserService(userRepo, tokenService, storeService, jobService);
     }
 
     @Test

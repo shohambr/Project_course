@@ -6,6 +6,8 @@ import DomainLayer.IUserRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IProductRepository;
 import infrastructureLayer.JobRepository;
+import infrastructureLayer.UserRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,7 +35,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userRepo = Mockito.mock(IUserRepository.class);
+        userRepo = new UserRepository();
         storeRepo = Mockito.mock(IStoreRepository.class);
         productRepo = Mockito.mock(IProductRepository.class);
         jobRepo = Mockito.mock(IJobRepository.class);
@@ -51,6 +53,103 @@ class UserServiceTest {
         RegisteredUser u = userService.signUp(username, password);
         assertNotNull(u);
     }
+
+    @Test
+    void signup_UserAlreadyExists() throws Exception {
+        String username = "yaniv";
+        String password = "password";
+        userService.signUp(username, password);
+        RegisteredUser u = userService.signUp(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void signup_UsernameIsNull() throws Exception {
+        String username = null;
+        String password = "password";
+        RegisteredUser u = userService.signUp(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void signup_PasswordIsNull() throws Exception {
+        String username = "yaniv";
+        String password = null;
+        RegisteredUser u = userService.signUp(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void signup_UsernameIsEmpty() throws Exception {
+        String username = "";
+        String password = "password";
+        RegisteredUser u = userService.signUp(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void signup_PasswordIsEmpty() throws Exception {
+        String username = "yaniv";
+        String password = "";
+        RegisteredUser u = userService.signUp(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void login_Right_params() throws Exception {
+        String username = "yaniv";
+        String password = "password";
+        userService.signUp(username, password);
+        RegisteredUser u = userService.login(username, password);
+        assertNotNull(u);
+    }
+
+    @Test
+    void login_UserDoesNotExist() throws Exception {
+        String username = "yaniv";
+        String password = "password";
+        RegisteredUser u = userService.login(username, password);
+        assertNull(u);
+    }
+
+    @Test
+    void login_IncorrectPassword() throws Exception {
+        String username = "yaniv";
+        String password = "password";
+        userService.signUp(username, password);
+        RegisteredUser u = userService.login(username, "wrongpassword");
+        assertNull(u);
+    }
+
+    @Test
+    void login_UsernameIsNull() throws Exception {
+        String username = null;
+        String password = "password";
+        RegisteredUser u = userService.login(username, password);
+        assertNull(u);
+    }
+    @Test
+    void login_PasswordIsNull() throws Exception {
+        String username = "yaniv";
+        String password = null;
+        RegisteredUser u = userService.login(username, password);
+        assertNull(u);
+    }
+    @Test
+    void login_UsernameIsEmpty() throws Exception {
+        String username = "";
+        String password = "password";
+        RegisteredUser u = userService.login(username, password);
+        assertNull(u);
+    }
+    @Test
+    void login_PasswordIsEmpty() throws Exception {
+        String username = "yaniv";
+        String password = "";
+        RegisteredUser u = userService.login(username, password);
+        assertNull(u);
+    }
+
 //
 //    @Test
 //    void login_ShouldReturnNull_WhenPasswordIncorrect()  throws JsonProcessingException {

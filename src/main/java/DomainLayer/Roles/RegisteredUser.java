@@ -34,6 +34,9 @@ public class RegisteredUser extends User {
         this.name = name;
     }
 
+    public RegisteredUser() {
+    }
+
 
     public void logout()  {
         myToken=null;

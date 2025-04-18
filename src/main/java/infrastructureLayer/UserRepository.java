@@ -19,11 +19,11 @@ public class UserRepository implements IUserRepository {
         return pass.get(username);
     }
 
-    public boolean addUser(String username, String hashedPassword) {
+    public boolean addUser(String username, String hashedPassword , String json) {
         if(rep.containsKey(username)){
             return false;
         }
-        rep.put(username , "");
+        rep.put(username , json);
         pass.put(username, hashedPassword);
         return true;
     }

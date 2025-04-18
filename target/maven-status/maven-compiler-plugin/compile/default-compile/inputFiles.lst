@@ -1,4 +1,5 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/DiscountPolicy.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IJobRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IOrderRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IPayment.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IProductRepository.java
@@ -16,11 +17,14 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Managing.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Ownership.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/RegisteredUser.java
-/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/systemManager.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/SystemManager.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ShoppingBag.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ShoppingCart.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Store.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/User.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/ErrorLogger.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/EventLogger.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/JobService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/NotificationService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/OrderService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/PaymentService.java
@@ -29,6 +33,8 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/StoreService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/TokenService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/UserService.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/JobRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/OrderRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/ProductRepository.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/StoreRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/UserRepository.java

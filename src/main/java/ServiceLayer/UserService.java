@@ -33,6 +33,12 @@ public class UserService {
         if (!userRepo.isUserExist(username)) {
             return null;
         }
+        if(username == null || password == null){
+            return null;
+        }
+        if(username.isEmpty() || password.isEmpty()){
+            return null;
+        }
 
         String hashedPassword = userRepo.getUserPass(username);
         if (BCrypt.checkpw(password, hashedPassword)) {
@@ -50,11 +56,18 @@ public class UserService {
         if (userRepo.isUserExist(username)) {
             return null;
         }
+        if(username == null || password == null){
+            return null;
+        }
+        if(username.isEmpty() || password.isEmpty()){
+            return null;
+        }
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        userRepo.addUser(username, hashedPassword);
         String token = tokenService.generateToken(username);
         RegisteredUser user = new RegisteredUser(new LinkedList<>() , username);
+        user.setToken(token);
+        userRepo.addUser(username, hashedPassword , mapper.writeValueAsString(user));
         return user;
     }
 

@@ -56,23 +56,18 @@ public class RegisteredUser extends User {
         myToken = token;
     }
 
-    public boolean receivedOwnershipRequest(String request) {
-        //some logic for how to show the user that he received an ownership request
-        return returnOwnershipRequestAnswer();
+    public String getToken() {
+        return myToken;
     }
-    public boolean returnOwnershipRequestAnswer() {
-        return false;
-    }
-
-    public boolean receivedManagingRequest(String request) {
-        //some logic for how to show the user that he received a managing request
-        return returnManagingRequestAnswer();
-    }
-    private boolean returnManagingRequestAnswer() {
-        return false;
-    }
-
-    public void acceptQueryResponse(String s) {
-
+    
+    public void becomeNewManagerRequest(String messageFromTheOwner, Managing jobOffer, Ownership owner) {
+        //print the string received
+        boolean jobOfferAnswer = userService.becomeNewManagerRequest(messageFromTheOwner);
+        if(jobOfferAnswer){
+            this.jobs.add(jobOffer);
+            owner.jobOfferAccepted(jobOffer);
+        }else{
+            owner.jobOfferDeclined(jobOffer);
+        }
     }
 }

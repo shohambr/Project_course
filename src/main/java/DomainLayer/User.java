@@ -8,7 +8,7 @@ public abstract class User {
     protected String myToken;
 
     public User() {
-        this.shoppingCart = new ShoppingCart((id));
+        this.shoppingCart = new ShoppingCart(id++);
     }
 
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag

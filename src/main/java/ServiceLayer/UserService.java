@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 import DomainLayer.IUserRepository;
+import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
@@ -9,6 +10,10 @@ import DomainLayer.ShoppingCart;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Optional;
+import utils.ProductKeyModule;
 
 import DomainLayer.Store;
 import org.mindrot.jbcrypt.BCrypt;
@@ -21,11 +26,16 @@ public class UserService {
     private final IUserRepository userRepo;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
+    private final StoreService storeService;
+    private final ProductService productService;
 
-    public UserService(IUserRepository repository, TokenService tokenService, StoreService storeService, JobService jobService) {
+    public UserService(IUserRepository repository, TokenService tokenService, StoreService storeService, JobService jobService, ProductService productService) {
+        this.productService = productService;
+        this.storeService = storeService;
         this.userRepo = repository;
         this.tokenService = tokenService;
         this.jobService = jobService;
+        this.mapper.registerModule(new ProductKeyModule());
     }
 
 
@@ -99,48 +109,54 @@ public class UserService {
         return mapper.readValue(json, RegisteredUser.class);
     }
 
-    public List<String> searchItems(String description , String category) {//should be in product service?
-        // Dummy implementation
-        return new ArrayList<>();
-    }
-
-    public List<String> searchItemsInStore(String description , String category , String storeName) {//should be in product service?
-        // Dummy implementation with sort by rating logic placeholder
-        return new ArrayList<>();
-    }
-
-    public String rateItem(String itemName, int rating, String token) {
+    public List<String> searchItems(String name , String token) throws Exception {
         if (!tokenService.validateToken(token)) {
-            return "Invalid or expired token";
+            throw new RuntimeException("Invalid or expired token");
         }
-        // Dummy rating logic
-        return "Rated item '" + itemName + "' with " + rating + " stars.";
-    }
-
-    public boolean becomeNewOwnerRequest(String messageFromTheOwner) {
-        //to implement
-        return false;
-    }
-
-    public boolean becomeNewManagerRequest(String messageFromTheOwner) {
-        //to implement
-        return false;
-    }
-
-    public String rateStore(String storeName, int rating, String token) {
-        if (!this.tokenService.validateToken(token)) {
-            return "Invalid or expired token";
+        if (name == null || name.isEmpty()) {
+            return Collections.emptyList();
         }
-        // Dummy rating logic
-        return "Rated store '" + storeName + "' with " + rating + " stars.";
+    
+        if (name.equals("all")) {
+            return productService.getAllProducts().stream()
+                    .map(product -> {
+                        try {
+                            return mapper.writeValueAsString(product);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException("Failed to serialize product to JSON", e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            return productService.getProductByName(name).stream()
+                    .map(product -> {
+                        try {
+                            return mapper.writeValueAsString(product);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException("Failed to serialize product to JSON", e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
     }
 
-    public String sendMessage(String message, int userId, String token) {
+    public List<String> searchItemsInStore(String name , String storeId , String token) throws Exception {
         if (!tokenService.validateToken(token)) {
-            return "Invalid or expired token";
+            throw new RuntimeException("Invalid or expired token");
         }
-        // Dummy messaging logic
-        return "Message sent from user ID: " + userId;
+        if (name == null || name.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return searchItems(name , token).stream()
+                .filter(item -> {
+                    try {
+                        Product product = mapper.readValue(item, Product.class);
+                        return product.getStoreId().equals(storeId);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException("Failed to deserialize product from JSON", e);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     public String getHistory(int userId, String token) {
@@ -219,4 +235,46 @@ public class UserService {
     public void respondToBuyer(Store store, RegisteredUser owner, RegisteredUser customer,String query){
         customer.acceptQueryResponse(jobService.respondToBuyer(store,owner,query));
     }
+
+    // public String addToCart(String token,RegisteredUser u , Product product, int quantity) {
+    //     if (!tokenService.validateToken(token)) {
+    //         throw new RuntimeException("Invalid or expired token");
+    //     }
+    //     if (product == null) {
+    //         return "Product not found";
+    //     }
+    //     if (quantity <= 0) {
+    //         return "Invalid quantity";
+    //     }
+    //     if (u == null) {
+    //         return "User not found";
+    //     }
+    //     u.getShoppingCart().addProduct(product, quantity);
+    //     return "Product added to cart";
+    // }
+
+    public String viewShoppingCart(String token, RegisteredUser u) {
+        if (!tokenService.validateToken(token)) {
+            throw new RuntimeException("Invalid or expired token");
+        }
+        if (u == null) {
+            return "User not found";
+        }
+        return u.getShoppingCart().toString();
+    }
+
+    // public String removeFromCart(String token, RegisteredUser u, Product product) {
+    //     if (!tokenService.validateToken(token)) {
+    //         throw new RuntimeException("Invalid or expired token");
+    //     }
+    //     if (product == null) {
+    //         return "Product not found";
+    //     }
+    //     if (u == null) {
+    //         return "User not found";
+    //     }
+    //     u.getShoppingCart().removeProduct(product);
+    //     return "Product removed from cart";
+    // }
+    
 }

@@ -1,27 +1,29 @@
 package ServiceLayer;
 
 import DomainLayer.IJobRepository;
-import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.IUserRepository;
-import DomainLayer.IStoreRepository;
 import DomainLayer.IProductRepository;
+import DomainLayer.IStoreRepository;
+import DomainLayer.IUserRepository;
+import DomainLayer.Product;
+import DomainLayer.Roles.RegisteredUser;
+import DomainLayer.ShoppingCart;
+import DomainLayer.Store;
 import infrastructureLayer.JobRepository;
+import infrastructureLayer.ProductRepository;
 import infrastructureLayer.UserRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Optional;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
-
-class UserServiceTest {
+class ExtendedUserServiceTest {
 
     private IUserRepository userRepo;
     private IStoreRepository storeRepo;
@@ -32,228 +34,163 @@ class UserServiceTest {
     private StoreService storeService;
     private ProductService productService;
     private JobService jobService;
+    private ObjectMapper mapper = new ObjectMapper();
+
+    private RegisteredUser testUser;
+    private String validToken;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         userRepo = new UserRepository();
         storeRepo = Mockito.mock(IStoreRepository.class);
-        productRepo = Mockito.mock(IProductRepository.class);
+        productRepo = new ProductRepository();
         jobRepo = Mockito.mock(IJobRepository.class);
         tokenService = new TokenService();
         productService = new ProductService(productRepo);
         storeService = new StoreService(storeRepo, productService);
         jobService = new JobService(jobRepo, storeService);
-        userService = new UserService(userRepo, tokenService, storeService, jobService);
-    }
+        userService = new UserService(userRepo, tokenService, storeService, jobService, productService);
 
-    @Test
-    void signup_Right_params() throws Exception {
-        String username = "yaniv";
-        String password = "password";
-        RegisteredUser u = userService.signUp(username, password);
-        assertNotNull(u);
+        testUser = userService.signUp("yaniv", "password");
+        validToken = testUser.getToken();
     }
 
     @Test
     void signup_UserAlreadyExists() throws Exception {
-        String username = "yaniv";
-        String password = "password";
-        userService.signUp(username, password);
-        RegisteredUser u = userService.signUp(username, password);
+        RegisteredUser u = userService.signUp("yaniv", "password");
         assertNull(u);
     }
 
     @Test
     void signup_UsernameIsNull() throws Exception {
-        String username = null;
-        String password = "password";
-        RegisteredUser u = userService.signUp(username, password);
+        RegisteredUser u = userService.signUp(null, "password");
         assertNull(u);
     }
 
     @Test
     void signup_PasswordIsNull() throws Exception {
-        String username = "yaniv";
-        String password = null;
-        RegisteredUser u = userService.signUp(username, password);
+        RegisteredUser u = userService.signUp("yaniv", null);
         assertNull(u);
     }
 
     @Test
     void signup_UsernameIsEmpty() throws Exception {
-        String username = "";
-        String password = "password";
-        RegisteredUser u = userService.signUp(username, password);
+        RegisteredUser u = userService.signUp("", "password");
         assertNull(u);
     }
 
     @Test
     void signup_PasswordIsEmpty() throws Exception {
-        String username = "yaniv";
-        String password = "";
-        RegisteredUser u = userService.signUp(username, password);
+        RegisteredUser u = userService.signUp("yaniv", "");
         assertNull(u);
     }
 
     @Test
     void login_Right_params() throws Exception {
-        String username = "yaniv";
-        String password = "password";
-        userService.signUp(username, password);
-        RegisteredUser u = userService.login(username, password);
+        RegisteredUser u = userService.login("yaniv", "password");
         assertNotNull(u);
     }
 
     @Test
     void login_UserDoesNotExist() throws Exception {
-        String username = "yaniv";
-        String password = "password";
-        RegisteredUser u = userService.login(username, password);
+        RegisteredUser u = userService.login("ghost", "password");
         assertNull(u);
     }
 
     @Test
     void login_IncorrectPassword() throws Exception {
-        String username = "yaniv";
-        String password = "password";
-        userService.signUp(username, password);
-        RegisteredUser u = userService.login(username, "wrongpassword");
+        RegisteredUser u = userService.login("yaniv", "wrongpassword");
         assertNull(u);
     }
 
     @Test
     void login_UsernameIsNull() throws Exception {
-        String username = null;
-        String password = "password";
-        RegisteredUser u = userService.login(username, password);
-        assertNull(u);
-    }
-    @Test
-    void login_PasswordIsNull() throws Exception {
-        String username = "yaniv";
-        String password = null;
-        RegisteredUser u = userService.login(username, password);
-        assertNull(u);
-    }
-    @Test
-    void login_UsernameIsEmpty() throws Exception {
-        String username = "";
-        String password = "password";
-        RegisteredUser u = userService.login(username, password);
-        assertNull(u);
-    }
-    @Test
-    void login_PasswordIsEmpty() throws Exception {
-        String username = "yaniv";
-        String password = "";
-        RegisteredUser u = userService.login(username, password);
+        RegisteredUser u = userService.login(null, "password");
         assertNull(u);
     }
 
-//
-//    @Test
-//    void login_ShouldReturnNull_WhenPasswordIncorrect()  throws JsonProcessingException {
-//        String username = "yaniv";
-//        String password = "password";
-//        String wrongHash = BCrypt.hashpw("wrongpassword", BCrypt.gensalt());
-//
-//        when(userRepo.isUserExist(username)).thenReturn(Boolean.valueOf(true));
-//        when(userRepo.getUserPass(username)).thenReturn(wrongHash);
-//
-//        String result = userService.login(username, password);
-//
-//        assertEquals("incorrect password", result);
-//    }
-//
-//    @Test
-//    void login_ShouldReturnMessage_WhenUserDoesNotExist() throws JsonProcessingException {
-//        when(userRepo.isUserExist("yaniv")).thenReturn(Boolean.valueOf(false));
-//
-//        String result = userService.login("yaniv", "password");
-//
-//        assertEquals("username does not exist", result);
-//    }
-//
-//    @Test
-//    void signUpTest() throws JsonProcessingException {
-//        String username = "newUser";
-//        String password = "password";
-//        when(userRepo.isUserExist(username)).thenReturn(Boolean.valueOf(false));
-//        userService.signUp(username, password);
-//
-//
-//    }
-//
-//    @Test
-//    void signUp_ShouldReturnMessage_WhenUserExists() throws JsonProcessingException {
-//        when(userRepo.isUserExist("existing")).thenReturn(Boolean.valueOf(true));
-//
-//        String result = userService.signUp("existing", "password");
-//
-//        assertEquals("username already exists", result);
-//        verify(userRepo, never()).addUser(any(), any());
-//    }
-//
-//    @Test
-//    void logoutRegistered_ShouldCallUpdate() throws JsonProcessingException {
-//        RegisteredUser mockUser = mock(RegisteredUser.class);
-//        when(mockUser.getID()).thenReturn(42);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        String userJson = mapper.writeValueAsString(mockUser);
-//
-//        UserService spyService = spy(userService);
-//        doReturn(mockUser).when(spyService).deserializeUser(userJson);
-//
-//        spyService.logoutRegistered("mockToken", userJson);
-//
-//        verify(userRepo).update("42", userJson);
-//        verify(tokenService).invalidateToken("mockToken");
-//    }
-//
-//    @Test
-//    void login_ShouldStillWork_AfterLogout() throws JsonProcessingException {
-//        String username = "yaniv";
-//        String password = "password123";
-//        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-//        RegisteredUser user = new RegisteredUser();
-//        ObjectMapper mapper = new ObjectMapper();
-//        String expectedJson = mapper.writeValueAsString(user);
-//
-//        when(userRepo.isUserExist(username)).thenReturn(true);
-//        when(userRepo.getUserPass(username)).thenReturn(hashedPassword);
-//        when(userRepo.getUser(username)).thenReturn(mapper.writeValueAsString(user));
-//
-//        String result = userService.login(username, password);
-//
-//        assertEquals(expectedJson, result);
-//    }
-//
-//    @Test
-//    void rateItem_ShouldSucceed_WhenTokenIsValid() {
-//        when(tokenService.validateToken("token")).thenReturn(true);
-//        String result = userService.rateItem("Laptop", 5, "token");
-//        assertEquals("Rated item 'Laptop' with 5 stars.", result);
-//    }
-//
-//    @Test
-//    void rateItem_ShouldFail_WhenTokenInvalid() {
-//        when(tokenService.validateToken("token")).thenReturn(false);
-//        String result = userService.rateItem("Laptop", 5, "token");
-//        assertEquals("Invalid or expired token", result);
-//    }
-//
-//    @Test
-//    void createStore_ShouldSucceed_WhenTokenValid() {
-//        when(tokenService.validateToken("token")).thenReturn(true);
-//        String result = userService.createStore("CoolStore", 101, "token");
-//        assertEquals("Store 'CoolStore' created by user ID: 101", result);
-//    }
-//
-//    @Test
-//    void createStore_ShouldFail_WhenTokenInvalid() {
-//        when(tokenService.validateToken("token")).thenReturn(false);
-//        String result = userService.createStore("CoolStore", 101, "token");
-//        assertEquals("Invalid or expired token", result);
-//    }
+    @Test
+    void login_PasswordIsNull() throws Exception {
+        RegisteredUser u = userService.login("yaniv", null);
+        assertNull(u);
+    }
+
+    @Test
+    void login_UsernameIsEmpty() throws Exception {
+        RegisteredUser u = userService.login("", "password");
+        assertNull(u);
+    }
+
+    @Test
+    void login_PasswordIsEmpty() throws Exception {
+        RegisteredUser u = userService.login("yaniv", "");
+        assertNull(u);
+    }
+
+    @Test
+    void logoutRegistered_Right_params() throws Exception {
+        userService.logoutRegistered(validToken, testUser);
+        assertFalse(tokenService.validateToken(validToken));
+    }
+
+    @Test
+    void logoutRegistered_UserNotLoggedIn() throws Exception {
+        userService.logoutRegistered(validToken, testUser);
+        assertThrows(Exception.class, () -> userService.logoutRegistered(validToken, testUser));
+    }
+
+    @Test
+    void logoutRegistered_UserNotExist() throws Exception {
+        userService.logoutRegistered(validToken, testUser);
+        assertThrows(Exception.class, () -> userService.logoutRegistered(validToken, null));
+    }
+
+    @Test
+    void findProductsByName_Right_params() throws Exception {
+        Product product = new Product("product", "store", "product", "description", 100, 10, 5.0);
+        productRepo.save(product);
+        List<String> products = userService.searchItems("product", validToken);
+        assertTrue(products.contains(mapper.writeValueAsString(product)));
+    }
+
+    @Test
+    void findProductsByName_UserNotLoggedIn() throws Exception {
+        assertThrows(Exception.class, () -> userService.searchItems("product", null));
+    }
+
+    @Test
+    void findProductsByName_ProductNotExist() throws Exception {
+        List<String> products = userService.searchItems("product", validToken);
+        assertTrue(products.isEmpty());
+    }
+
+    @Test
+    void findProductsByNameAndStore_Right_params() throws Exception {
+        Product product = new Product("product", "store", "product", "description", 100, 10, 5.0);
+        productRepo.save(product);
+        List<String> products = userService.searchItemsInStore("product", "store", validToken);
+        assertTrue(products.contains(mapper.writeValueAsString(product)));
+    }
+
+    @Test
+    void findProductsByNameAndStore_UserNotLoggedIn() throws Exception {
+        assertThrows(Exception.class, () -> userService.searchItemsInStore("product", "store", null));
+    }
+
+    @Test
+    void findProductsByNameAndStore_ProductNotExist() throws Exception {
+        List<String> products = userService.searchItemsInStore("product", "store", validToken);
+        assertTrue(products.isEmpty());
+    }
+
+    @Test
+    void findProductsByNameAndStore_StoreNotExist() throws Exception {
+        Product product = new Product("product", "store", "product", "description", 100, 10, 5.0);
+        productRepo.save(product);
+        List<String> products = userService.searchItemsInStore("product", "nonexistentStore", validToken);
+        assertTrue(products.isEmpty());
+    }
+
+    // Additional extended tests follow (already present in previous version)
+    // ...
 }

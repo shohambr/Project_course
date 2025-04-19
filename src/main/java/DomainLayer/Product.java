@@ -18,6 +18,11 @@ public class Product {
         this.quantity = quantity; // was before 0 changed to quantity, so the product holds the quantity of itself aswell
         this.rating = rating;
     }
+
+    public Product() {
+        //needed for Jackson
+    }
+    
     //getters
     public String getId() {
         return id;

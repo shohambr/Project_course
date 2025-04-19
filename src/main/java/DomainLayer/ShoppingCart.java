@@ -10,6 +10,9 @@ public class ShoppingCart {
         this.shoppingBags = new ArrayList<ShoppingBag>();
     }
 
+    public ShoppingCart() {
+    }
+
     public void addProduct(Store store, Product product) {
 
         boolean found = false;

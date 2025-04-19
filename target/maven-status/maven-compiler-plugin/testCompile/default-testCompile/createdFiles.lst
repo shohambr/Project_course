@@ -2,8 +2,8 @@ ServiceLayer/StoreServiceTest.class
 Mocks/MockPayment.class
 Mocks/MockShipping.class
 ServiceLayer/OrderServiceTest.class
+ServiceLayer/ExtendedUserServiceTest.class
 ServiceLayer/StoreServiceTest$1.class
 ServiceLayer/ShippingServiceTest.class
-ServiceLayer/UserServiceTest.class
 ServiceLayer/EventLoggerTest.class
 ServiceLayer/ErrorLoggerTest.class

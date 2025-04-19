@@ -26,5 +26,9 @@ public abstract class User {
         return this.id;
     }
 
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
 }
 

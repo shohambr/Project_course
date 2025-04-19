@@ -131,7 +131,7 @@ public abstract class Job {
         StringBuilder sb = new StringBuilder();
         if (founder) sb.append("founder: \n");
         sb.append("userID: ").append(this.getMyID());
-        if (!founder)sb.append("my SuperiorID: ").append(this.mySuperiors.getFirst().getMyID()).append("\n");
+        if (!founder)sb.append("my SuperiorID: ").append(this.mySuperiors.get(0).getMyID()).append("\n");
         if(!(this instanceof Managing)) sb.append("my subordinates: \n");
         int i = 1;
         for(Job j : mySubordinates) {

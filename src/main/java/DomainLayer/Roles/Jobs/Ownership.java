@@ -2,7 +2,6 @@ package DomainLayer.Roles.Jobs;
 
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
-import jdk.internal.org.jline.terminal.TerminalBuilder;
 
 import java.util.LinkedList;
 import java.util.Scanner;

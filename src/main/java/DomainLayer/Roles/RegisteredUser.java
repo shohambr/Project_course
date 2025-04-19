@@ -4,6 +4,7 @@ import java.util.*;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.Jobs.Managing;
 import DomainLayer.Roles.Jobs.Ownership;
+import DomainLayer.ShoppingCart;
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,14 @@ public class RegisteredUser extends User {
          //needed for Jackson
         this.jobs = jobs;
         this.name = name;
+    }
+    public RegisteredUser() {
+        this.jobs = new ArrayList<>();
+        this.name = "";
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
 

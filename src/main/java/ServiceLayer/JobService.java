@@ -27,7 +27,7 @@ public class JobService {
         //check that the user isn't already appointed as an owner:
         LinkedList<Job> jobs = this.JobRepository.getJobsByUser(OwnerID);
         for(Job j: jobs){
-            if ((j.getStore().getId() == storeID)&&(j instanceof Ownership)){
+            if ((j.getStore().getId().equals(storeID))&&(j instanceof Ownership)){
                 return true;
             }
         }
@@ -37,7 +37,7 @@ public class JobService {
         //check that the user isn't already appointed as an owner:
         LinkedList<Job> jobs = this.JobRepository.getJobsByUser(ManagerID);
         for(Job j: jobs){
-            if ((j.getStore().getId() == storeID)&&(j instanceof Managing)){
+            if ((j.getStore().getId().equals(storeID))&&(j instanceof Managing)){
                 return true;
             }
         }
@@ -47,7 +47,7 @@ public class JobService {
         if (UserIsOwnerOfStore(storeID,ownerID)){
             LinkedList<Job> jobs = this.JobRepository.getJobsByUser(ownerID);
             for(Job j: jobs){
-                if ((j.getStore().getId() == storeID)&&(j instanceof Ownership)){
+                if ((j.getStore().getId().equals(storeID))&&(j instanceof Ownership)){
                     return (Ownership) j;
                 }
             }
@@ -55,10 +55,10 @@ public class JobService {
         throw new RuntimeException("ownership job wasn't found");
     }
     public Managing getSpecificManagmentJob(String storeID, String managerID){
-        if (UserIsOwnerOfStore(storeID,managerID)){
+        if (UserIsManagerOfStore(storeID,managerID)){
             LinkedList<Job> jobs = this.JobRepository.getJobsByUser(managerID);
             for(Job j: jobs){
-                if ((j.getStore().getId() == storeID)&&(j instanceof Managing)){
+                if ((j.getStore().getId().equals(storeID))&&(j instanceof Managing)){
                     return (Managing) j;
                 }
             }
@@ -69,7 +69,7 @@ public class JobService {
         if (UserIsOwnerOfStore(storeID,userID)||UserIsManagerOfStore(storeID,userID)){
             LinkedList<Job> jobs = this.JobRepository.getJobsByUser(userID);
             for(Job j: jobs){
-                if ((j.getStore().getId() == storeID)){
+                if ((j.getStore().getId().equals(storeID))){
                     return (Job) j;
                 }
             }
@@ -85,6 +85,7 @@ public class JobService {
             }
             Ownership newOwnership = new Ownership(store,newOwner,getSpecificOwnershipJob(store.getId(), oldOwner.getID()));
             this.addJob(store.getId(),newOwner.getID(),newOwnership);
+            return;
         }
         throw new RuntimeException("the owner wasn't added to the store");
     }
@@ -123,8 +124,9 @@ public class JobService {
             if (!UserIsManagerOfStore(store.getId(), newManager.getID())) {
                 Managing newManaging = new Managing(store, newManager, getSpecificOwnershipJob(store.getId(), oldOwner.getID()), permissions);
                 this.addJob(store.getId(), newManager.getID(), newManaging);
+                return;
             }
-            throw new RuntimeException("the manager is already an owner of the store");
+            throw new RuntimeException("the manager is already a manager of the store");
         }
         throw new RuntimeException("the manager wasn't added to the store");
     }
@@ -133,8 +135,9 @@ public class JobService {
         Ownership ownerJob = getSpecificOwnershipJob(store.getId(), owner.getID());
         if (checkThatIsSuperior(ownerJob,managerJob)){
             managerJob.changePermissions(permissions);
+            return;
         }
-        throw new RuntimeException("the manager is ton the owner's subordinate");
+        throw new RuntimeException("the manager is not the owner's subordinate");
     }
     public void closeStore(Store store, RegisteredUser founder) {
         Ownership founderJob = getSpecificOwnershipJob(store.getId(), founder.getID());

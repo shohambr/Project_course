@@ -9,8 +9,9 @@ import java.util.LinkedList;
 public class JobRepository implements IJobRepository {
     /**user to jobs list connection*/
     HashMap<String, LinkedList<Job>> userToJobRep = new HashMap<>();
-    /**store to jobs list connection*/
+    /**store-to-jobs list connection*/
     HashMap<String,LinkedList<Job>> storeToJobRep = new HashMap<>();
+
     public LinkedList<Job> getJobsByUser(String userID) {
         return userToJobRep.get(userID);
     }

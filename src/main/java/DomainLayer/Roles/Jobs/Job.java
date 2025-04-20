@@ -81,7 +81,6 @@ public abstract class Job {
             sendErrorMessage("is not currently employed in this store\n");
         }
     }
-
     protected void alertStoreClosed() {
         StringBuilder sb = new StringBuilder();
         sb.append("Store: ").append(myStore.getId()).append(". closed\n");

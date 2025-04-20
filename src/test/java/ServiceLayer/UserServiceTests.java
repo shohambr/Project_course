@@ -49,7 +49,7 @@ class ExtendedUserServiceTest {
         productService = new ProductService(productRepo);
         storeService = new StoreService(storeRepo, productService);
         jobService = new JobService(jobRepo, storeService);
-        userService = new UserService(userRepo, tokenService, storeService, jobService, productService);
+        userService = new UserService(userRepo, tokenService, jobService, productService);
 
         testUser = userService.signUp("yaniv", "password");
         validToken = testUser.getToken();

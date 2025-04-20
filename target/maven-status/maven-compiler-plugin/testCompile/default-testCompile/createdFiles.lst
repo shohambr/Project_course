@@ -12,6 +12,7 @@ ServiceLayer/JobServiceTest$2.class
 ServiceLayer/EventLoggerTest.class
 ServiceLayer/StoreServiceTest.class
 ServiceLayer/ExtendedUserServiceTest.class
+ServiceLayer/ProductServiceTest.class
 ServiceLayer/StoreServiceTest$1.class
 ServiceLayer/ErrorLoggerTest.class
 Mocks/TestOwnership.class

@@ -26,12 +26,10 @@ public class UserService {
     private final IUserRepository userRepo;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
-    private final StoreService storeService;
     private final ProductService productService;
 
-    public UserService(IUserRepository repository, TokenService tokenService, StoreService storeService, JobService jobService, ProductService productService) {
+    public UserService(IUserRepository repository, TokenService tokenService, JobService jobService, ProductService productService) {
         this.productService = productService;
-        this.storeService = storeService;
         this.userRepo = repository;
         this.tokenService = tokenService;
         this.jobService = jobService;

@@ -51,7 +51,12 @@ public class Store {
         this.rating = rating;
     }
 
-    public boolean registerUser(User user) {
+    public String getName() {
+        return id;
+    }
+
+
+    public Boolean registerUser(User user) {
         if(users.contains(user)) {
             return false;
         }

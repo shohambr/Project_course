@@ -8,5 +8,12 @@ public class Guest extends User {
     public Guest() {
         super();
     }
+    
+
+    public void logout() {
+        throw new UnsupportedOperationException("Guest cannot logout");
+    }
+
+
 
 }

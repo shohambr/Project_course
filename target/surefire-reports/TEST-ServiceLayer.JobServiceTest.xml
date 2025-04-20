@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.EventLoggerTest" time="0.08" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.JobServiceTest" time="0.183" tests="9" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -59,5 +59,13 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="logEvent_ShouldWriteToLogFile" classname="ServiceLayer.EventLoggerTest" time="0.063"/>
+  <testcase name="createStore_ShouldCreateStoreAndAssignFounderAsOwner" classname="ServiceLayer.JobServiceTest" time="0.164"/>
+  <testcase name="openStore_ShouldOpenStore_WhenUserIsFounder" classname="ServiceLayer.JobServiceTest" time="0.001"/>
+  <testcase name="userIsManagerOfStore_ShouldReturnTrue_WhenUserIsManager" classname="ServiceLayer.JobServiceTest" time="0.004"/>
+  <testcase name="closeStore_ShouldCloseStore_WhenUserIsFounder" classname="ServiceLayer.JobServiceTest" time="0.001"/>
+  <testcase name="userIsOwnerOfStore_ShouldReturnTrue_WhenUserIsOwner" classname="ServiceLayer.JobServiceTest" time="0.001"/>
+  <testcase name="userIsManagerOfStore_ShouldReturnFalse_WhenUserIsNotManager" classname="ServiceLayer.JobServiceTest" time="0.002"/>
+  <testcase name="userIsOwnerOfStore_ShouldReturnFalse_WhenUserIsNotOwner" classname="ServiceLayer.JobServiceTest" time="0.002"/>
+  <testcase name="getSpecificOwnershipJob_ShouldThrowException_WhenUserIsNotOwner" classname="ServiceLayer.JobServiceTest" time="0.002"/>
+  <testcase name="getSpecificOwnershipJob_ShouldReturnJob_WhenUserIsOwner" classname="ServiceLayer.JobServiceTest" time="0.002"/>
 </testsuite>

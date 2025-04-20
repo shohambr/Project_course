@@ -1,9 +1,11 @@
 package DomainLayer;
+import java.util.UUID;
+
 import DomainLayer.Roles.RegisteredUser;
 import ServiceLayer.UserService;
 
 public abstract class User {
-    protected String id = "1";
+    protected String id = UUID.randomUUID().toString();
     protected ShoppingCart shoppingCart;
     protected String myToken;
 

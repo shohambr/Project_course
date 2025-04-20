@@ -235,7 +235,7 @@ public class UserService {
     public void respondToBuyer(Store store, RegisteredUser owner, RegisteredUser customer,String query){
         customer.acceptQueryResponse(jobService.respondToBuyer(store,owner,query));
     }
-z
+
     // public String addToCart(String token,RegisteredUser u , Product product, int quantity) {
     //     if (!tokenService.validateToken(token)) {
     //         throw new RuntimeException("Invalid or expired token");

@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ExtendedUserServiceTest {
+class UserServiceTests {
 
     private IUserRepository userRepo;
     private IStoreRepository storeRepo;

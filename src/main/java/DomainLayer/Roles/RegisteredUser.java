@@ -30,13 +30,19 @@ public class RegisteredUser extends User {
 
 
     public RegisteredUser(List<Job> jobs , String name) {
+        super();
          //needed for Jackson
         this.jobs = jobs;
         this.name = name;
     }
     public RegisteredUser() {
+        super();
         this.jobs = new ArrayList<>();
         this.name = "";
+    }
+
+    public String getUsername() {
+        return this.name;
     }
 
     public ShoppingCart getShoppingCart() {

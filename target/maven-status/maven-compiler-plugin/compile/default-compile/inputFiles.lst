@@ -17,9 +17,11 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Store.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/ProxyShipping.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/JobRepository.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/domainServices/UserCart.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Guest.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IPayment.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Ownership.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/domainServices/UserConnectivity.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/utils/Response.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/StoreRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/SystemManager.java
@@ -41,4 +43,5 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/utils/ProductKeyModule.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/EventLogger.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Order.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IToken.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IStoreRepository.java

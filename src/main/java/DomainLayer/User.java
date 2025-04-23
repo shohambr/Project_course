@@ -6,11 +6,10 @@ import ServiceLayer.UserService;
 
 public abstract class User {
     protected String id = UUID.randomUUID().toString();
-    protected ShoppingCart shoppingCart;
+    protected ShoppingCart shoppingCart = new ShoppingCart((id));
     protected String myToken;
 
     public User() {
-        this.shoppingCart = new ShoppingCart((id));
     }
 
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag
@@ -26,6 +25,10 @@ public abstract class User {
     }
     public String getID() {
         return this.id;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
 }

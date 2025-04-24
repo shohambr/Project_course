@@ -16,8 +16,8 @@ public abstract class User {
         shoppingCart.addProduct(store , product);
     }
 
-    public void removeProduct(String storeId, String productId , int amount){    //Store helps shopping cart to know to what shopping bag
-        shoppingCart.removeProduct(storeId, productId , amount);
+    public void removeProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag
+        shoppingCart.removeProduct(store, product);
     }
 
     public String getToken() {

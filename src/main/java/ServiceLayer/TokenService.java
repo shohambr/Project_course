@@ -43,7 +43,7 @@ public class TokenService implements IToken {
 
         if (!activeTokens.containsKey(token))
             throw new IllegalArgumentException("Token is not active");
-        EventLogger.logEvent(token ,"ValidateToken");
+
         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
 

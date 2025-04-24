@@ -1,15 +1,12 @@
 package infrastructureLayer;
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.*;
 
 public class ProductRepository implements IProductRepository {
     private final Map<String, Product> products = new HashMap<>();
     private final Map<String, Product> productsByName = new HashMap<>();
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public synchronized void save(Product product) {
         products.put(product.getId(), product);
@@ -33,10 +30,5 @@ public class ProductRepository implements IProductRepository {
         if (product != null) {
             productsByName.remove(product.getName());
         }
-    }
-
-    public synchronized List<String> getProductByName(String name) throws JsonProcessingException {
-        Product product = productsByName.get(name);
-        return Collections.singletonList(mapper.writeValueAsString(product));
     }
 }

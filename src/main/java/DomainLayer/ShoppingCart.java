@@ -33,10 +33,10 @@ public class ShoppingCart {
         }
     }
 
-    public boolean removeProduct(String storeId, String productId , int amount) {
+    public boolean removeProduct(Store store, Product product) {
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreId().equals(storeId)) {
-                if (shoppingBag.removeProduct(productId , amount)) {
+            if (shoppingBag.getStoreId().equals(store.getId())) {
+                if (shoppingBag.removeProduct(product)) {
                     if (shoppingBag.getProducts().isEmpty()) {
                         shoppingBags.remove(shoppingBag);
                     }

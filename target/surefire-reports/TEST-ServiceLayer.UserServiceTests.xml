@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceTests" time="4.373" tests="28" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceTests" time="4.283" tests="28" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -14,7 +14,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IL"/>
     <property name="sun.boot.library.path" value="/Users/yanivefremov/Library/Java/JavaVirtualMachines/jdk-23.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250424104000554_3.jar /Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire 2025-04-24T10-40-00_513-jvmRun1 surefire-20250424104000554_1tmp surefire_0-20250424104000554_2tmp"/>
+    <property name="sun.java.command" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250424211453278_3.jar /Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire 2025-04-24T21-14-53_238-jvmRun1 surefire-20250424211453278_1tmp surefire_0-20250424211453278_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/test-classes:/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/classes:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/Users/yanivefremov/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/yanivefremov/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/Users/yanivefremov/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/Users/yanivefremov/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/Users/yanivefremov/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/Users/yanivefremov/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/Users/yanivefremov/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/yanivefremov/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/yanivefremov/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/yanivefremov/.m2/repository/net/bytebuddy/byte-buddy/1.17.5/byte-buddy-1.17.5.jar:/Users/yanivefremov/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/yanivefremov/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.2/jackson-databind-2.15.2.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.2/jackson-annotations-2.15.2.jar:/Users/yanivefremov/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.2/jackson-core-2.15.2.jar:/Users/yanivefremov/.m2/repository/org/mongodb/mongodb-driver-sync/4.11.1/mongodb-driver-sync-4.11.1.jar:/Users/yanivefremov/.m2/repository/org/mongodb/bson/4.11.1/bson-4.11.1.jar:/Users/yanivefremov/.m2/repository/org/mongodb/mongodb-driver-core/4.11.1/mongodb-driver-core-4.11.1.jar:/Users/yanivefremov/.m2/repository/org/mongodb/bson-record-codec/4.11.1/bson-record-codec-4.11.1.jar:/Users/yanivefremov/.m2/repository/org/springframework/data/spring-data-mongodb/4.2.5/spring-data-mongodb-4.2.5.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/Users/yanivefremov/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/Users/yanivefremov/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/Users/yanivefremov/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/Users/yanivefremov/.m2/repository/org/slf4j/slf4j-api/2.0.2/slf4j-api-2.0.2.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250424104000554_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/yanivefremov/Documents/firstDeg/project/Project_course/target/surefire/surefirebooter-20250424211453278_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="23+37-2369"/>
@@ -59,32 +59,72 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="removeFromCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.154"/>
-  <testcase name="login_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.076"/>
-  <testcase name="login_Right_params" classname="ServiceLayer.UserServiceTests" time="0.147"/>
+  <testcase name="removeFromCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.159">
+    <error message="Cannot find a (Map) Key deserializer for type [simple type, class DomainLayer.Product]&#10; at [Source: (String)&quot;{&quot;id&quot;:&quot;00b6633b-0e69-4ab2-ab9e-386d1d13d71e&quot;,&quot;shoppingCart&quot;:{&quot;userId&quot;:&quot;&quot;,&quot;shoppingBags&quot;:[{&quot;products&quot;:{&quot;1&quot;:1},&quot;storeId&quot;:&quot;-1&quot;}]},&quot;jobs&quot;:[],&quot;name&quot;:&quot;yaniv&quot;,&quot;username&quot;:&quot;yaniv&quot;,&quot;token&quot;:null}&quot;; line: 1, column: 1]" type="com.fasterxml.jackson.databind.exc.InvalidDefinitionException"><![CDATA[com.fasterxml.jackson.databind.exc.InvalidDefinitionException: 
+Cannot find a (Map) Key deserializer for type [simple type, class DomainLayer.Product]
+ at [Source: (String)"{"id":"00b6633b-0e69-4ab2-ab9e-386d1d13d71e","shoppingCart":{"userId":"","shoppingBags":[{"products":{"1":1},"storeId":"-1"}]},"jobs":[],"name":"yaniv","username":"yaniv","token":null}"; line: 1, column: 1]
+	at com.fasterxml.jackson.databind.exc.InvalidDefinitionException.from(InvalidDefinitionException.java:67)
+	at com.fasterxml.jackson.databind.DeserializationContext.reportBadDefinition(DeserializationContext.java:1915)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._handleUnknownKeyDeserializer(DeserializerCache.java:603)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache.findKeyDeserializer(DeserializerCache.java:168)
+	at com.fasterxml.jackson.databind.DeserializationContext.findKeyDeserializer(DeserializationContext.java:681)
+	at com.fasterxml.jackson.databind.deser.std.MapDeserializer.createContextual(MapDeserializer.java:314)
+	at com.fasterxml.jackson.databind.DeserializationContext.handlePrimaryContextualization(DeserializationContext.java:836)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.resolve(BeanDeserializerBase.java:550)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCache2(DeserializerCache.java:294)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCacheValueDeserializer(DeserializerCache.java:244)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache.findValueDeserializer(DeserializerCache.java:142)
+	at com.fasterxml.jackson.databind.DeserializationContext.findContextualValueDeserializer(DeserializationContext.java:621)
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.createContextual(CollectionDeserializer.java:188)
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.createContextual(CollectionDeserializer.java:28)
+	at com.fasterxml.jackson.databind.DeserializationContext.handlePrimaryContextualization(DeserializationContext.java:836)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.resolve(BeanDeserializerBase.java:550)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCache2(DeserializerCache.java:294)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCacheValueDeserializer(DeserializerCache.java:244)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache.findValueDeserializer(DeserializerCache.java:142)
+	at com.fasterxml.jackson.databind.DeserializationContext.findNonContextualValueDeserializer(DeserializationContext.java:644)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.resolve(BeanDeserializerBase.java:539)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCache2(DeserializerCache.java:294)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache._createAndCacheValueDeserializer(DeserializerCache.java:244)
+	at com.fasterxml.jackson.databind.deser.DeserializerCache.findValueDeserializer(DeserializerCache.java:142)
+	at com.fasterxml.jackson.databind.DeserializationContext.findRootValueDeserializer(DeserializationContext.java:654)
+	at com.fasterxml.jackson.databind.ObjectMapper._findRootDeserializer(ObjectMapper.java:4956)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4826)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3772)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3740)
+	at DomainLayer.domainServices.UserCart.removeFromCart(UserCart.java:29)
+	at ServiceLayer.UserService.removeFromCart(UserService.java:93)
+	at ServiceLayer.UserServiceTests.removeFromCart_Right_params(UserServiceTests.java:177)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+]]></error>
+  </testcase>
+  <testcase name="login_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.074"/>
+  <testcase name="login_Right_params" classname="ServiceLayer.UserServiceTests" time="0.143"/>
   <testcase name="addToCart_ProductNotExist" classname="ServiceLayer.UserServiceTests" time="0.078"/>
   <testcase name="logoutRegistered_Right_params" classname="ServiceLayer.UserServiceTests" time="0.074"/>
-  <testcase name="login_UserDoesNotExist" classname="ServiceLayer.UserServiceTests" time="0.077"/>
-  <testcase name="removeFromCart_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.075"/>
-  <testcase name="addToCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="login_UserDoesNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="removeFromCart_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.074"/>
+  <testcase name="addToCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.08"/>
   <testcase name="addToCart_StoreNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
-  <testcase name="removeFromCart_StoreNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
-  <testcase name="login_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.107"/>
-  <testcase name="signup_UserAlreadyExists" classname="ServiceLayer.UserServiceTests" time="0.149"/>
-  <testcase name="signup_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.08"/>
-  <testcase name="login_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.073"/>
-  <testcase name="login_IncorrectPassword" classname="ServiceLayer.UserServiceTests" time="0.142"/>
-  <testcase name="logoutRegistered_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.074"/>
-  <testcase name="signup_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.072"/>
-  <testcase name="addToCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.071"/>
-  <testcase name="addToCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.073"/>
-  <testcase name="removeFromCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.077"/>
-  <testcase name="removeFromCart_ProductNotExist" classname="ServiceLayer.UserServiceTests" time="0.083"/>
-  <testcase name="removeFromCart_TokenIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.072"/>
-  <testcase name="removeFromCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="removeFromCart_StoreNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="login_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="signup_UserAlreadyExists" classname="ServiceLayer.UserServiceTests" time="0.142"/>
+  <testcase name="removeFromCart_AmountNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="signup_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="login_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="login_IncorrectPassword" classname="ServiceLayer.UserServiceTests" time="0.14"/>
+  <testcase name="logoutRegistered_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="signup_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="addToCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.08"/>
+  <testcase name="addToCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="removeFromCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="removeFromCart_ProductNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="removeFromCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
   <testcase name="addToCart_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.072"/>
-  <testcase name="signup_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.073"/>
-  <testcase name="signup_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.07"/>
-  <testcase name="login_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.072"/>
-  <testcase name="logoutRegistered_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="signup_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="signup_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="login_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="logoutRegistered_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.071"/>
 </testsuite>

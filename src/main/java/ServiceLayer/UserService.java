@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
+import DomainLayer.IProductRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
@@ -27,15 +28,17 @@ public class UserService {
 
     private final IToken tokenService;
     private final IUserRepository userRepo;
+    private final IProductRepository productRepository;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
     private final ProductService productService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService , IProductRepository productRepository) {
         this.productService = productService;
         this.userRepo = repository;
+        this.productRepository = productRepository;
         this.tokenService = tokenService;
         this.userConnectivity = new UserConnectivity(tokenService);
         this.jobService = jobService;
@@ -45,28 +48,27 @@ public class UserService {
     }
 
 
-    public RegisteredUser login(String username, String password) throws JsonProcessingException {
+    public String login(String username, String password) throws JsonProcessingException {
         try {
             userConnectivity.login(username, password , userRepo.getUserPass(username));
             EventLogger.logEvent(username , "LOGIN");
             RegisteredUser user = mapper.readValue(userRepo.getUser(username), RegisteredUser.class);
+            String token = tokenService.generateToken(username);
             user.setToken(tokenService.generateToken(username));
-            return user;
+            return token;
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGIN_FAILED");
             throw new RuntimeException("Invalid username or password");
         }
     }
 
-    public RegisteredUser signUp(String username, String password)  throws Exception {
+    public void signUp(String username, String password)  throws Exception {
         try {
             userConnectivity.signUp(username, password);
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
             userRepo.addUser(username, hashedPassword, mapper.writeValueAsString(user));
-            user.setToken(tokenService.generateToken(username));
             EventLogger.logEvent(username , "SIGNUP");
-            return user;
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "SIGNUP_FAILED");
             throw new RuntimeException("User already exists");
@@ -86,13 +88,13 @@ public class UserService {
     }
 
 
-    public String removeFromCart(String token, RegisteredUser u,Store store , Product product) {
+    public String removeFromCart(String token, String userJson , String storeId , String productId , int amount) throws JsonProcessingException {
         try{
-            userCart.removeFromCart(token, u, store , product);
-            EventLogger.logEvent(u.getName(), "REMOVE_FROM_CART");
-            return "Product removed from cart";
+            String userJsonString = userCart.removeFromCart(token, userJson, storeId, productId, amount);
+            EventLogger.logEvent(userJson, "REMOVE_FROM_CART");
+            return userJsonString;
         } catch (IllegalArgumentException e) {
-            EventLogger.logEvent(u.getName(), "REMOVE_FROM_CART_FAILED");
+            EventLogger.logEvent(userJson, "REMOVE_FROM_CART_FAILED");
             throw new RuntimeException("Failed to remove product from cart");
         }
     }
@@ -108,19 +110,31 @@ public class UserService {
         }
     }
 
-//     public String purchaseCart(int userId, String token, ShoppingCart cart) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
 
-//         double totalPrice = cart.calculatePurchaseCart();
+    public List<String> findProducts(String token, String name) throws Exception {
+        try{
+            tokenService.validateToken(token);
+            List<String> prod = productRepository.getProductByName(name);
+            EventLogger.logEvent(tokenService.extractUsername(token), "FIND_PRODUCTS");
+            return prod;
+        } catch (IllegalArgumentException e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "FIND_PRODUCTS_FAILED");
+            throw new RuntimeException("Failed to find products");
+        }
+    }
 
-//         if (totalPrice <= 0) {
-//             return "Cart is empty";
-//         }
-
-//         return "Purchase successful. Total paid: $" + totalPrice;
-//     }
+    // public String purchaseCart(int userId, String token, ShoppingCart cart) {
+    //     try{
+    //         Double price = userCart.cartAvaliability(userId, token, cart);
+    //         userCart.payForCart(userId, token, price);
+    //         userCart.removeFromCart(token, userId, cart);
+    //         EventLogger.logEvent(String.valueOf(userId), "PURCHASE_CART");
+    //         return "Purchase successful";
+    //     } catch (IllegalArgumentException e) {
+    //         EventLogger.logEvent(String.valueOf(userId), "PURCHASE_CART_FAILED");
+    //         throw new RuntimeException("Failed to purchase cart");
+    //     }
+    // }
 
 
 

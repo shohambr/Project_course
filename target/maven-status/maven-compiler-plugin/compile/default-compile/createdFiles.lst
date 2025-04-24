@@ -15,6 +15,7 @@ DomainLayer/domainServices/UserConnectivity.class
 utils/ProductKeyModule.class
 DomainLayer/Store.class
 infrastructureLayer/StoreRepository.class
+utils/ProductKeyModule$1.class
 DomainLayer/Roles/SystemManager.class
 DomainLayer/IOrderRepository.class
 utils/JsonUtils.class
@@ -34,6 +35,7 @@ DomainLayer/IJobRepository.class
 DomainLayer/IPayment.class
 ServiceLayer/StoreService.class
 DomainLayer/IProductRepository.class
+utils/ProductKeyModule$2.class
 DomainLayer/ProxyShipping.class
 DomainLayer/Roles/RegisteredUser.class
 DomainLayer/User.class

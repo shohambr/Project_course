@@ -62,7 +62,7 @@ class UserServiceTests {
         productService = new ProductService(productRepo);
         storeService   = new StoreService(storeRepo, productService);
         jobService     = new JobService(jobRepo, storeService);
-        userService    = new UserService(userRepo, tokenService, jobService, productService);
+        userService    = new UserService(userRepo, tokenService, jobService, productService , productRepo);
         this.mapper.registerModule(new ProductKeyModule());
 
         /* ---- default mock behaviour ---- */
@@ -121,9 +121,10 @@ class UserServiceTests {
     /* ===================== login tests ===================== */
     @Test
     void login_Right_params() throws Exception {
-        RegisteredUser user = userService.login("yaniv", PLAIN_PW);
-        assertNotNull(user);
-        assertEquals("yaniv", user.getName());
+        String token = userService.login("yaniv", PLAIN_PW);
+        assertNotNull(token);
+        assertEquals(validToken, token);
+        assertEquals(testUser.getUsername(), tokenService.extractUsername(token));
     }
 
     @Test void login_UserDoesNotExist()  { assertThrows(Exception.class,
@@ -169,43 +170,45 @@ class UserServiceTests {
 
     /* ===================== remove from cart tests ==================== */
     @Test
-    void removeFromCart_Right_params() throws Exception {
-        testUser.addProduct(store, product);
-        userService.removeFromCart(validToken, testUser, store, product);
-        assertTrue(testUser.getShoppingCart().getShoppingBags().isEmpty());
-    }
-    @Test
-    void removeFromCart_UserNotLoggedIn() throws Exception {
-        userService.logoutRegistered(validToken, testUser); // first logout
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, store, product));
-    }
-    @Test
-    void removeFromCart_UserNotExist() {
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, null, store, product));
-    }
-    @Test
-    void removeFromCart_StoreNotExist() {
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, null, product));
-    }
-    @Test
-    void removeFromCart_ProductNotExist() {
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, store, null));
-    }
-    @Test
-    void removeFromCart_TokenNotExist() {
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart(null, testUser, store, product));
-    }
-    @Test
-    void removeFromCart_TokenIsEmpty() {
-        assertThrows(Exception.class,
-                () -> userService.removeFromCart("", testUser, store, product));
-    }
-
+        void removeFromCart_Right_params() throws Exception {
+                userService.addToCart(validToken, testUser, store, product);
+                assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
+                testUser = mapper.readValue(userService.removeFromCart
+                                (validToken, mapper.writeValueAsString(testUser), store.getId(), product.getId(), 1)
+                                , RegisteredUser.class);
+                assertTrue(testUser.getShoppingCart().getShoppingBags().isEmpty());
+        }
+        @Test
+        void removeFromCart_UserNotLoggedIn() throws Exception {
+                userService.logoutRegistered(validToken, testUser); // first logout
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(validToken,  mapper.writeValueAsString(testUser), store.getId(), product.getId(), 1));
+        }
+        @Test
+        void removeFromCart_UserNotExist() {
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(validToken, null, store.getId(), product.getId(), 1));
+        }
+        @Test
+        void removeFromCart_StoreNotExist() {
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(validToken,  mapper.writeValueAsString(testUser), null, product.getId(), 1));
+        }
+        @Test
+        void removeFromCart_ProductNotExist() {
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(validToken,  mapper.writeValueAsString(testUser), store.getId(), null, 1));
+        }
+        @Test
+        void removeFromCart_TokenNotExist() {
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(null,  mapper.writeValueAsString(testUser), store.getId(), product.getId(), 1));
+        }
+        @Test
+        void removeFromCart_AmountNotExist() {
+                assertThrows(Exception.class,
+                        () -> userService.removeFromCart(validToken,  mapper.writeValueAsString(testUser), store.getId(), product.getId(), 0));
+        }
 
     /* ===================== add to cart tests ==================== */
     @Test

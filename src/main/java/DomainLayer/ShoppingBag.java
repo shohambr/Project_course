@@ -33,15 +33,16 @@ public class ShoppingBag {
         }
     }
 
-    public boolean removeProduct(Product productToRemove) {
+    public boolean removeProduct(String productId, int amount) {
         boolean found = false;
-        for (Product product : products.keySet()) {
-            if (productToRemove.getId().equals(product.getId())) {
-                products.put(product, Integer.valueOf(products.get(product) - 1));
-                if (products.get(product) == 0) {
-                    products.remove(product);
-                    found = true;
+        for (Map.Entry<Product, Integer> product : products.entrySet()) {
+            if (product.getKey().getId().equals(productId)) {
+                if (product.getValue() > amount) {
+                    products.put(product.getKey(), Integer.valueOf(product.getValue() - amount));
+                } else {
+                    products.remove(product.getKey());
                 }
+                found = true;
             }
         }
         return found;

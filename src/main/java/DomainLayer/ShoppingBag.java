@@ -30,7 +30,6 @@ public class ShoppingBag {
 
         if (!found) {
             products.put(productToAdd, Integer.valueOf(1)); //needs update to use with database
-
         }
     }
 

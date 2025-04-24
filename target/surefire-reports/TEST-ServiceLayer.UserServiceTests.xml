@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.JobServiceTest" time="0.093" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceTests" time="4.373" tests="28" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -59,13 +59,32 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="createStore_ShouldCreateStoreAndAssignFounderAsOwner" classname="ServiceLayer.JobServiceTest" time="0.084"/>
-  <testcase name="openStore_ShouldOpenStore_WhenUserIsFounder" classname="ServiceLayer.JobServiceTest" time="0.001"/>
-  <testcase name="userIsManagerOfStore_ShouldReturnTrue_WhenUserIsManager" classname="ServiceLayer.JobServiceTest" time="0.001"/>
-  <testcase name="closeStore_ShouldCloseStore_WhenUserIsFounder" classname="ServiceLayer.JobServiceTest" time="0.0"/>
-  <testcase name="userIsOwnerOfStore_ShouldReturnTrue_WhenUserIsOwner" classname="ServiceLayer.JobServiceTest" time="0.0"/>
-  <testcase name="userIsManagerOfStore_ShouldReturnFalse_WhenUserIsNotManager" classname="ServiceLayer.JobServiceTest" time="0.0"/>
-  <testcase name="userIsOwnerOfStore_ShouldReturnFalse_WhenUserIsNotOwner" classname="ServiceLayer.JobServiceTest" time="0.001"/>
-  <testcase name="getSpecificOwnershipJob_ShouldThrowException_WhenUserIsNotOwner" classname="ServiceLayer.JobServiceTest" time="0.001"/>
-  <testcase name="getSpecificOwnershipJob_ShouldReturnJob_WhenUserIsOwner" classname="ServiceLayer.JobServiceTest" time="0.0"/>
+  <testcase name="removeFromCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.154"/>
+  <testcase name="login_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.076"/>
+  <testcase name="login_Right_params" classname="ServiceLayer.UserServiceTests" time="0.147"/>
+  <testcase name="addToCart_ProductNotExist" classname="ServiceLayer.UserServiceTests" time="0.078"/>
+  <testcase name="logoutRegistered_Right_params" classname="ServiceLayer.UserServiceTests" time="0.074"/>
+  <testcase name="login_UserDoesNotExist" classname="ServiceLayer.UserServiceTests" time="0.077"/>
+  <testcase name="removeFromCart_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.075"/>
+  <testcase name="addToCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="addToCart_StoreNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="removeFromCart_StoreNotExist" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="login_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.107"/>
+  <testcase name="signup_UserAlreadyExists" classname="ServiceLayer.UserServiceTests" time="0.149"/>
+  <testcase name="signup_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.08"/>
+  <testcase name="login_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="login_IncorrectPassword" classname="ServiceLayer.UserServiceTests" time="0.142"/>
+  <testcase name="logoutRegistered_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.074"/>
+  <testcase name="signup_UsernameIsNull" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="addToCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="addToCart_Right_params" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="removeFromCart_TokenNotExist" classname="ServiceLayer.UserServiceTests" time="0.077"/>
+  <testcase name="removeFromCart_ProductNotExist" classname="ServiceLayer.UserServiceTests" time="0.083"/>
+  <testcase name="removeFromCart_TokenIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="removeFromCart_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.071"/>
+  <testcase name="addToCart_UserNotLoggedIn" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="signup_UsernameIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.073"/>
+  <testcase name="signup_PasswordIsNull" classname="ServiceLayer.UserServiceTests" time="0.07"/>
+  <testcase name="login_PasswordIsEmpty" classname="ServiceLayer.UserServiceTests" time="0.072"/>
+  <testcase name="logoutRegistered_UserNotExist" classname="ServiceLayer.UserServiceTests" time="0.072"/>
 </testsuite>

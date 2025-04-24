@@ -11,6 +11,8 @@ public class ShoppingCart {
     }
 
     public ShoppingCart() {
+        this.userId = "";
+        this.shoppingBags = new ArrayList<ShoppingBag>();
     }
 
     public void addProduct(Store store, Product product) {
@@ -34,9 +36,11 @@ public class ShoppingCart {
     public boolean removeProduct(Store store, Product product) {
         for (ShoppingBag shoppingBag : shoppingBags) {
             if (shoppingBag.getStoreId().equals(store.getId())) {
-                shoppingBag.removeProduct(product);
-                if (shoppingBag.getProducts().isEmpty()) {
-                    return shoppingBags.remove(shoppingBag);
+                if (shoppingBag.removeProduct(product)) {
+                    if (shoppingBag.getProducts().isEmpty()) {
+                        shoppingBags.remove(shoppingBag);
+                    }
+                    return true;
                 }
             }
         }

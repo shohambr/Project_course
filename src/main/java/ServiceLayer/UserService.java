@@ -1,5 +1,6 @@
 package ServiceLayer;
 
+import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UserService {
 
-    private final TokenService tokenService;
+    private final IToken tokenService;
     private final IUserRepository userRepo;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
@@ -32,7 +33,7 @@ public class UserService {
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, TokenService tokenService, JobService jobService, ProductService productService) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService) {
         this.productService = productService;
         this.userRepo = repository;
         this.tokenService = tokenService;

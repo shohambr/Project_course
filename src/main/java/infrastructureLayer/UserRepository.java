@@ -21,7 +21,7 @@ public class UserRepository implements IUserRepository {
 
     public boolean addUser(String username, String hashedPassword , String json) {
         if(rep.containsKey(username)){
-            return false;
+            throw new IllegalArgumentException("User already exists");
         }
         rep.put(username , json);
         pass.put(username, hashedPassword);

@@ -7,6 +7,7 @@ import java.util.*;
 public class Store {
     private String id;
     private PurchasePolicy purchasePolicy;
+    private DiscountPolicy discountPolicy;
     private List<User> users = new ArrayList<>();
     private Map<Product, Integer> products = new HashMap<>();
     private ProductService productService;

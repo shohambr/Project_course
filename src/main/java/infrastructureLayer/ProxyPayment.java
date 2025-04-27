@@ -1,4 +1,6 @@
-package DomainLayer;
+package infrastructureLayer;
+
+import DomainLayer.IPayment;
 
 public class ProxyPayment implements IPayment {
     private IPayment paymentSystem;

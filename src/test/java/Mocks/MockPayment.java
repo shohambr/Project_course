@@ -18,6 +18,7 @@ public class MockPayment implements IPayment {
         if(!isValidExpirationDate(expirationDate)) {
             throw new Exception("Invalid expiration date");
         }
+        new Integer(backNumber);
     }
 
     private String getCreditCardType(String creditCardNumber){
@@ -78,7 +79,7 @@ public class MockPayment implements IPayment {
         String stringYear = expirationDate.substring(3, 5);
         Integer month = new Integer(stringMonth);
         Integer year = new Integer(stringYear);
-        return 1 <= month & month <= 12 & year >= 25 & (expirationDate.charAt(2) == '/' | expirationDate.charAt(2) == '.' | expirationDate.charAt(2) == '\'');
+        return 1 <= month & month <= 12 & year >= 25 & (expirationDate.charAt(2) == '/' | expirationDate.charAt(2) == '.' | expirationDate.charAt(2) == '\\');
     }
 
 }

@@ -73,8 +73,13 @@ public class ShoppingCart {
     }
 
     public void sold (){
-        for (ShoppingBag shoppingBag : shoppingBags) {
-            shoppingBag.sold();
+        try {
+            for (ShoppingBag shoppingBag : shoppingBags) {
+                shoppingBag.sold();
+                shoppingBags.remove(shoppingBag);
+            }
+        } catch (Exception e) {
+
         }
     }
 

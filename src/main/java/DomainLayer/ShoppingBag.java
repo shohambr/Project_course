@@ -40,8 +40,8 @@ public class ShoppingBag {
                 products.put(product, Integer.valueOf(products.get(product) - 1));
                 if (products.get(product) == 0) {
                     products.remove(product);
-                    found = true;
                 }
+                found = true;
             }
         }
         return found;

@@ -14,9 +14,9 @@ public class ShippingService {
         this.shippingConnectivity = new ShippingConnectivity(ProxyShipping);
     }
 
-    public boolean processShipping(User user, List<Store> stores, String state, String city, String street, String homeNumber) {
+    public boolean processShipping(User user, String state, String city, String street, String homeNumber) {
         try {
-            shippingConnectivity.processShipping(user, stores, state, city, street, homeNumber);
+            shippingConnectivity.processShipping(user, state, city, street, homeNumber);
             EventLogger.logEvent(user.getID(), "Shipping successful");
             return true;
         } catch (Exception e) {

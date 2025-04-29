@@ -14,10 +14,10 @@ public class PaymentService {
 
     public PaymentService(IPayment proxyPayment) {this.paymentConnectivity = new PaymentConnectivity(proxyPayment);}
 
-    public boolean processPayment(User user, List<Store> stores, String paymentService, String payment, String creditCardNumber, String expirationDate, String backNumber) {
+    public boolean processPayment(User user, String paymentService, String creditCardNumber, String expirationDate, String backNumber) {
         try {
-            paymentConnectivity.processPayment(payment, creditCardNumber, expirationDate, backNumber, stores, paymentService);
-            EventLogger.logEvent(user.getID(), "Successfully payed: " + payment);
+            paymentConnectivity.processPayment(user, creditCardNumber, expirationDate, backNumber, paymentService);
+            EventLogger.logEvent(user.getID(), "Successfully payed for cart");
         return true;
         } catch (Exception e) {
             System.out.println("Error encountered while processing payment:" + e.getMessage());

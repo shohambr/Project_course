@@ -1,13 +1,16 @@
 package Mocks;
 
 import DomainLayer.IShipping;
+import DomainLayer.Product;
 import DomainLayer.Store;
 import DomainLayer.User;
+
+import java.util.Map;
 
 public class MockShipping implements IShipping {
     public MockShipping() {}
 
-    public void processShipping(User user, Store store, String state, String city, String street, String homeNumber) throws Exception {
+    public void processShipping(User user, Store store, String state, String city, String street, Map<Product, Integer> products, String homeNumber) throws Exception {
         if(state == null | state.length() == 0) {
             throw new Exception("Empty state");
         }

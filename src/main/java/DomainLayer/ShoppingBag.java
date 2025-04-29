@@ -1,5 +1,7 @@
 package DomainLayer;
 
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,8 @@ public class ShoppingBag {
     }
 
     public String getStoreId() {return store.getId();}
+
+    public Store getStore() {return store;}
 
     public Map<Product, Integer> getProducts() { return products; }
 

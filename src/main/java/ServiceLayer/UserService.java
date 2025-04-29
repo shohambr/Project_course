@@ -1,14 +1,11 @@
 package ServiceLayer;
 
-import DomainLayer.IToken;
-import DomainLayer.IUserRepository;
-import DomainLayer.Product;
+import DomainLayer.*;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.domainServices.UserCart;
 import DomainLayer.domainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.ShoppingCart;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.Collections;
 import java.util.Optional;
 import utils.ProductKeyModule;
 
-import DomainLayer.Store;
 import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -113,18 +109,15 @@ public class UserService {
         }
     }
 
-     public String purchaseCart(int userId, String token, ShoppingCart cart) {
-         if (!tokenService.validateToken(token)) {
-             return "Invalid or expired token";
+     public String purchaseCart(User user, String token) {
+         try {
+             userCart.purchaseCart(user, token);
+             EventLogger.logEvent(user.getID(), "PURCHASED_CART");
+             return "Purchased cart";
+         } catch (Exception e) {
+             EventLogger.logEvent(user.getID(), "PURCHASE_CART_FAILED");
+             throw new RuntimeException("Failed to add product to cart");
          }
-
-         double totalPrice = cart.calculatePurchaseCart();
-
-         if (totalPrice <= 0) {
-             return "Cart is empty";
-         }
-
-         return "Purchase successful. Total paid: $" + totalPrice;
      }
 
 

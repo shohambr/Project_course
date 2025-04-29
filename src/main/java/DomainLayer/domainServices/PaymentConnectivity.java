@@ -2,24 +2,24 @@ package DomainLayer.domainServices;
 
 import DomainLayer.IPayment;
 import DomainLayer.Store;
+import DomainLayer.User;
 import infrastructureLayer.ProxyPayment;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentConnectivity {
     private IPayment proxyPayment;
     public PaymentConnectivity(IPayment proxyPayment) {
         this.proxyPayment = proxyPayment;
     }
-    public void processPayment(String payment, String creditCardNumber, String expirationDate, String backNumber, List<Store> stores, String paymentService) throws Exception {
+    public void processPayment(User user, String creditCardNumber, String expirationDate, String backNumber, String paymentService) throws Exception {
         try {
-            Double doublePayment = new Double(payment);
-            if (doublePayment < 0) {
-                throw new Exception("Negative payment is not allowed");
-            }
+            Map<Store, Double> stores = user.getShoppingCart().calculatePaymentStore();
             // should have a choice for payment company
-            for (Store store: stores) {
-                proxyPayment.processPayment(payment, creditCardNumber, expirationDate, backNumber, store.getId(), paymentService);
+            for (Store store: stores.keySet()) {
+                proxyPayment.processPayment(stores.get(store), creditCardNumber, expirationDate, backNumber, store.getId(), paymentService);
             }
         } catch (Exception e) {
             throw new Exception("Exception for payment: " + e.getMessage());

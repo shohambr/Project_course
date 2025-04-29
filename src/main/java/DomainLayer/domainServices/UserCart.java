@@ -1,9 +1,10 @@
 package DomainLayer.domainServices;
+import DomainLayer.*;
 import ServiceLayer.EventLogger;
-import DomainLayer.IToken;
-import DomainLayer.Product;
-import DomainLayer.Store;
 import DomainLayer.Roles.RegisteredUser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserCart {
     private IToken Tokener;
@@ -30,6 +31,16 @@ public class UserCart {
         Tokener.validateToken(token);
         user.addProduct(store, product);
         EventLogger.logEvent(user.getUsername(), "ADD_TO_CART_SUCCESS");
+    }
+
+    public void purchaseCart(User user, String token) {
+        if (token == null || user == null) {
+            EventLogger.logEvent(user.getID(), "PURCHASE_CART_FAILED - NULL");
+            throw new IllegalArgumentException("Token and use crannot be null");
+        }
+        Tokener.validateToken(token);
+        user.getShoppingCart().sold();
+        EventLogger.logEvent(user.getID(), "PURCHASE_CART_SUCCESS");
     }
 
 }

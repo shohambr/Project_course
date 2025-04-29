@@ -1,10 +1,9 @@
 package DomainLayer.domainServices;
 
-import DomainLayer.IShipping;
-import DomainLayer.Store;
-import DomainLayer.User;
+import DomainLayer.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShippingConnectivity {
 
@@ -14,10 +13,11 @@ public class ShippingConnectivity {
         this.proxyShipping = proxyShipping;
     }
 
-    public void processShipping(User user, List<Store> stores, String state, String city, String street, String homeNumber) throws Exception {
+    public void processShipping(User user, String state, String city, String street, String homeNumber) throws Exception {
         // deciding here on proxy for shipping
-        for (Store store: stores) {
-            proxyShipping.processShipping(user, store, state, city, street, homeNumber);
+        List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            proxyShipping.processShipping(user, shoppingBag.getStore(), state, city, street, shoppingBag.getProducts(), homeNumber);
         }
     }
 }

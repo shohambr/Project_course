@@ -7,68 +7,51 @@ import java.util.Map;
 
 
 public class ShoppingBag {
-    private Store store;
-    private Map<Product, Integer> products;
+    private String storeId;
+    private Map<String, Integer> products;       //String repressent product Id
 
-    public ShoppingBag(Store store) {
-        this.store = store;
-        this.products = new HashMap<Product, Integer>();
+    public ShoppingBag( String storeId) {
+        this.storeId = storeId;
+        this.products = new HashMap<String, Integer>();
     }
 
-    public String getStoreId() {return store.getId();}
 
-    public Map<Product, Integer> getProducts() { return products; }
 
-    public void addProduct(Product productToAdd) {
+    public String getStoreId() {return storeId;}
+
+    public Map<String, Integer> getProducts() { return products; }
+
+    public void addProduct(String productId , Integer quantity) {
         boolean found = false;
-        for (Product product : products.keySet()) {
-            if (productToAdd.getId().equals(product.getId())) {
-                products.put(product, Integer.valueOf(products.get(product) + 1));
+        for (String product : products.keySet()) {
+            if (productId.equals(product)) {
+                products.put(product, Integer.valueOf(products.get(product) + quantity));
                 found = true;
             }
         }
-
         if (!found) {
-            products.put(productToAdd, Integer.valueOf(1)); //needs update to use with database
+            products.put(productId, quantity);
         }
     }
 
-    public boolean removeProduct(Product productToRemove) {
-        boolean found = false;
-        for (Product product : products.keySet()) {
-            if (productToRemove.getId().equals(product.getId())) {
-                products.put(product, Integer.valueOf(products.get(product) - 1));
-                if (products.get(product) == 0) {
-                    products.remove(product);
-                    found = true;
-                }
-            }
-        }
-        return found;
-    }
-
-
-    public boolean availablePurchaseShoppingBag() {
-        for (Map.Entry<Product, Integer> product : products.entrySet()) {
-            if(!store.availableProduct(product.getKey(), product.getValue())){
+    public boolean removeProduct(String productId , Integer quantity) {
+        if (products.containsKey(productId)) {
+            int currentQuantity = products.get(productId);
+            if (currentQuantity > quantity) {
+                products.put(productId, Integer.valueOf(currentQuantity - quantity));
+            } else if (currentQuantity == quantity) {
+                products.remove(productId);
+            } else {
                 return false;
             }
         }
         return true;
     }
-
-    public double calculatePurchaseShoppingBag() {
-
-        double price = 0;
-        for (Map.Entry<Product, Integer> product : products.entrySet()) {
-            price = price + store.calculateProduct(product.getKey(), product.getValue());
-        }
-        return price;
-    }
+    
 
     public void sold() {
-        for (Map.Entry<Product, Integer> product : products.entrySet()) {
-            store.decreaseProduct(product.getKey(), product.getValue());
+        for (String product : products.keySet()) {
+            products.put(product, 0);
         }
     }
 }

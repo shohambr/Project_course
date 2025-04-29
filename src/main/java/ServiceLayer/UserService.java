@@ -2,6 +2,8 @@ package ServiceLayer;
 
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
+import DomainLayer.IProductRepository;
+import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
@@ -9,6 +11,7 @@ import DomainLayer.domainServices.UserCart;
 import DomainLayer.domainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
+import DomainLayer.ShoppingBag;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Optional;
 import utils.ProductKeyModule;
 
 import DomainLayer.Store;
+import DomainLayer.User;
+
 import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,100 +32,108 @@ public class UserService {
 
     private final IToken tokenService;
     private final IUserRepository userRepo;
+    private final IStoreRepository storeRepo;
+    private final IProductRepository productRepo;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
     private final ProductService productService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo) {
+        this.storeRepo = storeRepo;
         this.productService = productService;
         this.userRepo = repository;
+        this.productRepo = productRepo;
         this.tokenService = tokenService;
-        this.userConnectivity = new UserConnectivity(tokenService);
+        this.userConnectivity = new UserConnectivity(tokenService , repository);
         this.jobService = jobService;
         this.mapper.registerModule(new ProductKeyModule());
         this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        this.userCart = new UserCart(tokenService);
+        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo);
     }
 
 
-    public RegisteredUser login(String username, String password) throws JsonProcessingException {
+    public String login(String username, String password) throws JsonProcessingException {
         try {
             userConnectivity.login(username, password , userRepo.getUserPass(username));
             EventLogger.logEvent(username , "LOGIN");
-            RegisteredUser user = mapper.readValue(userRepo.getUser(username), RegisteredUser.class);
-            user.setToken(tokenService.generateToken(username));
-            return user;
+            return tokenService.generateToken(username);
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGIN_FAILED");
             throw new RuntimeException("Invalid username or password");
         }
     }
 
-    public RegisteredUser signUp(String username, String password)  throws Exception {
+    public void signUp(String username, String password)  throws Exception {
         try {
             userConnectivity.signUp(username, password);
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
-            userRepo.addUser(username, hashedPassword, mapper.writeValueAsString(user));
-            user.setToken(tokenService.generateToken(username));
-            EventLogger.logEvent(username , "SIGNUP");
-            return user;
+            userRepo.addUser(user.getID(), hashedPassword, username , mapper.writeValueAsString(user));
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "SIGNUP_FAILED");
             throw new RuntimeException("User already exists");
         }
     }
 
-    public Guest logoutRegistered(String token, RegisteredUser user) throws Exception {
+    
+    public String logoutRegistered(String token) throws Exception {
+        String username = tokenService.extractUsername(token);
         try {
-            userConnectivity.logout(user.getName(), token);
-            userRepo.update(user.getName(), mapper.writeValueAsString(user));
-            EventLogger.logEvent(user.getName(), "LOGOUT");
-            return new Guest();
+            userConnectivity.logout(username, token);
+            EventLogger.logEvent(username, "LOGOUT");
+            tokenService.invalidateToken(token);
+            return tokenService.generateToken("Guest");
         }catch (IllegalArgumentException e) {
-            EventLogger.logEvent(user.getName(), "LOGOUT_FAILED");
+            EventLogger.logEvent(username, "LOGOUT_FAILED" );
             throw new RuntimeException("Invalid token");
         }
     }
 
 
-    public String removeFromCart(String token, RegisteredUser u,Store store , Product product) {
+    public String removeFromCart(String token, String userId, String storeId, String productId, Integer quantity) {
         try{
-            userCart.removeFromCart(token, u, store , product);
-            EventLogger.logEvent(u.getName(), "REMOVE_FROM_CART");
+            tokenService.validateToken(token);
+            userCart.removeFromCart(token, userId, storeId, productId, quantity);
+            EventLogger.logEvent(tokenService.extractUsername(token), "REMOVE_FROM_CART");
             return "Product removed from cart";
-        } catch (IllegalArgumentException e) {
-            EventLogger.logEvent(u.getName(), "REMOVE_FROM_CART_FAILED");
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "REMOVE_FROM_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to remove product from cart");
         }
     }
 
-    public String addToCart(String token, RegisteredUser u, Store store , Product product) {
+    public String addToCart(String token, String userId, String storeId, String productId, Integer quantity) {
         try{
-            userCart.addToCart(token, u, store , product);
-            EventLogger.logEvent(u.getName(), "ADD_TO_CART");
+            userCart.addToCart(token, userId, storeId, productId, quantity);
+            EventLogger.logEvent(tokenService.extractUsername(token), "ADD_TO_CART");
             return "Product added to cart";
-        } catch (IllegalArgumentException e) {
-            EventLogger.logEvent(u.getName(), "ADD_TO_CART_FAILED");
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "ADD_TO_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to add product to cart");
         }
     }
 
-//     public String purchaseCart(int userId, String token, ShoppingCart cart) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
+     public String purchaseCart(String userId, String token) {
+         try{
+            tokenService.validateToken(token);
+            String user = userRepo.getUser(userId);
+            RegisteredUser registeredUser = mapper.readValue(user, RegisteredUser.class);
+            ShoppingCart cart = registeredUser.getShoppingCart();
+            double price = 0.0;
+            for (ShoppingBag bag : cart.getShoppingBags()) {
+                String storeId = bag.getStoreId();
+                Store store = storeRepo.getStore(storeId);
+                price += userCart.purchaseCart(userId);
+            }
 
-//         double totalPrice = cart.calculatePurchaseCart();
-
-//         if (totalPrice <= 0) {
-//             return "Cart is empty";
-//         }
-
-//         return "Purchase successful. Total paid: $" + totalPrice;
-//     }
+         } catch (Exception e) {
+             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED");
+             throw new RuntimeException("Failed to purchase cart");
+         }
+            return "Cart purchased successfully";
+     }
 
 
 

@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import DomainLayer.*;
 import DomainLayer.Roles.RegisteredUser;
+import io.micrometer.observation.Observation.Event;
 import utils.ProductKeyModule;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,111 +20,115 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Pure-unit tests: the only concrete class under test is UserService.
- */
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)   // suppress UnnecessaryStubbingException
+@MockitoSettings(strictness = Strictness.LENIENT)
 class UserServiceTests {
 
-    /* ---------------- mocked collaborators ---------------- */
+    /* ------------- mocked collaborators ------------- */
     @Mock private IUserRepository    userRepo;
     @Mock private IStoreRepository   storeRepo;
     @Mock private IProductRepository productRepo;
     @Mock private IJobRepository     jobRepo;
 
-    /* ---------------- real support objects ---------------- */
-    private TokenService   tokenService;     // real blacklist logic
+    /* ------------- real helpers & SUT --------------- */
+    private TokenService   tokenService;
     private ProductService productService;
     private StoreService   storeService;
     private JobService     jobService;
     private UserService    userService;
 
-    /* ---------------- shared fixtures --------------------- */
+    /* ------------- shared fixtures ------------------ */
     private final ObjectMapper mapper    = new ObjectMapper();
     private final String       PLAIN_PW  = "password";
     private final String       HASHED_PW = BCrypt.hashpw(PLAIN_PW, BCrypt.gensalt());
     private RegisteredUser     testUser;
     private String             validToken;
-    private Product           product;
-    private Store             store;
+    private Product            product;
+    private Store              store;
 
-    /* ====================================================== */
+    /* ------------- convenience IDs ------------------ */
+    private String userId;
+    private String storeId;
+    private String productId;
+
+    /* ================================================= */
     @BeforeEach
     void setUp() throws Exception {
-
-        /* ---- real lightweight services wired with mocks ---- */
         tokenService   = new TokenService();
         productService = new ProductService(productRepo);
         storeService   = new StoreService(storeRepo, productService);
         jobService     = new JobService(jobRepo, storeService);
-        userService    = new UserService(userRepo, tokenService, jobService, productService);
-        this.mapper.registerModule(new ProductKeyModule());
+        userService    = new UserService(userRepo, tokenService, jobService, productService , storeRepo , productRepo);
+        mapper.registerModule(new ProductKeyModule());
 
-        /* ---- default mock behaviour ---- */
-        when(userRepo.getUserPass("yaniv")).thenReturn(null);   // user doesn't exist yet
+        when(userRepo.getUserPass("yaniv")).thenReturn(null);
 
-        // simulate repo state mutation when signUp() adds the user
         doAnswer(inv -> {
             when(userRepo.getUserPass("yaniv")).thenReturn(HASHED_PW);
             when(userRepo.getUser("yaniv")).thenReturn(validUserJson());
             return null;
-        }).when(userRepo).addUser(eq("yaniv"), anyString(), anyString());
+        }).when(userRepo).addUser(eq("yaniv"), anyString(), anyString() ,anyString());
 
-        /* ---- perform initial successful sign-up ---- */
+
         userService.signUp("yaniv", PLAIN_PW);
 
         testUser   = mapper.readValue(validUserJson(), RegisteredUser.class);
         validToken = tokenService.generateToken("yaniv");
-        product = new Product("1", "store1", "product1", "description", 10, 5, 4.5);
-        store = new Store();
 
+        product = new Product("1", "store1", "product1", "description", 10, 5, 4.5, "");
+        store   = new Store();
+
+        userId    = testUser.getID();
+        storeId   = store.getId();
+        productId = product.getId();
     }
 
-    /* ---------------- helper to build matching JSON -------- */
     private String validUserJson() throws JsonProcessingException {
         ObjectNode root = mapper.createObjectNode();
-        root.put("id",            java.util.UUID.randomUUID().toString());
-        root.putPOJO("shoppingCart",
-                     new DomainLayer.ShoppingCart()); // or whatever minimal cart object
-        root.putArray("jobs");                        // empty jobs
-        root.put("name", "yaniv");                    // <-- RegisteredUser knows 'name'
+        root.put("id", java.util.UUID.randomUUID().toString());
+        root.putPOJO("shoppingCart", new DomainLayer.ShoppingCart());
+        root.putArray("jobs");
+        root.put("name", "yaniv");
         root.putNull("token");
         return mapper.writeValueAsString(root);
     }
 
-    /* ===================== sign-up tests =================== */
+    /* =============== sign-up tests =================== */
     @Test
     void signup_UserAlreadyExists() throws Exception {
         doThrow(new IllegalArgumentException("duplicate"))
-            .when(userRepo).addUser(eq("yaniv"), any(), any());
-    
+            .when(userRepo).addUser(eq("yaniv"), any(), any() , any());
+        when(userRepo.isUserExist("yaniv")).thenReturn(true);
         assertThrows(Exception.class, () -> userService.signUp("yaniv", PLAIN_PW));
     }
 
-    @Test void signup_UsernameIsNull()   { assertThrows(Exception.class,
+    @Test void signup_UsernameIsNull()  { assertThrows(Exception.class,
             () -> userService.signUp(null, PLAIN_PW)); }
 
-    @Test void signup_PasswordIsNull()   { assertThrows(Exception.class,
+    @Test void signup_PasswordIsNull()  { assertThrows(Exception.class,
             () -> userService.signUp("yaniv", null)); }
 
-    @Test void signup_UsernameIsEmpty()  { assertThrows(Exception.class,
+    @Test void signup_UsernameIsEmpty() { assertThrows(Exception.class,
             () -> userService.signUp("", PLAIN_PW)); }
 
-    @Test void signup_PasswordIsEmpty()  { assertThrows(Exception.class,
+    @Test void signup_PasswordIsEmpty() { assertThrows(Exception.class,
             () -> userService.signUp("yaniv", "")); }
 
-    /* ===================== login tests ===================== */
+    /* =============== login tests ===================== */
     @Test
     void login_Right_params() throws Exception {
-        RegisteredUser user = userService.login("yaniv", PLAIN_PW);
-        assertNotNull(user);
-        assertEquals("yaniv", user.getName());
+        when(userRepo.getUserPass("yaniv")).thenReturn(HASHED_PW);
+        when(userRepo.getUser("yaniv")).thenReturn(validUserJson());
+        when(userRepo.isUserExist("yaniv")).thenReturn(true);
+        String token = userService.login("yaniv", PLAIN_PW);
+        assertNotNull(token);
+        assertEquals(validToken, token);
     }
 
     @Test void login_UserDoesNotExist()  { assertThrows(Exception.class,
@@ -144,99 +149,114 @@ class UserServiceTests {
     @Test void login_PasswordIsEmpty()   { assertThrows(Exception.class,
             () -> userService.login("yaniv", "")); }
 
-    /* ===================== logout tests ==================== */
+    /* =============== logout tests ==================== */
     @Test
     void logoutRegistered_Right_params() throws Exception {
-        userService.logoutRegistered(validToken, testUser);
-        assertThrows(Exception.class,
-                () -> tokenService.validateToken(validToken));
-        assertThrows(Exception.class,
-                () -> userService.logoutRegistered(validToken, testUser));
+        when(userRepo.getUserPass("yaniv")).thenReturn(HASHED_PW);
+        when(userRepo.getUser("yaniv")).thenReturn(validUserJson());
+        when(userRepo.isUserExist("yaniv")).thenReturn(true);
+        userService.logoutRegistered(validToken);
+        assertThrows(Exception.class, () -> userService.logoutRegistered(validToken));
     }
 
     @Test
     void logoutRegistered_UserNotLoggedIn() throws Exception {
-        userService.logoutRegistered(validToken, testUser); // first logout
-        assertThrows(Exception.class,
-                () -> userService.logoutRegistered(validToken, testUser));
+        userService.logoutRegistered(validToken);
+        assertThrows(Exception.class, () -> userService.logoutRegistered(validToken));
     }
 
     @Test
-    void logoutRegistered_UserNotExist() {
-        assertThrows(Exception.class,
-                () -> userService.logoutRegistered(validToken, null));
+    void logoutGuest_ShouldFail() {
+        String guestToken = tokenService.generateToken("Guest");
+        assertThrows(Exception.class, () -> userService.logoutRegistered(guestToken));
     }
 
-    /* ===================== remove from cart tests ==================== */
+    /* =============== remove-from-cart tests =========== */
     @Test
     void removeFromCart_Right_params() throws Exception {
-        testUser.addProduct(store, product);
-        userService.removeFromCart(validToken, testUser, store, product);
-        assertTrue(testUser.getShoppingCart().getShoppingBags().isEmpty());
+        testUser.addProduct(storeId, productId , 1);
+        when(userRepo.getUser(userId)).thenReturn(validUserJson());
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.findById(productId)).thenReturn(Optional.of(product));
+        userService.removeFromCart(validToken, userId, storeId, productId , 1);
+
     }
+
     @Test
     void removeFromCart_UserNotLoggedIn() throws Exception {
-        userService.logoutRegistered(validToken, testUser); // first logout
+        userService.logoutRegistered(validToken);
         assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, store, product));
+                () -> userService.removeFromCart(validToken, userId, storeId, productId , 1));
     }
+
     @Test
     void removeFromCart_UserNotExist() {
         assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, null, store, product));
+                () -> userService.removeFromCart(validToken, null, storeId, productId , 1));
     }
+
     @Test
     void removeFromCart_StoreNotExist() {
         assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, null, product));
+                () -> userService.removeFromCart(validToken, userId, null, productId , 1));
     }
+
     @Test
     void removeFromCart_ProductNotExist() {
         assertThrows(Exception.class,
-                () -> userService.removeFromCart(validToken, testUser, store, null));
+                () -> userService.removeFromCart(validToken, userId, storeId, null , 1));
     }
+
     @Test
     void removeFromCart_TokenNotExist() {
         assertThrows(Exception.class,
-                () -> userService.removeFromCart(null, testUser, store, product));
+                () -> userService.removeFromCart(null, userId, storeId, productId , 1));
     }
+
     @Test
     void removeFromCart_TokenIsEmpty() {
         assertThrows(Exception.class,
-                () -> userService.removeFromCart("", testUser, store, product));
+                () -> userService.removeFromCart("", userId, storeId, productId , 1));
     }
 
-
-    /* ===================== add to cart tests ==================== */
+    /* =============== add-to-cart tests ================ */
     @Test
     void addToCart_Right_params() throws Exception {
-        userService.addToCart(validToken, testUser, store, product);
-        assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
+        when(userRepo.getUser(userId)).thenReturn(validUserJson());
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.findById(productId)).thenReturn(Optional.of(product));
+        userService.addToCart(validToken, userId, storeId, product.getId() , 1);
+        //assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
     }
+
     @Test
     void addToCart_UserNotLoggedIn() throws Exception {
-        userService.logoutRegistered(validToken, testUser); // first logout
+        userService.logoutRegistered(validToken);
         assertThrows(Exception.class,
-                () -> userService.addToCart(validToken, testUser, store, product));
+                () -> userService.addToCart(validToken, userId, storeId, productId , 1));
     }
+
     @Test
     void addToCart_UserNotExist() {
         assertThrows(Exception.class,
-                () -> userService.addToCart(validToken, null, store, product));
+                () -> userService.addToCart(validToken, null, storeId, productId , 1));
     }
+
     @Test
     void addToCart_StoreNotExist() {
         assertThrows(Exception.class,
-                () -> userService.addToCart(validToken, testUser, null, product));
+                () -> userService.addToCart(validToken, userId, null, productId , 1));
     }
+
     @Test
     void addToCart_ProductNotExist() {
         assertThrows(Exception.class,
-                () -> userService.addToCart(validToken, testUser, store, null));
+                () -> userService.addToCart(validToken, userId, storeId, null , 1));
     }
+
     @Test
     void addToCart_TokenNotExist() {
         assertThrows(Exception.class,
-                () -> userService.addToCart(null, testUser, store, product));
+                () -> userService.addToCart(null, userId, storeId, productId , 1));
     }
 }

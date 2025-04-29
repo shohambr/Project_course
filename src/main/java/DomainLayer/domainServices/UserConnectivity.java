@@ -2,6 +2,7 @@ package DomainLayer.domainServices;
 
 import DomainLayer.User;
 import DomainLayer.IToken;
+import DomainLayer.IUserRepository;
 import ServiceLayer.EventLogger;
 import io.micrometer.observation.Observation.Event;
 
@@ -16,8 +17,10 @@ import java.util.Objects;
 
 public class UserConnectivity {
     private IToken Tokener;
+    private IUserRepository userRepository;
 
-    public UserConnectivity(IToken Tokener) {
+    public UserConnectivity(IToken Tokener, IUserRepository userRepository) {
+        this.userRepository = userRepository;
         this.Tokener = Tokener;
     }
 
@@ -49,9 +52,17 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "SIGNUP_FAILED - EMPTY");
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
+        if (userRepository.isUserExist(username)) {
+            EventLogger.logEvent(username, "SIGNUP_FAILED - USER_EXIST");
+            throw new IllegalArgumentException("User already exists");
+        }
     }
 
     public void logout(String username ,String token) {
+        if(username.equals("Guest")) {
+            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
+            throw new IllegalArgumentException("Guest cannot logout");
+        }
         if (username == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_NULL");
             throw new IllegalArgumentException("Username cannot be null");
@@ -66,6 +77,6 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "LOGOUT_FAILED - TOKEN_EMPTY");
             throw new IllegalArgumentException("Token cannot be empty");
         }
-        Tokener.invalidateToken(token);
+        EventLogger.logEvent(username, "LOGOUT_SUCCESS");
     }
 }

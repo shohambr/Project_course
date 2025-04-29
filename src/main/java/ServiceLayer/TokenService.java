@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.micrometer.observation.Observation.Event;
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -73,8 +74,9 @@ public class TokenService implements IToken {
             throw new IllegalArgumentException("Token cannot be null or empty");
         }
         if (blacklistedTokens.contains(token)) {
-            throw new IllegalArgumentException("user not logged in");
+            throw new IllegalArgumentException("user already logged out");
         }
+        EventLogger.logEvent("TokenService" , "Token invalidated ");
         blacklistedTokens.add(token);
         activeTokens.remove(extractUsername(token) , token);
     }

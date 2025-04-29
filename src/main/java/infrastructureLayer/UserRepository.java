@@ -19,29 +19,29 @@ public class UserRepository implements IUserRepository {
         return pass.get(username);
     }
 
-    public boolean addUser(String username, String hashedPassword , String json) {
-        if(rep.containsKey(username)){
+    public boolean addUser(String userId,String userName , String hashedPassword , String json) {
+        if(rep.containsKey(userId)){
             throw new IllegalArgumentException("User already exists");
         }
-        rep.put(username , json);
-        pass.put(username, hashedPassword);
+        rep.put(userId , json);
+        pass.put(userName, hashedPassword);
         return true;
     }
 
     public boolean isUserExist(String username) {
-        return rep.containsKey(username);
+        return pass.containsKey(username);
     }
 
-    public boolean update(String name, String s) {
+    public boolean update(String userId, String s) {
 
         if(!rep.containsKey(s)){
             return false;
         }
-        rep.replace(name , s);
+        rep.replace(userId , s);
         return true;
     }
 
-    public String getUser(String username) {
-        return rep.get(username);
+    public String getUser(String userId) {
+        return rep.get(userId);
     }
 }

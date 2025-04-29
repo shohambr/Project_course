@@ -1,7 +1,8 @@
 package DomainLayer;
+import java.util.UUID;
 
 public class Product {
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private String storeId;
     private String name;
     private String description;
@@ -12,7 +13,6 @@ public class Product {
 
     public Product(String id, String storeId, String name, String description, int price , int quantity, double rating, String category) {
         if(quantity > 0) {
-            this.id = id;
             this.storeId = storeId;
             this.name = name;
             this.description = description;

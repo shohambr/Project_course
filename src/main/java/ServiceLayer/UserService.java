@@ -32,8 +32,11 @@ public class UserService {
     private final ProductService productService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
+    private final PaymentService paymentService;
+    private final ShippingService shippingService;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService) {
+
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, PaymentService paymentService, ShippingService shippingService) {
         this.productService = productService;
         this.userRepo = repository;
         this.tokenService = tokenService;
@@ -42,6 +45,8 @@ public class UserService {
         this.mapper.registerModule(new ProductKeyModule());
         this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.userCart = new UserCart(tokenService);
+        this.paymentService = paymentService;
+        this.shippingService = shippingService;
     }
 
 
@@ -108,19 +113,19 @@ public class UserService {
         }
     }
 
-//     public String purchaseCart(int userId, String token, ShoppingCart cart) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
+     public String purchaseCart(int userId, String token, ShoppingCart cart) {
+         if (!tokenService.validateToken(token)) {
+             return "Invalid or expired token";
+         }
 
-//         double totalPrice = cart.calculatePurchaseCart();
+         double totalPrice = cart.calculatePurchaseCart();
 
-//         if (totalPrice <= 0) {
-//             return "Cart is empty";
-//         }
+         if (totalPrice <= 0) {
+             return "Cart is empty";
+         }
 
-//         return "Purchase successful. Total paid: $" + totalPrice;
-//     }
+         return "Purchase successful. Total paid: $" + totalPrice;
+     }
 
 
 

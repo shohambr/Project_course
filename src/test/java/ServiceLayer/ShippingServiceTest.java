@@ -19,7 +19,7 @@ class ShippingServiceTest {
     void setUp() {
         IShipping mockShipping = new MockShipping();
         shippingService = new ShippingService(mockShipping);
-        user = new Guest()
+        user = new Guest();
     }
 
     @Test

@@ -4,6 +4,8 @@ import DomainLayer.IShipping;
 import DomainLayer.Store;
 import DomainLayer.User;
 
+import java.util.List;
+
 public class ShippingConnectivity {
 
     private IShipping proxyShipping;
@@ -12,8 +14,10 @@ public class ShippingConnectivity {
         this.proxyShipping = proxyShipping;
     }
 
-    public void processShipping(User user, Store store, String state, String city, String street, String homeNumber) throws Exception {
+    public void processShipping(User user, List<Store> stores, String state, String city, String street, String homeNumber) throws Exception {
         // deciding here on proxy for shipping
-        proxyShipping.processShipping(user, store, state, city, street, homeNumber);
+        for (Store store: stores) {
+            proxyShipping.processShipping(user, store, state, city, street, homeNumber);
+        }
     }
 }

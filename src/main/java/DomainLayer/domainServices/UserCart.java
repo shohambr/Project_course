@@ -31,4 +31,5 @@ public class UserCart {
         user.addProduct(store, product);
         EventLogger.logEvent(user.getUsername(), "ADD_TO_CART_SUCCESS");
     }
+
 }

@@ -1,6 +1,8 @@
-package DomainLayer;
+package infrastructureLayer;
 
-public class ProxyShipping implements IShipping{
+import DomainLayer.IShipping;
+
+public class ProxyShipping implements IShipping {
     private IShipping shippingSystem;
     public ProxyShipping(IShipping shippingSystem) {
         this.shippingSystem = shippingSystem;

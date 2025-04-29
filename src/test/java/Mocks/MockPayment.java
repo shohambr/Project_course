@@ -4,9 +4,10 @@ import DomainLayer.IPayment;
 
 public class MockPayment implements IPayment {
     public MockPayment() {}
-    public void processPayment(double payment, String creditCardNumber, String expirationDate, String backNumber) throws Exception {
+    public void processPayment(String payment, String creditCardNumber, String expirationDate, String backNumber, String storeID, String paymentService) throws Exception {
         String creditCardType = getCreditCardType(creditCardNumber);
-        if (payment < 0) {
+        Double integerPayment = new Double(payment);
+        if (integerPayment < 0) {
             throw new Exception("Negative payment");
         }
         if (creditCardType == null) {
@@ -18,6 +19,7 @@ public class MockPayment implements IPayment {
         if(!isValidExpirationDate(expirationDate)) {
             throw new Exception("Invalid expiration date");
         }
+        new Integer(backNumber);
     }
 
     private String getCreditCardType(String creditCardNumber){
@@ -78,7 +80,7 @@ public class MockPayment implements IPayment {
         String stringYear = expirationDate.substring(3, 5);
         Integer month = new Integer(stringMonth);
         Integer year = new Integer(stringYear);
-        return 1 <= month & month <= 12 & year >= 25 & (expirationDate.charAt(2) == '/' | expirationDate.charAt(2) == '.' | expirationDate.charAt(2) == '\'');
+        return 1 <= month & month <= 12 & year >= 25 & (expirationDate.charAt(2) == '/' | expirationDate.charAt(2) == '.' | expirationDate.charAt(2) == '\\');
     }
 
 }

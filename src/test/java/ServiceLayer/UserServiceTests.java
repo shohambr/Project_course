@@ -102,7 +102,7 @@ class UserServiceTests {
     void signup_UserAlreadyExists() throws Exception {
         doThrow(new IllegalArgumentException("duplicate"))
             .when(userRepo).addUser(eq("yaniv"), any(), any());
-    
+
         assertThrows(Exception.class, () -> userService.signUp("yaniv", PLAIN_PW));
     }
 

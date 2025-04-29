@@ -131,3 +131,4 @@
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
+[2025-04-29 22:49:14] User: 0a7e33f9-6faa-4d21-b548-7b322e914652 | Event: Event | Description: Shipping successful

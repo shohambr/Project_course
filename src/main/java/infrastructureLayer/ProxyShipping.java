@@ -1,14 +1,14 @@
 package infrastructureLayer;
 
 import DomainLayer.IShipping;
+import DomainLayer.Store;
+import DomainLayer.User;
 
 public class ProxyShipping implements IShipping {
-    private IShipping shippingSystem;
-    public ProxyShipping(IShipping shippingSystem) {
-        this.shippingSystem = shippingSystem;
-    }
-    public void processShipping(String state, String city, String street, String homeNumber) throws Exception {
-        shippingSystem.processShipping(state, city, street, homeNumber);
+
+    public ProxyShipping() {}
+    public void processShipping(User user, Store store, String state, String city, String street, String homeNumber) throws Exception {
+
     }
 
 }

@@ -1,20 +1,22 @@
 package ServiceLayer;
 import DomainLayer.IPayment;
 import DomainLayer.IShipping;
+import DomainLayer.Store;
 import DomainLayer.User;
+import DomainLayer.domainServices.ShippingConnectivity;
 
 import java.util.*;
 
 public class ShippingService {
-    private IShipping shippingSystem;
+    private ShippingConnectivity shippingConnectivity;
 
-    public ShippingService(IShipping shippingSystem) {
-        this.shippingSystem = shippingSystem;
+    public ShippingService(IShipping ProxyShipping) {
+        this.shippingConnectivity = new ShippingConnectivity(ProxyShipping);
     }
 
-    public boolean processShipping(User user, String state, String city, String street, String homeNumber) {
+    public boolean processShipping(User user, Store store, String state, String city, String street, String homeNumber) {
         try {
-            shippingSystem.processShipping(state, city, street, homeNumber);
+            shippingConnectivity.processShipping(user, store, state, city, street, homeNumber);
             EventLogger.logEvent(user.getID(), "Shipping successful");
             return true;
         } catch (Exception e) {

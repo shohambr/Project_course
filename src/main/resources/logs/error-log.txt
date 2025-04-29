@@ -1,1 +1,6 @@
 [2025-04-24 10:40:05] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
+[2025-04-29 22:49:14] User: 3e911c8c-28a7-4827-9034-1ec93b79974a | Error: Error in shipping | Details: Invalid home number
+[2025-04-29 22:49:14] User: 84763071-2e6b-4c56-91b4-6cbe4ad4f064 | Error: Error in shipping | Details: Empty state
+[2025-04-29 22:49:14] User: d60b5ae8-3724-4148-8cdb-0551ecd2d256 | Error: Error in shipping | Details: Empty street
+[2025-04-29 22:49:14] User: 22b9cfd0-852e-4069-9fde-8b216f39dda2 | Error: Error in shipping | Details: Invalid home number
+[2025-04-29 22:49:14] User: e188bcdb-2ff0-4e69-8e2c-128c0a45e5bf | Error: Error in shipping | Details: Empty city

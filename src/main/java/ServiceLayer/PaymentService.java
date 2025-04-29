@@ -1,21 +1,21 @@
 package ServiceLayer;
 
 import DomainLayer.IPayment;
+import DomainLayer.Store;
 import DomainLayer.User;
+import DomainLayer.domainServices.PaymentConnectivity;
+import infrastructureLayer.ProxyPayment;
 
 public class PaymentService {
 
-    private IPayment paymentSystem;
+    private PaymentConnectivity paymentConnectivity;
 
-    public PaymentService(IPayment paymentSystem) {
-        this.paymentSystem = paymentSystem;
-    }
+    public PaymentService(IPayment proxyPayment) {this.paymentConnectivity = new PaymentConnectivity(proxyPayment);}
 
-    public boolean processPayment(User user, String stringPayment, String creditCardNumber, String expirationDate, String backNumber) {
+    public boolean processPayment(User user, Store store, String paymentService, String payment, String creditCardNumber, String expirationDate, String backNumber) {
         try {
-            Double payment = new Double(stringPayment);
-            paymentSystem.processPayment(payment, creditCardNumber, expirationDate, backNumber);
-            EventLogger.logEvent(user.getID(), "Successfully payed: " + stringPayment);
+            paymentConnectivity.processPayment(payment, creditCardNumber, expirationDate, backNumber, store.getId(), paymentService);
+            EventLogger.logEvent(user.getID(), "Successfully payed: " + payment);
         return true;
         } catch (Exception e) {
             System.out.println("Error encountered while processing payment:" + e.getMessage());
@@ -23,6 +23,4 @@ public class PaymentService {
             return false;
         }
     }
-
-
 }

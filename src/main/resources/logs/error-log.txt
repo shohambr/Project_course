@@ -1,1 +1,22 @@
 [2025-04-24 10:40:05] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
+[2025-04-29 19:23:25] User: fbb39881-57df-4325-b492-d0a1f6b6a65e | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: f0471303-22f0-41af-bb5b-0c9c91e83840 | Error: Failed to pay | Details: Exception for payment: Negative payment is not allowed
+[2025-04-29 19:23:25] User: 25a2cad8-1ce9-46ff-9bd7-432a8c9bd558 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: 2ceae190-0fa6-4583-9543-05ee3090c9af | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: a8dc9937-89b8-4a25-bcbb-934d24fcf29e | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: ef740999-131e-41d4-8190-11ef0249470d | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: 4d5bae18-9485-4e8e-860f-93dfb5d83e5d | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: ccdad6b0-3b3b-4752-bbd1-0720ca5705b0 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: fc4024b1-562e-44d0-893a-0c0e57ace915 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: e7d03693-c725-41ff-87cb-8329c67bbcc4 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
+[2025-04-29 19:23:25] User: 6edbcea6-bf83-49cf-9f27-d9ef1ace466c | Error: Failed to pay | Details: Exception for payment: For input string: "ffhnjuqoi"
+[2025-04-29 19:26:51] User: 40caa87c-0588-4838-9d66-c9aa1c98d8da | Error: Failed to pay | Details: Exception for payment: Unknown credit card company
+[2025-04-29 19:26:51] User: d98eb329-5a00-4565-946f-6f79e747de40 | Error: Failed to pay | Details: Exception for payment: Negative payment is not allowed
+[2025-04-29 19:26:51] User: f1fcc2a6-cee8-421e-99e5-bf5b3571a19f | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-04-29 19:26:51] User: 50c616b2-3d44-464f-a4aa-17fa14f02a26 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-29 19:26:51] User: 6a60ec16-c158-4b80-8f1f-e38bff5ae820 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-29 19:26:51] User: b7f58df5-d855-477b-9011-1a549ab3bdd4 | Error: Failed to pay | Details: Exception for payment: For input string: ""
+[2025-04-29 19:26:51] User: 9ef087ea-7709-4c4e-8c22-77e79a146c40 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-29 19:26:51] User: 98cea2ec-fc8f-4ecc-8481-b05085066a3c | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-29 19:26:51] User: eafea861-e738-4f4d-80ad-98da8880de05 | Error: Failed to pay | Details: Exception for payment: For input string: "kfjeowia0"
+[2025-04-29 19:26:51] User: af6ef062-9f0a-4b25-935b-74fb971f4e9e | Error: Failed to pay | Details: Exception for payment: For input string: "ffhnjuqoi"

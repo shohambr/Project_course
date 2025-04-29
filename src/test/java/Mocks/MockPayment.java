@@ -4,9 +4,10 @@ import DomainLayer.IPayment;
 
 public class MockPayment implements IPayment {
     public MockPayment() {}
-    public void processPayment(double payment, String creditCardNumber, String expirationDate, String backNumber) throws Exception {
+    public void processPayment(String payment, String creditCardNumber, String expirationDate, String backNumber, String storeID, String paymentService) throws Exception {
         String creditCardType = getCreditCardType(creditCardNumber);
-        if (payment < 0) {
+        Double integerPayment = new Double(payment);
+        if (integerPayment < 0) {
             throw new Exception("Negative payment");
         }
         if (creditCardType == null) {

@@ -1,7 +1,9 @@
 package ServiceLayer;
 
 import DomainLayer.Roles.Guest;
+import DomainLayer.Store;
 import DomainLayer.User;
+import DomainLayer.domainServices.PaymentConnectivity;
 import infrastructureLayer.ProxyPayment;
 import Mocks.MockPayment;
 import ServiceLayer.PaymentService;
@@ -19,77 +21,78 @@ class PaymentServiceTest {
 
     private PaymentService paymentService;
     private User user;
+    private Store store;
     @BeforeEach
     void setUp() {
         MockPayment mockPayment = new MockPayment();
-        ProxyPayment proxyPayment = new ProxyPayment(mockPayment);
-        paymentService = new PaymentService(proxyPayment);
+        store = new Store();
+        paymentService = new PaymentService(mockPayment);
         user = new Guest();
     }
 
     @Test
     public void testProcessPayment_Successful() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda", "100.0", "5555555555554444", "10/26", "395");
         assertTrue(response);
     }
 
     @Test
     public void testProcessPayment_NegativePayment_Failure() {
-        boolean response = paymentService.processPayment(user, "-100.0", "5555555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","-100.0", "5555555555554444", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_InvalidPaymentFailure() {
-        boolean response = paymentService.processPayment(user, "ffhnjuqoi", "5555555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","ffhnjuqoi", "5555555555554444", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_BadCreditCardNumber_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5355555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5355555555554444", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyCreditCardNumber_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "", "10/26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_BadlyWrittenExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "10'26", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "10'26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_InvalidExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "fewdki", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "fewdki", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_InvalidBackNumber_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "10/26", "kfjeowia0");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "10/26", "kfjeowia0");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_ExpiredCreditCard_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "10/24", "395");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "10/24", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyBackNumber_Failure() {
-        boolean response = paymentService.processPayment(user, "100.0", "5555555555554444", "10/26", "");
+        boolean response = paymentService.processPayment(user, store, "csda","100.0", "5555555555554444", "10/26", "");
         assertFalse(response);
     }
 

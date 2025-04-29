@@ -1,14 +1,12 @@
 package infrastructureLayer;
 
 import DomainLayer.IPayment;
+import ServiceLayer.ErrorLogger;
 
 public class ProxyPayment implements IPayment {
-    private IPayment paymentSystem;
-    public ProxyPayment(IPayment paymentSystem) {
-        this.paymentSystem = paymentSystem;
-    }
-    public void processPayment(double payment, String creditCardNumber, String expirationDate, String backNumber) throws Exception {
-        paymentSystem.processPayment(payment, creditCardNumber, expirationDate, backNumber);
+    public ProxyPayment() {}
+    public void processPayment(String payment, String creditCardNumber, String expirationDate, String backNumber, String storeId, String paymentService) throws Exception {
+        // behavior based on the payment service
     }
 
 }

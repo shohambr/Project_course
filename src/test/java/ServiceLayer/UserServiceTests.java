@@ -1,7 +1,10 @@
 package ServiceLayer;
 
 import DomainLayer.*;
+import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.RegisteredUser;
+import Mocks.MockPayment;
+import Mocks.MockShipping;
 import utils.ProductKeyModule;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -62,7 +65,7 @@ class UserServiceTests {
         productService = new ProductService(productRepo);
         storeService   = new StoreService(storeRepo, productService);
         jobService     = new JobService(jobRepo, storeService);
-        userService    = new UserService(userRepo, tokenService, jobService, productService);
+        userService    = new UserService(userRepo, tokenService, jobService, productService, new PaymentService(new MockPayment()), new ShippingService(new MockShipping()));
         this.mapper.registerModule(new ProductKeyModule());
 
         /* ---- default mock behaviour ---- */
@@ -80,7 +83,7 @@ class UserServiceTests {
 
         testUser   = mapper.readValue(validUserJson(), RegisteredUser.class);
         validToken = tokenService.generateToken("yaniv");
-        product = new Product("1", "store1", "product1", "description", 10, 5, 4.5);
+        product = new Product("1", "store1", "product1", "description", 10, 5, 4.5, "category");
         store = new Store();
 
     }
@@ -239,4 +242,49 @@ class UserServiceTests {
         assertThrows(Exception.class,
                 () -> userService.addToCart(null, testUser, store, product));
     }
+
+    /* ===================== purchase cart tests ==================== */
+
+    @Test
+    void PurchaseCart_Successful() {
+        User user = new Guest();
+        Store store = new Store();
+        Product product1 = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.increaseProduct(product1, 3);
+        user.addProduct(store, product1);
+        userService.purchaseCart(user, validToken, "csda", "5555555555554444", "10/26", "395", "Israel", "Be'er Sheva", "Even Gvirol", "12");
+        assertTrue(user.getShoppingCart().getShoppingBags().isEmpty() & !store.availableProduct(product1, 3));
+    }
+
+    @Test
+    void PurchaseCart_NotEnoughStock() {
+        User user = new RegisteredUser();
+        Store store = new Store();
+        Product product1 = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.addNewProduct(product1, 1);
+        user.addProduct(store, product1);
+        user.addProduct(store, product1);
+        assertThrows(Exception.class, () -> userService.purchaseCart(user, validToken, "csda", "5555555555554444", "10/26", "395", "Israel", "Be'er Sheva", "Even Gvirol", "12"));
+        assertTrue(store.availableProduct(product1, 1));
+    }
+    @Test
+    void PurchaseCart_PaymentServiceFailure() {
+        User user = new RegisteredUser();
+        Store store = new Store();
+        Product product1 = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.addNewProduct(product1, 1);
+        user.addProduct(store, product1);
+        assertThrows(Exception.class, () -> userService.purchaseCart(user, validToken, "csda", "5555553555554444", "10/26", "395", "Israel", "Be'er Sheva", "Even Gvirol", "12"));
+        assertTrue(store.availableProduct(product1, 1));
+    }
+    @Test
+    void PurchaseCart_ShippingFailure() {
+        User user = new RegisteredUser();
+        Store store = new Store();
+        Product product1 = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.addNewProduct(product1, 1);
+        user.addProduct(store, product1);
+        assertThrows(Exception.class, () -> userService.purchaseCart(user, validToken, "csda", "5555553555554444", "10/26", "395", "Israel", "Be'er Sheva", "Even Gvirol", ""));
+        assertTrue(store.availableProduct(product1, 1));    }
+
 }

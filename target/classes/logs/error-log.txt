@@ -1,12 +1,75 @@
 [2025-04-24 10:40:05] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
-[2025-04-29 19:23:25] User: fbb39881-57df-4325-b492-d0a1f6b6a65e | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: f0471303-22f0-41af-bb5b-0c9c91e83840 | Error: Failed to pay | Details: Exception for payment: Negative payment is not allowed
-[2025-04-29 19:23:25] User: 25a2cad8-1ce9-46ff-9bd7-432a8c9bd558 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: 2ceae190-0fa6-4583-9543-05ee3090c9af | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: a8dc9937-89b8-4a25-bcbb-934d24fcf29e | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: ef740999-131e-41d4-8190-11ef0249470d | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: 4d5bae18-9485-4e8e-860f-93dfb5d83e5d | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: ccdad6b0-3b3b-4752-bbd1-0720ca5705b0 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: fc4024b1-562e-44d0-893a-0c0e57ace915 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: e7d03693-c725-41ff-87cb-8329c67bbcc4 | Error: Failed to pay | Details: Exception for payment: For input string: "100.0"
-[2025-04-29 19:23:25] User: 6edbcea6-bf83-49cf-9f27-d9ef1ace466c | Error: Failed to pay | Details: Exception for payment: For input string: "ffhnjuqoi"
+[2025-04-30 01:18:02] User: 2adb643a-338f-4bcd-939b-8c5c519385b6 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 01:18:09] User: f4dfc910-3477-47b5-ac35-22c8165b96f4 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 01:18:34] User: f0d266ea-a0b7-456e-a18a-2a112cc501cf | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 01:18:44] User: 9ea4a38f-06cf-4e68-98da-5080b7cddeeb | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 01:18:44] User: 9ea4a38f-06cf-4e68-98da-5080b7cddeeb | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 10:21:00] User: d230273a-61ad-47ae-bb11-ebb81fd47fc0 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: 8582a77b-e8ec-4538-8a34-fbd118b6565d | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: 3e907af6-b3bb-4361-83b7-0eda4b013b3b | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: 74f23e0f-4377-4e42-959e-c90a90885125 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: bc7b6c73-fe18-4281-8143-32112d50f9b8 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: a7f3f34b-7e26-4a82-a639-accbb0ef9522 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: 4c81474c-21c2-422f-b067-9e18c43bd727 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: 372fc4bb-51d3-4c22-96f1-a2742eed9167 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:21:00] User: b92a9412-cf59-4f06-ab2c-b72554bbff95 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 10:24:58] User: 827d056a-79d3-4311-a8af-4dcd475e8e4d | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: 98941634-ddcc-4b14-86fd-7481b69ad50f | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: ffe3d804-afdf-4985-af1a-14a26caef470 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: 8ca4461c-33e6-4f38-8a8e-f5b2a09e65e3 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: 07b68b58-b6b7-443e-b2b6-4b4519474cbc | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: e277f549-ac1e-4d79-b0c9-8805f973504f | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: 48abfe49-f179-4bda-8a93-1cde6dbf592e | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: f0ecfc34-1bb8-4e0a-9f6b-32b0cfc17ec1 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:24:58] User: 43bc6a02-b984-4eff-80f2-830991d196fb | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 982186df-9a61-4233-be18-99c9bef3c218 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 087d22ad-d41b-4031-b9f3-3ce9c6e27781 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 7225c08d-ee81-4c72-ad51-abf75ac08a4d | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: fd9c782e-7671-4ed4-aa6e-143bd2e5c260 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: fa70082a-9868-4362-afa2-9b2b717a0573 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 7b5acce5-f42e-4910-b4d5-0d2abd684c50 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: d49db069-c059-45d3-8d85-fd828fdd9b49 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 613deb71-36f3-49bf-8e07-bd7df197715d | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:26:21] User: 572761a2-8b03-4093-997b-1d677432f5c8 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: f2e553e7-987d-4ddd-b956-bcc2db884cea | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: 928ccdf8-7f9e-4078-bece-3710b2419fe7 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: 224cd4ac-4d72-46b0-8148-87bd3dc3b6b1 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: e61f3c79-f89d-4ddf-babf-38656f55e3de | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: fa8c3db2-be30-418d-aa30-b6381f475552 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: c7a96a1b-112a-40c6-972d-1f00f4899a88 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: 08a6e6ac-54a0-4441-aa94-192ac372c5e2 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: 4fe08a80-5694-43e2-b40d-b6dba4359715 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:32:58] User: bcd95a45-90ef-458c-97b2-22dd61c54b8c | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:34:29] User: 863ec9a7-df09-4f74-8718-fbf1edb9318e | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:40:05] User: b97ee885-6c12-49fc-a6a0-1d6771159c54 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:41:16] User: 4adfeb5c-d996-4ebb-808f-50734a486464 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:41:54] User: ffe4468e-c027-4355-a3dc-d0d77e209f54 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:42:39] User: cb3514a1-36fd-417b-b5ec-a6f640acd832 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:43:28] User: 3bad7e85-7b0c-4b93-b7b0-d0b155f0bee0 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:45:02] User: 480785a1-09ee-4216-810c-b26ddfb1dea9 | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:45:44] User: 1569b6df-a762-47b4-b5e9-07a265b1acef | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:47:44] User: a7e3d91c-42b9-4ccc-ae46-0e54489b918d | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:48:35] User: 34289070-c57d-49c7-abff-2e84523ecebe | Error: Failed to pay | Details: Exception for payment: null
+[2025-04-30 10:50:38] User: d34d2110-7ddb-41ed-b1a8-c756303b9d9b | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-04-30 10:52:26] User: 13ed5750-cdf0-4dff-92f7-cece473626d9 | Error: Failed to pay | Details: Exception for payment: Unknown credit card company
+[2025-04-30 10:52:26] User: 63cb3f88-4401-48ea-87f0-c83c921c369d | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-04-30 10:52:26] User: 920bba11-a715-48c4-8c0e-c0ca64651dd9 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 10:52:26] User: 523cc32f-9c78-4b90-a9c9-ad733773c9ac | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 10:52:26] User: 6d2adf0b-7b08-4ea7-ac0d-fa532eacf125 | Error: Failed to pay | Details: Exception for payment: For input string: ""
+[2025-04-30 10:52:26] User: fcd9af6c-b2ef-4ef1-9c7d-2b146266008b | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 10:52:26] User: e6917587-8861-46f7-8c40-08a78f2f170f | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 10:52:26] User: daed908b-c5d0-46f4-9da7-47c023557c8f | Error: Failed to pay | Details: Exception for payment: For input string: "kfjeowia0"
+[2025-04-30 11:03:26] User: 5ab0c0e2-760d-4385-a984-0dfe3f93ccc4 | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 11:03:26] User: 0d68ec57-50f5-49a7-b5f2-b6eb5b96be04 | Error: Error in shipping | Details: Empty state
+[2025-04-30 11:03:26] User: 55e55929-2c25-4b19-9349-d2803bf4845d | Error: Error in shipping | Details: Empty street
+[2025-04-30 11:03:26] User: 2b99d7ed-0ac4-4606-93c2-56fdb9900bf0 | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 11:03:26] User: 62a36ad5-a803-4b15-99c6-02ae842e464c | Error: Error in shipping | Details: Empty city
+[2025-04-30 11:03:40] User: d8fafa66-85da-47a7-8b1e-40558c335442 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:03:45] User: 691770b2-f183-45c6-afd5-51dd1b53151a | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:03:57] User: 8526755f-c658-49d6-a66d-ff78a6541f50 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:04:04] User: e5a64695-0edd-47b3-bc6f-df9af3e660ab | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:04:04] User: e5a64695-0edd-47b3-bc6f-df9af3e660ab | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 11:08:05] User: 4094a125-fac8-40c3-b272-054858d2fc58 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:08:10] User: 7554e131-774d-4605-bf57-d4c7ee1c008e | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:10:09] User: 006d3dfc-b415-49e8-bdcf-e56d41907650 | Error: Failed to pay | Details: Exception for payment: Negative payment
+[2025-04-30 11:10:16] User: 52e5bce2-5f2b-4ffc-9ed1-8d4a888e2add | Error: Failed to pay | Details: Exception for payment: Invalid credit card number

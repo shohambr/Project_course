@@ -1,6 +1,8 @@
 package ServiceLayer;
 
+import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
+import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
 import DomainLayer.domainServices.PaymentConnectivity;
@@ -21,12 +23,16 @@ class PaymentServiceTest {
 
     private PaymentService paymentService;
     private User user;
-    private List<Store> stores;
+    private Store store;
     @BeforeEach
     void setUp() {
+        store = new Store();
+        Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.addNewProduct(product, 3);
         MockPayment mockPayment = new MockPayment();
         paymentService = new PaymentService(mockPayment);
-        user = new Guest();
+        user = new RegisteredUser();
+        user.addProduct(store, product);
     }
 
     @Test

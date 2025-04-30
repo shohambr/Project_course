@@ -65,7 +65,6 @@ public class ShoppingCart {
             double price = 0;
             for (ShoppingBag shoppingBag : shoppingBags) {
                 price = price + shoppingBag.calculatePurchaseShoppingBag();
-                shoppingBags.remove(shoppingBag);
             }
             return price;
         }
@@ -82,14 +81,10 @@ public class ShoppingCart {
 
 
     public void sold (){
-        try {
-            for (ShoppingBag shoppingBag : shoppingBags) {
-                shoppingBag.sold();
-                shoppingBags.remove(shoppingBag);
-            }
-        } catch (Exception e) {
-
+        for (ShoppingBag shoppingBag : shoppingBags) {
+            shoppingBag.sold();
         }
+        shoppingBags = new ArrayList<ShoppingBag>();
     }
 
 }

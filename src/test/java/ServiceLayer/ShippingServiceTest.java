@@ -1,8 +1,12 @@
 package ServiceLayer;
 
 import DomainLayer.IShipping;
+import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
+import DomainLayer.Roles.RegisteredUser;
+import DomainLayer.Store;
 import DomainLayer.User;
+import Mocks.MockPayment;
 import infrastructureLayer.ProxyShipping;
 import Mocks.MockShipping;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +18,18 @@ class ShippingServiceTest {
 
     private ShippingService shippingService;
     private User user;
+    private Store store;
 
     @BeforeEach
     void setUp() {
+        store = new Store();
+        Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
+        store.addNewProduct(product, 3);
+        user = new RegisteredUser();
+        user.addProduct(store, product);
         IShipping mockShipping = new MockShipping();
         shippingService = new ShippingService(mockShipping);
-        user = new Guest();
     }
-
     @Test
     public void testProcessShipping_Successful() {
         boolean response = shippingService.processShipping(user, "Israel", "Be'er Sheva", "Even Gvirol", "12");
@@ -30,7 +38,7 @@ class ShippingServiceTest {
 
     @Test
     public void testProcessShipping_EmptyState_Failure() {
-        boolean response = shippingService.processShipping(null, "Israel", "Be'er Sheva", "Even Gvirol", "12");
+        boolean response = shippingService.processShipping(user, "", "Be'er Sheva", "Even Gvirol", "12");
         assertFalse(response);
     }
 

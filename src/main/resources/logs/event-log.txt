@@ -131,3 +131,125 @@
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
 [2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:02] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:02] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 01:18:02] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:02] User: 2adb643a-338f-4bcd-939b-8c5c519385b6 | Event: Event | Description: Shipping successful
+[2025-04-30 01:18:02] User: 2adb643a-338f-4bcd-939b-8c5c519385b6 | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 01:18:02] User: 2adb643a-338f-4bcd-939b-8c5c519385b6 | Event: Event | Description: PURCHASED_CART
+[2025-04-30 01:18:09] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:09] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 01:18:09] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:09] User: f4dfc910-3477-47b5-ac35-22c8165b96f4 | Event: Event | Description: Shipping successful
+[2025-04-30 01:18:09] User: f4dfc910-3477-47b5-ac35-22c8165b96f4 | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 01:18:09] User: f4dfc910-3477-47b5-ac35-22c8165b96f4 | Event: Event | Description: PURCHASED_CART
+[2025-04-30 01:18:34] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:34] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 01:18:34] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:34] User: f0d266ea-a0b7-456e-a18a-2a112cc501cf | Event: Event | Description: Shipping successful
+[2025-04-30 01:18:34] User: f0d266ea-a0b7-456e-a18a-2a112cc501cf | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 01:18:34] User: f0d266ea-a0b7-456e-a18a-2a112cc501cf | Event: Event | Description: PURCHASED_CART
+[2025-04-30 01:18:43] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:43] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 01:18:44] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 01:18:44] User: 9ea4a38f-06cf-4e68-98da-5080b7cddeeb | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 01:18:44] User: 9ea4a38f-06cf-4e68-98da-5080b7cddeeb | Event: Event | Description: PURCHASED_CART
+[2025-04-30 01:19:08] User: db046002-4e20-4899-a11b-04ee6566a11c | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: d219a931-e1d6-4089-893f-d0bebb4cfad9 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 5e7a49ca-8c00-4510-9a34-57f98ce33b38 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 7b551fb3-a3c1-4253-85d5-1517eb6f5864 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 186f0f08-3d82-4c0d-a063-52f5c15f7fc2 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 67312ed3-7078-4738-b032-7f077a06dad5 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 82858855-c410-4fa0-8a48-83b03823339b | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 62c7e922-d53c-4326-9269-b89171e78db5 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:08] User: 7bc53b10-79cb-4efb-8bf6-860372e15094 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:19:26] User: a09b6954-1bc3-44a3-b7b8-fbc583efcbe0 | Event: Event | Description: Shipping successful
+[2025-04-30 01:19:26] User: 0308448d-7dda-4f31-b9be-314ca2c3fce7 | Event: Event | Description: Shipping successful
+[2025-04-30 01:19:26] User: 649073d6-9dc5-4aa6-bbc0-f2393a53db38 | Event: Event | Description: Shipping successful
+[2025-04-30 01:19:26] User: 3e43a8b1-31c3-42bf-aabe-e9418010b977 | Event: Event | Description: Shipping successful
+[2025-04-30 01:19:26] User: 84a8928a-f7ce-492c-9abe-101625f3fc86 | Event: Event | Description: Shipping successful
+[2025-04-30 01:19:49] User: ec4b7567-4d65-44fc-9d1d-4f2f32758d7f | Event: Event | Description: Shipping successful
+[2025-04-30 01:23:54] User: 3b195e7f-3764-4085-ab60-fc077ad6ec42 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:24:12] User: 7aa69d0e-5c9a-4483-b2b1-08eda8283919 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:24:20] User: abaef67e-2ce2-4a62-9f46-27d76aa14826 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:24:28] User: 27797331-5543-4ba5-8407-e3e46089dbb2 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:24:47] User: 1ed8d104-5fd4-4599-b1db-a3b7d1dbaa5a | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:26:14] User: ea465d82-0859-4169-9dc5-81f9949742a4 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:26:54] User: 00ada316-bf82-466a-8b7e-d5601a55cbf3 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:27:07] User: 22cde343-0aa4-4b2c-8ac0-7d8ed6098491 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:27:53] User: ae0d9ebf-7e4e-4901-8c01-eed926ca37cc | Event: Event | Description: Shipping successful
+[2025-04-30 01:28:03] User: 00760e84-b001-4be0-8fbc-33e704f0fd56 | Event: Event | Description: Shipping successful
+[2025-04-30 01:28:23] User: 1e7efbeb-f887-4f0b-8272-9b48636598f7 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:28:52] User: 2b4b2411-d6de-4075-bb2b-9c9a82e43723 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:29:26] User: 4e95bc35-65db-4bd5-9615-5e7035074648 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:29:33] User: 0faeea5e-9190-47c6-b842-64d1f89c8274 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 01:29:42] User: d02b39d9-ece2-417a-92da-4aa5c5088d65 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:13:02] User: 5129bb2b-070f-4da1-a415-09723216fc52 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:13:18] User: 8370cf0d-0935-4bd3-9891-25b713b5d788 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:13:27] User: c753b2bb-ade9-447f-a247-9899bae2261e | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: 481a07fb-1691-45cb-85fe-7019cda11978 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: 68257eb2-ea88-46f7-8209-fed5024b22a6 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: fc38d63a-5301-479a-821e-9ef64e177288 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: 8d55a153-a411-4685-a919-0ac9f9a08c1f | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: 444a9b28-146e-4313-bc30-d9dd70c8ccc6 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: ee9702e9-4eb7-4a07-9fd1-d419e64fdc3f | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: cbc59680-eadb-4102-b31c-33d6c7657e02 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: 0ec4a3ae-d3ec-4af8-b9fe-21bdb90b081e | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:17:07] User: f4849641-0ca3-4674-97cb-9c041859115b | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:46:52] User: 88b67658-46ab-4eb1-872a-94aab026f9b6 | Event: Event | Description: Shipping successful
+[2025-04-30 10:47:00] User: 55ddd581-a6e1-47b1-a0d0-010a98ff2396 | Event: Event | Description: Shipping successful
+[2025-04-30 10:50:04] User: 633b695c-6472-426d-bded-c2c6ab4f001a | Event: Event | Description: Shipping successful
+[2025-04-30 10:50:08] User: 5833b59e-c97d-4cbb-bd75-716b2aeaada9 | Event: Event | Description: Shipping successful
+[2025-04-30 10:50:31] User: 9c86169b-4736-4f09-a9b4-a6ff2d38559d | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:51:51] User: 65986334-e6fa-4a9b-8b46-a95fa06026ee | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:52:26] User: b7f70bf6-6531-4421-9659-7a32a3e63bc3 | Event: Event | Description: Successfully payed for cart
+[2025-04-30 10:52:37] User: aa0bb01e-7d3a-41d0-adfb-f37c545395f9 | Event: Event | Description: Shipping successful
+[2025-04-30 10:52:37] User: 41bad005-66d3-4c4d-a18c-ed41887dcae5 | Event: Event | Description: Shipping successful
+[2025-04-30 10:52:37] User: adabd553-61e5-43d1-833b-f8747fcf29fb | Event: Event | Description: Shipping successful
+[2025-04-30 10:52:37] User: a79df4da-13ae-45be-908f-a3683505a095 | Event: Event | Description: Shipping successful
+[2025-04-30 10:52:37] User: 83bee342-de4a-4817-aef4-38b800a77930 | Event: Event | Description: Shipping successful
+[2025-04-30 10:52:37] User: c4e9dd82-9847-472c-ad96-6564373aa836 | Event: Event | Description: Shipping successful
+[2025-04-30 11:03:27] User: 4a608f7d-58d7-468a-a964-f2ee8ba35720 | Event: Event | Description: Shipping successful
+[2025-04-30 11:03:40] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:40] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:03:40] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:40] User: d8fafa66-85da-47a7-8b1e-40558c335442 | Event: Event | Description: Shipping successful
+[2025-04-30 11:03:40] User: d8fafa66-85da-47a7-8b1e-40558c335442 | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 11:03:40] User: d8fafa66-85da-47a7-8b1e-40558c335442 | Event: Event | Description: PURCHASED_CART
+[2025-04-30 11:03:45] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:45] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:03:45] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:45] User: 691770b2-f183-45c6-afd5-51dd1b53151a | Event: Event | Description: Shipping successful
+[2025-04-30 11:03:45] User: 691770b2-f183-45c6-afd5-51dd1b53151a | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 11:03:45] User: 691770b2-f183-45c6-afd5-51dd1b53151a | Event: Event | Description: PURCHASED_CART
+[2025-04-30 11:03:57] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:57] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:03:57] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:03:57] User: 8526755f-c658-49d6-a66d-ff78a6541f50 | Event: Event | Description: Shipping successful
+[2025-04-30 11:03:57] User: 8526755f-c658-49d6-a66d-ff78a6541f50 | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 11:03:57] User: 8526755f-c658-49d6-a66d-ff78a6541f50 | Event: Event | Description: PURCHASED_CART
+[2025-04-30 11:04:04] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:04:04] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:04:04] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:04:04] User: e5a64695-0edd-47b3-bc6f-df9af3e660ab | Event: Event | Description: PURCHASE_CART_SUCCESS
+[2025-04-30 11:04:04] User: e5a64695-0edd-47b3-bc6f-df9af3e660ab | Event: Event | Description: PURCHASED_CART
+[2025-04-30 11:08:05] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:08:05] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:08:05] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:08:05] User: 4094a125-fac8-40c3-b272-054858d2fc58 | Event: Event | Description: PURCHASE_CART_FAILEDPayment service failed
+[2025-04-30 11:08:10] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:08:10] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:08:10] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:08:10] User: 7554e131-774d-4605-bf57-d4c7ee1c008e | Event: Event | Description: PURCHASE_CART_FAILEDPayment service failed
+[2025-04-30 11:10:09] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:09] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:10:09] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:09] User: 006d3dfc-b415-49e8-bdcf-e56d41907650 | Event: Event | Description: PURCHASE_CART_FAILEDPayment service failed
+[2025-04-30 11:10:16] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:16] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:10:16] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:16] User: 52e5bce2-5f2b-4ffc-9ed1-8d4a888e2add | Event: Event | Description: PURCHASE_CART_FAILEDPayment service failed
+[2025-04-30 11:10:21] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:22] User: yaniv | Event: Event | Description: SIGNUP
+[2025-04-30 11:10:22] User: yaniv | Event: Event | Description: TokenService
+[2025-04-30 11:10:22] User: dcee648c-ad3d-4d69-8a0b-6053599266b9 | Event: Event | Description: PURCHASE_CART_FAILEDPayment service failed

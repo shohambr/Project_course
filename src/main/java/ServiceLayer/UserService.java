@@ -18,6 +18,7 @@ import utils.ProductKeyModule;
 import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 public class UserService {
 
@@ -109,13 +110,20 @@ public class UserService {
         }
     }
 
-     public String purchaseCart(User user, String token) {
+     @Transactional
+     public String purchaseCart(User user, String token, String creditCardNumber, String expirationDate, String backNumber, String paymentService, String state, String city, String street, String homeNumber) {
          try {
+             if(!this.paymentService.processPayment(user, creditCardNumber, expirationDate, backNumber, paymentService)) {
+                 throw new Exception("Payment service failed");
+             }
+             if(this.shippingService.processShipping(user, state, city, street, homeNumber)) {
+                 throw new Exception("Shipping service failed");
+             }
              userCart.purchaseCart(user, token);
              EventLogger.logEvent(user.getID(), "PURCHASED_CART");
              return "Purchased cart";
          } catch (Exception e) {
-             EventLogger.logEvent(user.getID(), "PURCHASE_CART_FAILED");
+             EventLogger.logEvent(user.getID(), "PURCHASE_CART_FAILED" + e.getMessage());
              throw new RuntimeException("Failed to add product to cart");
          }
      }

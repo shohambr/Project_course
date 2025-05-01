@@ -1,15 +1,15 @@
 package DomainLayer;
+import java.util.UUID;
+
 import DomainLayer.Roles.RegisteredUser;
 import ServiceLayer.UserService;
 
 public abstract class User {
-    private int id;
-    private ShoppingCart shoppingCart;
-    private String myToken;
-    protected UserService userService;
+    protected String id = UUID.randomUUID().toString();
+    protected ShoppingCart shoppingCart = new ShoppingCart(id);
+    protected String myToken;
 
     public User() {
-        this.shoppingCart = new ShoppingCart(id);
     }
 
     public void addProduct(Store store, Product product){    //Store helps shopping cart to know to what shopping bag
@@ -20,26 +20,15 @@ public abstract class User {
         shoppingCart.removeProduct(store, product);
     }
 
-    public void purchaseCart(){
-        userService.purchaseCart(id , myToken , shoppingCart);
+    public String getToken() {
+        return myToken;
+    }
+    public String getID() {
+        return this.id;
     }
 
-    public User login(String username , String pass){
-        try{
-            return new RegisteredUser(userService.login(username , pass));
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String logout(String username , String pass){
-        return userService.login(username , pass);
-    }
-
-    public String register(String username , String pass){
-        return userService.login(username , pass);
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
 }
-

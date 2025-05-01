@@ -1,0 +1,15 @@
+[2025-04-30 23:37:16] User: testUser | Event: Event | Description: User logged in
+[2025-04-30 23:37:18] User: c99a9cbf-3a80-4189-a38d-bc51e7c6829f | Event: Event | Description: Successfully payed for cart
+[2025-04-30 23:37:18] User: 60f71a3e-fc53-4652-8c5c-6b7c41d99393 | Event: Event | Description: Shipping successful
+[2025-05-01 08:05:26] User: lgvep[r | Event: Event | Description: LOGIN_FAILED - USER_NOT_EXIST
+[2025-05-01 08:05:26] User: lgvep[r | Event: Event | Description: LOGIN_FAILED
+[2025-05-01 08:09:37] User: vewqrwg | Event: Event | Description: LOGIN_FAILED - USER_NOT_EXIST
+[2025-05-01 08:09:37] User: vewqrwg | Event: Event | Description: LOGIN_FAILED
+[2025-05-01 08:14:34] User: username | Event: Event | Description: TokenService
+[2025-05-01 08:14:34] User: username | Event: Event | Description: SIGNUP
+[2025-05-01 08:14:53] User: username | Event: Event | Description: TokenService
+[2025-05-01 08:14:53] User: username | Event: Event | Description: SIGNUP
+[2025-05-01 08:15:08] User: username | Event: Event | Description: LOGIN
+[2025-05-01 08:15:08] User: username | Event: Event | Description: TokenService
+[2025-05-01 08:15:29] User: username | Event: Event | Description: TokenService
+[2025-05-01 08:15:29] User: username | Event: Event | Description: SIGNUP

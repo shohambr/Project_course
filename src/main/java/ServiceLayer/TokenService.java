@@ -1,40 +1,52 @@
 package ServiceLayer;
 
+import DomainLayer.IToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-public class TokenService {
+@Service
+public class TokenService implements IToken {
 
-    private final String secret = "fzhfbvklyanivlkd675548!!!jogfh/sdgoiu8dhf=="; // replace this with an actual secret key
+    private final String secret = "fzhfbvklyanivlkd675548!oiu8dhf=="; // make sure it's 256 bits (32 chars)
     private final SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
-    private final long expirationTime = 1000 * 60 * 60 ; // one hour
+    private final long expirationTime = 1000 * 60 * 60; // one hour
+
+    private final Set<String> blacklistedTokens = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Map<String, String> activeTokens = new ConcurrentHashMap<>();
 
     public String generateToken(String username) {
-        return Jwts.builder()
+        EventLogger.logEvent(username ,"TokenService");
+        String JWT = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key)
                 .compact();
+        activeTokens.put(JWT, username);
+        return JWT;
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void validateToken(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
         }
+        if (blacklistedTokens.contains(token)) {
+            throw new IllegalArgumentException("user not logged in");
+        }
+
+        if (!activeTokens.containsKey(token))
+            throw new IllegalArgumentException("Token is not active");
+
+        Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
 
     public String extractUsername(String token) {
@@ -50,11 +62,27 @@ public class TokenService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public void invalidateToken(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
+        if (blacklistedTokens.contains(token)) {
+            throw new IllegalArgumentException("user not logged in");
+        }
+        blacklistedTokens.add(token);
+        activeTokens.remove(extractUsername(token) , token);
+    }
+
+    private static void requireNonEmpty(String token) {
+        if (token == null || token.isEmpty())
+            throw new IllegalArgumentException("Token cannot be null or empty");
     }
 }

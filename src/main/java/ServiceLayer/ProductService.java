@@ -2,9 +2,11 @@ package ServiceLayer;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class ProductService {
     private final IProductRepository productRepo;
 
@@ -27,6 +29,15 @@ public class ProductService {
             return productRepo.findById(id);
         } catch (Exception e) {
             System.out.println("ERROR finding product by ID:" + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Product> getProductByName(String name) {
+        try {
+            return productRepo.findById(name);
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
             return Optional.empty();
         }
     }
@@ -83,4 +94,26 @@ public class ProductService {
         }
         return false;
     }
+
+    public boolean updateRating(String productId, int newRating) {
+        try {
+            if (newRating < 0 || newRating > 5) {
+                System.out.println("Rating must be between 0 and 5");
+                return false;
+            }
+
+            Optional<Product> optionalProduct = productRepo.findById(productId);
+            if (optionalProduct.isPresent()) {
+                Product product = optionalProduct.get();
+                product.setRating(newRating);
+                productRepo.save(product);
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR updating rating: " + e.getMessage());
+        }
+
+        return false;
+    }
+
 }

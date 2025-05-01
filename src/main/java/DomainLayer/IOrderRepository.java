@@ -1,5 +1,6 @@
 package DomainLayer;
 
-interface IOrderRepository {
-
+public interface IOrderRepository {
+    void addOrder(Order order);
+    void removeOrder(Order order);
 }

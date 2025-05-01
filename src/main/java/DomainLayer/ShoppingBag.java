@@ -1,5 +1,7 @@
 package DomainLayer;
 
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,44 +17,62 @@ public class ShoppingBag {
         this.products = new HashMap<Product, Integer>();
     }
 
-    public String getStoreName() {
-        return store.getName();
-    }
+    public String getStoreId() {return store.getId();}
+
+    public Store getStore() {return store;}
 
     public Map<Product, Integer> getProducts() { return products; }
 
     public void addProduct(Product productToAdd) {
         boolean found = false;
         for (Product product : products.keySet()) {
-            if (productToAdd.getId() == product.getId()) {
-                products.put(product, products.get(product) + 1);
+            if (productToAdd.getId().equals(product.getId())) {
+                products.put(product, Integer.valueOf(products.get(product) + 1));
                 found = true;
             }
         }
 
         if (!found) {
-            products.put(productToAdd, 1); //needs update to use with database
-
+            products.put(productToAdd, Integer.valueOf(1)); //needs update to use with database
         }
     }
 
     public boolean removeProduct(Product productToRemove) {
         boolean found = false;
         for (Product product : products.keySet()) {
-            if (productToRemove.getId() == product.getId()) {
-                products.put(product, products.get(product) - 1);
+            if (productToRemove.getId().equals(product.getId())) {
+                products.put(product, Integer.valueOf(products.get(product) - 1));
                 if (products.get(product) == 0) {
                     products.remove(product);
-                    found = true;
                 }
+                found = true;
             }
         }
         return found;
     }
 
-    public void removeAllProducts(Product productToRemove) {
-        //needs update to use with database
-        products.remove(productToRemove);
+
+    public boolean availablePurchaseShoppingBag() {
+        for (Map.Entry<Product, Integer> product : products.entrySet()) {
+            if(!store.availableProduct(product.getKey(), product.getValue())){
+                return false;
+            }
+        }
+        return true;
     }
 
+    public double calculatePurchaseShoppingBag() {
+
+        double price = 0;
+        for (Map.Entry<Product, Integer> product : products.entrySet()) {
+            price = price + store.calculateProduct(product.getKey(), product.getValue());
+        }
+        return price;
+    }
+
+    public void sold() {
+        for (Map.Entry<Product, Integer> product : products.entrySet()) {
+            store.decreaseProduct(product.getKey(), product.getValue());
+        }
+    }
 }

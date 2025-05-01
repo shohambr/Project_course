@@ -1,0 +1,14 @@
+[2025-04-30 23:37:16] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
+[2025-04-30 23:37:18] User: fc1a0aed-f631-40e9-a833-8b4ed16bf9fa | Error: Failed to pay | Details: Exception for payment: Unknown credit card company
+[2025-04-30 23:37:18] User: 775394fb-e91e-4396-a65d-f854a69da9c7 | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-04-30 23:37:18] User: 8dfce81d-39f0-49c7-9b0d-2ed9efb00637 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 23:37:18] User: db901117-7d48-4bf9-b17b-572159ea3453 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 23:37:18] User: 1c8e93c2-6c1d-4ab7-b1e8-c10c39cb90a2 | Error: Failed to pay | Details: Exception for payment: For input string: ""
+[2025-04-30 23:37:18] User: a27c64e8-8915-418d-8432-d51e01990d4c | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 23:37:18] User: 834d59c8-c336-4fb9-8729-5ab3169f7727 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-04-30 23:37:18] User: f2364e99-a7d5-4482-b300-2c82f81737cb | Error: Failed to pay | Details: Exception for payment: For input string: "kfjeowia0"
+[2025-04-30 23:37:18] User: 61f6f752-1bc4-4b2c-b349-5f232365a242 | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 23:37:18] User: 0a42306b-c9fc-4662-b83e-01fe6105e815 | Error: Error in shipping | Details: Empty state
+[2025-04-30 23:37:18] User: 67c894a9-b0b1-4265-9f80-50ae81d9e135 | Error: Error in shipping | Details: Empty street
+[2025-04-30 23:37:18] User: 620f3e16-4835-4dd4-bc0c-f4f6eabc29a6 | Error: Error in shipping | Details: Invalid home number
+[2025-04-30 23:37:18] User: a41d22e7-56cf-4e33-b766-770b167efbc8 | Error: Error in shipping | Details: Empty city

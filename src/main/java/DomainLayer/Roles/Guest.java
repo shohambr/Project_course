@@ -1,11 +1,17 @@
 package DomainLayer.Roles;
+
 import DomainLayer.User;
+import ServiceLayer.UserService;
 
 public class Guest extends User {
 
-    @Override
-    public String logout(String u , String p) {
-        return null;
+    public Guest() {
+        super();
+    }
+    
+
+    public void logout() {
+        throw new UnsupportedOperationException("Guest cannot logout");
     }
 
 

@@ -1,52 +1,40 @@
 package UILayer;
 
-import DomainLayer.*;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
-import ServiceLayer.*;
+import DomainLayer.User;
+import ServiceLayer.UserService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
-import infrastructureLayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-@Route("")
-public class Login extends VerticalLayout {
+public class SignUp extends VerticalLayout {
 
     private final UserService userService;
 
     @Autowired
-    public Login(UserService configuredUserService) {
+    public SignUp(UserService configuredUserService) {
         this.userService = configuredUserService;
 
-        try {
-            userService.signUp("username", "password");
-        } catch (Exception e) {
-
-        }
         TextField username = new TextField("username");
         PasswordField password = new PasswordField("password");
         Span error = new Span("");
-        Button login = new Button("login",e -> {
+        Button login = new Button("sign up", e -> {
             try {
-                RegisteredUser user = userService.login(username.getValue(), password.getValue());
+                RegisteredUser user = userService.signUp(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("user", user);
                 UI.getCurrent().navigate("/pages");
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }
         });
-        add(new H2("login"), username, password, login, error);
-        setAlignItems(Alignment.CENTER);
+        add(new H2("sign up"), username, password, login, error);
+        setAlignItems(FlexComponent.Alignment.CENTER);
     }
+
 }

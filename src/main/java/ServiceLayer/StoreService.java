@@ -44,6 +44,6 @@ public class StoreService{
         store.setRating(rating);
     }
 
-    public Store getStoreById(String id) {StoreRepository.getStore(id);}
+    public Store getStoreById(String id) {return StoreRepository.getStore(id);}
 
 }

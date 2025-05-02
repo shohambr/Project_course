@@ -13,7 +13,6 @@ import java.util.Map;
 public class ProductListUI extends HorizontalLayout {
 
     private final ShoppingCart shoppingCart;
-
     @Autowired
     public ProductListUI(ShoppingCart configuredShoppingCart) {
         this.shoppingCart = configuredShoppingCart;

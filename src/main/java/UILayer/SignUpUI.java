@@ -1,7 +1,6 @@
 package UILayer;
 
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.User;
 import ServiceLayer.UserService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -11,14 +10,16 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SignUp extends VerticalLayout {
+@Route("/signup")
+public class SignUpUI extends VerticalLayout {
 
     private final UserService userService;
 
     @Autowired
-    public SignUp(UserService configuredUserService) {
+    public SignUpUI(UserService configuredUserService) {
         this.userService = configuredUserService;
 
         TextField username = new TextField("username");
@@ -28,7 +29,7 @@ public class SignUp extends VerticalLayout {
             try {
                 RegisteredUser user = userService.signUp(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/pages");
+                UI.getCurrent().navigate("/:userid");
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

@@ -1,7 +1,5 @@
 package UILayer;
 
-import DomainLayer.*;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
 import ServiceLayer.*;
 import com.vaadin.flow.component.UI;
@@ -12,28 +10,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import infrastructureLayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 @Route("")
-public class Login extends VerticalLayout {
+public class LoginUI extends VerticalLayout {
 
     private final UserService userService;
 
     @Autowired
-    public Login(UserService configuredUserService) {
+    public LoginUI(UserService configuredUserService) {
         this.userService = configuredUserService;
-
-        try {
-            userService.signUp("username", "password");
-        } catch (Exception e) {
-
-        }
         TextField username = new TextField("username");
         PasswordField password = new PasswordField("password");
         Span error = new Span("");
@@ -41,7 +27,7 @@ public class Login extends VerticalLayout {
             try {
                 RegisteredUser user = userService.login(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/pages");
+                UI.getCurrent().navigate("/:userid");
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

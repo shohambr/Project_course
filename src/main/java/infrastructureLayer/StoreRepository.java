@@ -35,4 +35,14 @@ public class StoreRepository implements IStoreRepository {
         }
     }
 
+    public Store getStore(String id) {
+        for (Store existingStore : Stores.keySet()) {
+            if (existingStore.getId().equals(id)) {
+                return existingStore;
+            }
+        }
+
+        return null;
+    }
+
 }

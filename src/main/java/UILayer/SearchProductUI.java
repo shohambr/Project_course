@@ -2,12 +2,10 @@ package UILayer;
 
 import DomainLayer.Product;
 import DomainLayer.User;
-import ServiceLayer.StoreService;
 import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,15 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Route("/searchproduct")
-public class SearchProduct extends VerticalLayout {
+public class SearchProductUI extends VerticalLayout {
 
     private final UserService userService;
 
     @Autowired
-    public SearchProduct(UserService configuredUserService) {
+    public SearchProductUI(UserService configuredUserService) {
         this.userService = configuredUserService;
 
         TextField productName = new TextField("product name");

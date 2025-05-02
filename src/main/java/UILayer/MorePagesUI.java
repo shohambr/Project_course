@@ -9,8 +9,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @Route("/pages")
-public class MorePages extends VerticalLayout {
-    public MorePages() {
+public class MorePagesUI extends VerticalLayout {
+    public MorePagesUI() {
         TextField textField = new TextField("vbduis");
         Span label = new Span("a");
         //button puts textfield value in label

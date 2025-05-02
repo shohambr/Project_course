@@ -34,9 +34,10 @@ public class UserService {
     private final UserCart userCart;
     private final PaymentService paymentService;
     private final ShippingService shippingService;
+    private final StoreService storeService;
 
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, PaymentService paymentService, ShippingService shippingService) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, PaymentService paymentService, ShippingService shippingService, StoreService storeService) {
         this.productService = productService;
         this.userRepo = repository;
         this.tokenService = tokenService;
@@ -47,6 +48,7 @@ public class UserService {
         this.userCart = new UserCart(tokenService);
         this.paymentService = paymentService;
         this.shippingService = shippingService;
+        this.storeService = storeService;
     }
 
 
@@ -133,36 +135,68 @@ public class UserService {
 
 
 
-     public List<String> searchItems(String name , String token) throws Exception {
-         //if (!tokenService.validateToken(token)) {
-         //    throw new RuntimeException("Invalid or expired token");
-         //}
-         if (name == null || name.isEmpty()) {
-             return Collections.emptyList();
-         }
-    
-         if (name.equals("all")) {
-             return productService.getAllProducts().stream()
-                     .map(product -> {
-                         try {
-                             return mapper.writeValueAsString(product);
-                         } catch (JsonProcessingException e) {
-                             throw new RuntimeException("Failed to serialize product to JSON", e);
-                         }
-                     })
-                     .collect(Collectors.toList());
-         } else {
-             return productService.getProductByName(name).stream()
-                     .map(product -> {
-                         try {
-                             return mapper.writeValueAsString(product);
-                         } catch (JsonProcessingException e) {
-                             throw new RuntimeException("Failed to serialize product to JSON", e);
-                         }
-                     })
-                     .collect(Collectors.toList());
-         }
-     }
+//     public List<String> searchItems(String name , String token) throws Exception {
+//         //if (!tokenService.validateToken(token)) {
+//         //    throw new RuntimeException("Invalid or expired token");
+//         //}
+//         if (name == null || name.isEmpty()) {
+//             return Collections.emptyList();
+//         }
+//
+//         if (name.equals("all")) {
+//             return productService.getAllProducts().stream()
+//                     .map(product -> {
+//                         try {
+//                             return mapper.writeValueAsString(product);
+//                         } catch (JsonProcessingException e) {
+//                             throw new RuntimeException("Failed to serialize product to JSON", e);
+//                         }
+//                     })
+//                     .collect(Collectors.toList());
+//         } else {
+//             return productService.getProductByName(name).stream()
+//                     .map(product -> {
+//                         try {
+//                             return mapper.writeValueAsString(product);
+//                         } catch (JsonProcessingException e) {
+//                             throw new RuntimeException("Failed to serialize product to JSON", e);
+//                         }
+//                     })
+//                     .collect(Collectors.toList());
+//         }
+//     }
+//
+//    public List<String> searchStores(String name , String token) throws Exception {
+//        //if (!tokenService.validateToken(token)) {
+//        //    throw new RuntimeException("Invalid or expired token");
+//        //}
+//        if (name == null || name.isEmpty()) {
+//            return Collections.emptyList();
+//        }
+//
+//        if (name.equals("all")) {
+//            return storeService.getAllStores().stream()
+//                    .map(store -> {
+//                        try {
+//                            return mapper.writeValueAsString(store);
+//                        } catch (JsonProcessingException e) {
+//                            throw new RuntimeException("Failed to serialize product to JSON", e);
+//                        }
+//                    })
+//                    .collect(Collectors.toList());
+//        } else {
+//            return storeService.getStoreByName(name).stream()
+//                    .map(p -> {
+//                        try {
+//                            return mapper.writeValueAsString(store);
+//                        } catch (JsonProcessingException e) {
+//                            throw new RuntimeException("Failed to serialize product to JSON", e);
+//                        }
+//                    })
+//                    .collect(Collectors.toList());
+//        }
+//    }
+
 
 //     public List<String> searchItemsInStore(String name , String storeId , String token) throws Exception {
 //         if (!tokenService.validateToken(token)) {

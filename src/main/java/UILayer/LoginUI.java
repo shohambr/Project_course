@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("")
+@Route("/login")
 public class LoginUI extends VerticalLayout {
 
     private final UserService userService;
@@ -27,7 +27,7 @@ public class LoginUI extends VerticalLayout {
             try {
                 RegisteredUser user = userService.login(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/:userid");
+                UI.getCurrent().navigate("/" + user.getID());
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

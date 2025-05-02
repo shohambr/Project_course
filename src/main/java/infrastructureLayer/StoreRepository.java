@@ -4,8 +4,7 @@ import DomainLayer.Product;
 import DomainLayer.Store;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class StoreRepository implements IStoreRepository {
@@ -43,6 +42,18 @@ public class StoreRepository implements IStoreRepository {
         }
 
         return null;
+    }
+    public Optional<String> findByName(String name) {
+        for (Store existingStore : Stores.keySet()) {
+            if (existingStore.getId().equals(name)) {
+                return Optional.ofNullable(Stores.get(existingStore));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public List<Store> findAll() {
+        return new ArrayList<>(Stores.keySet());
     }
 
 }

@@ -11,10 +11,12 @@ C:\Users\Hadar\Project_course\src\main\java\UILayer\HomePageUI.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\SystemConfiguration.java
 C:\Users\Hadar\Project_course\src\main\java\utils\ProductKeyDes.java
 C:\Users\Hadar\Project_course\src\main\java\utils\Response.java
+C:\Users\Hadar\Project_course\src\main\java\UILayer\PurchaseCartUI.java
 C:\Users\Hadar\Project_course\src\main\java\infrastructureLayer\ProxyShipping.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\ProductListUI.java
 C:\Users\Hadar\Project_course\src\main\java\ServiceLayer\TokenService.java
 C:\Users\Hadar\Project_course\src\main\java\DomainLayer\User.java
+C:\Users\Hadar\Project_course\src\main\java\UILayer\StoreListUI.java
 C:\Users\Hadar\Project_course\src\main\java\infrastructureLayer\JobRepository.java
 C:\Users\Hadar\Project_course\src\main\java\utils\ProductKeyModule.java
 C:\Users\Hadar\Project_course\src\main\java\ServiceLayer\NotificationService.java
@@ -53,9 +55,9 @@ C:\Users\Hadar\Project_course\src\main\java\DomainLayer\Store.java
 C:\Users\Hadar\Project_course\src\main\java\ServiceLayer\JobService.java
 C:\Users\Hadar\Project_course\src\main\java\infrastructureLayer\UserRepository.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\ShoppingCartUI.java
-C:\Users\Hadar\Project_course\src\main\java\UILayer\StorePageUI.java
 C:\Users\Hadar\Project_course\src\main\java\DomainLayer\Roles\Jobs\Managing.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\EditStorePageUI.java
+C:\Users\Hadar\Project_course\src\main\java\UILayer\SearchStoreUI.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\SignUpUI.java
 C:\Users\Hadar\Project_course\src\main\java\DomainLayer\ShoppingCart.java
 C:\Users\Hadar\Project_course\src\main\java\UILayer\MorePagesUI.java

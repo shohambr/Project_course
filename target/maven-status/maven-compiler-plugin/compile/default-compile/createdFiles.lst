@@ -13,6 +13,7 @@ DomainLayer\domainServices\UserCart.class
 DomainLayer\IToken.class
 ServiceLayer\JobService.class
 infrastructureLayer\UserRepository.class
+UILayer\SearchStoreUI.class
 DomainLayer\IPayment.class
 DomainLayer\Product.class
 UILayer\UserHomePageUI.class
@@ -20,6 +21,7 @@ DomainLayer\User.class
 infrastructureLayer\ProxyPayment.class
 DomainLayer\IShipping.class
 DomainLayer\Roles\Guest.class
+UILayer\StoreListUI.class
 ServiceLayer\ErrorLogger.class
 UILayer\HomePageUI.class
 DomainLayer\Market.class
@@ -27,6 +29,7 @@ infrastructureLayer\ProductRepository.class
 utils\Response.class
 DomainLayer\IStoreRepository.class
 UILayer\SearchProductUI.class
+UILayer\PurchaseCartUI.class
 UILayer\SignUpUI.class
 UILayer\EditStorePageUI.class
 infrastructureLayer\StoreRepository.class
@@ -40,7 +43,6 @@ ServiceLayer\StoreService.class
 ServiceLayer\ShippingService.class
 ServiceLayer\PaymentService.class
 DomainLayer\Roles\RegisteredUser.class
-UILayer\StorePageUI.class
 DomainLayer\ShoppingBag.class
 infrastructureLayer\ProxyShipping.class
 utils\JsonUtils.class

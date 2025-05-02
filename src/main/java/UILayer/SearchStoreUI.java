@@ -1,8 +1,10 @@
 package UILayer;
 
 import DomainLayer.Product;
+import DomainLayer.Store;
 import DomainLayer.User;
-import ServiceLayer.ProductService;
+import ServiceLayer.StoreService;
+import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -15,35 +17,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Objects;
 
-@Route("/searchproduct")
-public class SearchProductUI extends VerticalLayout {
+@Route("/searchstore")
+public class SearchStoreUI extends VerticalLayout {
 
-    private final ProductService productService;
+    private final StoreService storeService;
 
     @Autowired
-    public SearchProductUI(ProductService configuredProductService) {
-        this.productService = configuredProductService;
+    public SearchStoreUI(StoreService configuredStoreService) {
 
-        TextField productName = new TextField("product name");
-        Button searchProduct = new Button("search product", e -> {
+        this.storeService = configuredStoreService;
+
+        TextField storeName = new TextField("store name");
+        Button searchStore = new Button("search store", e -> {
             try {
                 User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                List<String> items = productService.searchItems(productName.getValue(), user.getToken());
-                List<Product> products = items.stream().map(item -> {
+                List<String> items = storeService.searchStores(storeName.getValue(), user.getToken());
+                List<Store> stores = items.stream().map(item -> {
                     try {
-                        return new ObjectMapper().readValue(item, Product.class);
+                        return new ObjectMapper().readValue(item, Store.class);
                     } catch (Exception exception) {
                         return null;
                     }
                 }).filter(Objects::nonNull).toList();
-                for (Product product : products) {
-                    add(new Button(product.getName() + "\n" + product.getPrice(), choose -> {UI.getCurrent().navigate("/product/" + product.getId() + "/" + product.getStoreId());}));
+                for (Store store : stores) {
+                    add(new Button(store.getName() , choose -> {UI.getCurrent().navigate("/store/" + store.getId());}));
                 }
             } catch (Exception exception) {
                 Notification.show(exception.getMessage());
             }
         });
 
-        add(productName, searchProduct);
+        add(storeName, searchStore);
+
     }
 }

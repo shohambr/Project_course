@@ -29,7 +29,7 @@ public class SignUpUI extends VerticalLayout {
             try {
                 RegisteredUser user = userService.signUp(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/:userid");
+                UI.getCurrent().navigate("/" + user.getID());
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

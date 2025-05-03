@@ -6,14 +6,17 @@ import DomainLayer.Product;
 import DomainLayer.ShoppingBag;
 import DomainLayer.ShoppingCart;
 import DomainLayer.Store;
-import ServiceLayer.UserService;
+import io.micrometer.observation.Observation.Event;
+import ServiceLayer.EventLogger;
 
 public class Guest {
 
     protected String id = UUID.randomUUID().toString();
     protected ShoppingCart shoppingCart = new ShoppingCart((id));
     protected String myToken;
-    protected String name = "Guest";
+    protected static int counter = 0;
+    protected String username = "Guest"+ counter++;
+    protected Boolean cartReserved = false;
 
 
     public Guest() {
@@ -25,14 +28,12 @@ public class Guest {
 
 
     public void addProduct(String storeId, String productId , Integer quantity) {
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        }
         boolean found = false;
         for (ShoppingBag shoppingBag : shoppingCart.getShoppingBags()) {
             if (shoppingBag.getStoreId().equals(storeId)) {
-                found = true;
                 shoppingBag.addProduct(productId , quantity);
+                found = true;
+                break;
             }
         }
         if (!found) {
@@ -43,12 +44,17 @@ public class Guest {
     }
 
     public void removeProduct(String storeId, String productId , Integer quantity) {
-        boolean found = false;
         for (ShoppingBag shoppingBag : shoppingCart.getShoppingBags()) {
             if (shoppingBag.getStoreId().equals(storeId)) {
-                found = shoppingBag.removeProduct(productId , quantity);
-                if (shoppingBag.getProducts().isEmpty()) {
-                    shoppingCart.getShoppingBags().remove(shoppingBag);
+                boolean found = shoppingBag.removeProduct(productId , quantity);
+                if (found) {
+                    if (shoppingBag.getProducts().isEmpty()) {
+                        shoppingCart.getShoppingBags().remove(shoppingBag);
+                    }
+                    break;
+                } else {
+                    EventLogger.logEvent(productId, "Product not found in cart");
+                    throw new IllegalArgumentException("Product not found in cart");
                 }
             }
         }
@@ -63,6 +69,15 @@ public class Guest {
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
+    }
+
+    public void setCartReserved(Boolean cartReserved) {
+        this.cartReserved = cartReserved;
+    }
+
+
+    public Boolean getCartReserved() {
+        return cartReserved;
     }
 
 }

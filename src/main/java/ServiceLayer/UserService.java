@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
+import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
@@ -34,13 +35,15 @@ public class UserService {
     private final IUserRepository userRepo;
     private final IStoreRepository storeRepo;
     private final IProductRepository productRepo;
+    private final IPayment payment;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
     private final ProductService productService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment) {
+        this.payment = payment;
         this.storeRepo = storeRepo;
         this.productService = productService;
         this.userRepo = repository;
@@ -50,7 +53,7 @@ public class UserService {
         this.jobService = jobService;
         this.mapper.registerModule(new ProductKeyModule());
         this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo);
+        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo , payment);
     }
 
 
@@ -68,45 +71,26 @@ public class UserService {
     public void signUp(String username, String password)  throws Exception {
         try {
             userConnectivity.signUp(username, password);
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
-            userRepo.addUser(user.getID(), hashedPassword, username , mapper.writeValueAsString(user));
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "SIGNUP_FAILED");
             throw new RuntimeException("User already exists");
         }
     }
 
-    
-    public String logoutRegistered(String token) throws Exception {
-        String username = tokenService.extractUsername(token);
-        try {
-            userConnectivity.logout(username, token);
-            EventLogger.logEvent(username, "LOGOUT");
-            tokenService.invalidateToken(token);
-            return tokenService.generateToken("Guest");
-        }catch (IllegalArgumentException e) {
-            EventLogger.logEvent(username, "LOGOUT_FAILED" );
-            throw new RuntimeException("Invalid token");
-        }
-    }
 
-
-    public String removeFromCart(String token, String userId, String storeId, String productId, Integer quantity) {
+    public void removeFromCart(String token, String storeId, String productId, Integer quantity) {
         try{
-            tokenService.validateToken(token);
-            userCart.removeFromCart(token, userId, storeId, productId, quantity);
+            userCart.removeFromCart(token, storeId, productId, quantity);
             EventLogger.logEvent(tokenService.extractUsername(token), "REMOVE_FROM_CART");
-            return "Product removed from cart";
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "REMOVE_FROM_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to remove product from cart");
         }
     }
 
-    public String addToCart(String token, String userId, String storeId, String productId, Integer quantity) {
+    public String addToCart(String token, String storeId, String productId, Integer quantity) {
         try{
-            userCart.addToCart(token, userId, storeId, productId, quantity);
+            userCart.addToCart(token, storeId, productId, quantity);
             EventLogger.logEvent(tokenService.extractUsername(token), "ADD_TO_CART");
             return "Product added to cart";
         } catch (Exception e) {
@@ -115,181 +99,22 @@ public class UserService {
         }
     }
 
-     public String purchaseCart(String userId, String token) {
+     public Double reserveCart(String token) {
          try{
-            tokenService.validateToken(token);
-            String user = userRepo.getUser(userId);
-            RegisteredUser registeredUser = mapper.readValue(user, RegisteredUser.class);
-            ShoppingCart cart = registeredUser.getShoppingCart();
-            double price = 0.0;
-            for (ShoppingBag bag : cart.getShoppingBags()) {
-                String storeId = bag.getStoreId();
-                Store store = storeRepo.getStore(storeId);
-                price += userCart.purchaseCart(userId);
-            }
-
+            return userCart.reserveCart(token);
          } catch (Exception e) {
-             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED");
+             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED");
              throw new RuntimeException("Failed to purchase cart");
          }
-            return "Cart purchased successfully";
      }
 
+    public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv) {
+        try{
+            userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv);
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED");
+            throw new RuntimeException("Failed to purchase cart");
+        }
+    }
 
-
-//     public List<String> searchItems(String name , String token) throws Exception {
-//         if (!tokenService.validateToken(token)) {
-//             throw new RuntimeException("Invalid or expired token");
-//         }
-//         if (name == null || name.isEmpty()) {
-//             return Collections.emptyList();
-//         }
-    
-//         if (name.equals("all")) {
-//             return productService.getAllProducts().stream()
-//                     .map(product -> {
-//                         try {
-//                             return mapper.writeValueAsString(product);
-//                         } catch (JsonProcessingException e) {
-//                             throw new RuntimeException("Failed to serialize product to JSON", e);
-//                         }
-//                     })
-//                     .collect(Collectors.toList());
-//         } else {
-//             return productService.getProductByName(name).stream()
-//                     .map(product -> {
-//                         try {
-//                             return mapper.writeValueAsString(product);
-//                         } catch (JsonProcessingException e) {
-//                             throw new RuntimeException("Failed to serialize product to JSON", e);
-//                         }
-//                     })
-//                     .collect(Collectors.toList());
-//         }
-//     }
-
-//     public List<String> searchItemsInStore(String name , String storeId , String token) throws Exception {
-//         if (!tokenService.validateToken(token)) {
-//             throw new RuntimeException("Invalid or expired token");
-//         }
-//         if (name == null || name.isEmpty()) {
-//             return Collections.emptyList();
-//         }
-//         return searchItems(name , token).stream()
-//                 .filter(item -> {
-//                     try {
-//                         Product product = mapper.readValue(item, Product.class);
-//                         return product.getStoreId().equals(storeId);
-//                     } catch (JsonProcessingException e) {
-//                         throw new RuntimeException("Failed to deserialize product from JSON", e);
-//                     }
-//                 })
-//                 .collect(Collectors.toList());
-//     }
-
-//     public String getHistory(int userId, String token) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
-//         // Dummy history retrieval
-//         return "History retrieved for user ID: " + userId;
-//     }
-
-//     public String bid(String itemName, int price, String token) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
-//         // Dummy bidding logic
-//         return "Bid of $" + price + " placed on item '" + itemName + "'.";
-//     }
-
-//     public String purchaseViaBid(String itemName, int price, String token) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
-//         // Dummy purchase via bid logic
-//         return "Purchased item '" + itemName + "' via bid for $" + price + ".";
-//     }
-//     public String createStore(RegisteredUser user, String token) {
-//         if (!tokenService.validateToken(token)) {
-//             return "Invalid or expired token";
-//         }
-//         this.jobService.createStore(user);
-//         return null;
-//     }
-//     public void sendAppointNewOwnerRequest(String token ,Store store, RegisteredUser oldOwner, RegisteredUser newOwner){
-//         boolean accepted=false;
-//         if(!this.jobService.UserIsOwnerOfStore(store.getId(), newOwner.getID())){
-//             StringBuilder requestText = new StringBuilder();
-//             requestText.append("hi, ").append(newOwner.getName()).append(".\n").append("I would like for you to be an owner in my store: ").append(store.getId());
-//             accepted = newOwner.receivedOwnershipRequest(requestText.toString());
-//         }
-//         //insert listener for the users answer
-//         if (accepted){
-//             jobService.addNewOwnerToStore(store,oldOwner,newOwner);
-//         }
-//     }
-//     public void sendAppointNewManagerRequest(Store store, RegisteredUser oldOwner, RegisteredUser newManager, boolean[] permissions){
-//         boolean accepted=false;
-//         if(!this.jobService.UserIsManagerOfStore(store.getId(), newManager.getID())){
-//             StringBuilder requestText = new StringBuilder();
-//             requestText.append("hi, ").append(newManager.getName()).append(".\n").append("I would like for you to be a manager at my store: ").append(store.getId());
-//             accepted = newManager.receivedManagingRequest(requestText.toString());
-//         }
-//         //insert listener for the users answer
-//         if (accepted){
-//             jobService.addNewManagerToStore(store,oldOwner,newManager,permissions);
-//         }
-//     }
-
-//     public void fireFromMyStore(Store store, RegisteredUser superior, RegisteredUser subordinate) {
-//         jobService.fireFromMyStore(store,superior,subordinate);
-//     }
-//     public void changeManagerPermissions(Store store, RegisteredUser owner, RegisteredUser Manager,boolean[] permissions){
-//         jobService.changeManagerPermissions(store, owner, Manager, permissions);
-//     }
-//     public void closeStore(Store store, RegisteredUser founder){
-//         jobService.closeStore(store,founder);
-//     }
-//     public void openStore(Store store, RegisteredUser founder){
-//         jobService.openStore(store,founder);
-//     }
-//     public String getInfoJobsInStore(Store store, RegisteredUser owner){
-//         return jobService.getInfoJobsInStore(store,owner);
-//     }
-//     public String getInfoOrdersInStore(Store store, RegisteredUser owner){
-//         return jobService.getInfoOrdersInStore(store,owner);
-//     }
-//     public void respondToBuyer(Store store, RegisteredUser owner, RegisteredUser customer,String query){
-//         customer.acceptQueryResponse(jobService.respondToBuyer(store,owner,query));
-//     }
-
-//     // public String addToCart(String token,RegisteredUser u , Product product, int quantity) {
-//     //     if (!tokenService.validateToken(token)) {
-//     //         throw new RuntimeException("Invalid or expired token");
-//     //     }
-//     //     if (product == null) {
-//     //         return "Product not found";
-//     //     }
-//     //     if (quantity <= 0) {
-//     //         return "Invalid quantity";
-//     //     }
-//     //     if (u == null) {
-//     //         return "User not found";
-//     //     }
-//     //     u.getShoppingCart().addProduct(product, quantity);
-//     //     return "Product added to cart";
-//     // }
-
-//     public String viewShoppingCart(String token, RegisteredUser u) {
-//         if (!tokenService.validateToken(token)) {
-//             throw new RuntimeException("Invalid or expired token");
-//         }
-//         if (u == null) {
-//             return "User not found";
-//         }
-//         return u.getShoppingCart().toString();
-//     }
-
-    
 }

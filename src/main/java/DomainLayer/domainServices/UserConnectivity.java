@@ -1,6 +1,7 @@
 package DomainLayer.domainServices;
 
 import DomainLayer.User;
+import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import ServiceLayer.EventLogger;
@@ -13,11 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 public class UserConnectivity {
     private IToken Tokener;
     private IUserRepository userRepository;
+    private ObjectMapper mapper = new ObjectMapper();
 
     public UserConnectivity(IToken Tokener, IUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -44,7 +48,7 @@ public class UserConnectivity {
         }
     }
 
-    public void signUp(String username, String password) {
+    public String signUp(String username, String password) throws JsonProcessingException {
         if (username == null || password == null) {
             EventLogger.logEvent(username, "SIGNUP_FAILED - NULL");
             throw new IllegalArgumentException("Username and password cannot be null");
@@ -56,6 +60,10 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "SIGNUP_FAILED - USER_EXIST");
             throw new IllegalArgumentException("User already exists");
         }
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
+        userRepository.addUser(username, hashedPassword , mapper.writeValueAsString(user));
+        return user.getID();
     }
 
     public void logout(String username ,String token) {

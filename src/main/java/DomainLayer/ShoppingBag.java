@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import ServiceLayer.EventLogger;
+
+import io.micrometer.observation.Observation.Event;
 
 
 public class ShoppingBag {
@@ -15,6 +19,11 @@ public class ShoppingBag {
         this.products = new HashMap<String, Integer>();
     }
 
+    public ShoppingBag() {
+        this.storeId = null;
+        this.products = new HashMap<String, Integer>();
+    }
+
 
 
     public String getStoreId() {return storeId;}
@@ -22,30 +31,30 @@ public class ShoppingBag {
     public Map<String, Integer> getProducts() { return products; }
 
     public void addProduct(String productId , Integer quantity) {
-        boolean found = false;
-        for (String product : products.keySet()) {
-            if (productId.equals(product)) {
-                products.put(product, Integer.valueOf(products.get(product) + quantity));
-                found = true;
-            }
-        }
-        if (!found) {
+        if (products.containsKey(productId)) {
+            products.put(productId, Integer.valueOf(products.get(productId) + quantity));
+        } else {
             products.put(productId, quantity);
         }
     }
 
     public boolean removeProduct(String productId , Integer quantity) {
-        if (products.containsKey(productId)) {
-            int currentQuantity = products.get(productId);
-            if (currentQuantity > quantity) {
-                products.put(productId, Integer.valueOf(currentQuantity - quantity));
-            } else if (currentQuantity == quantity) {
-                products.remove(productId);
-            } else {
-                return false;
+        boolean found = false;
+        for (String product : products.keySet()) {
+            if (productId.equals(product)) {
+                if (products.get(product) < quantity) {
+                    throw new IllegalArgumentException("Quantity is greater than available");
+                }
+                if(products.get(product) == quantity) {
+                    products.remove(product);
+                }
+                else{
+                    products.put(product, Integer.valueOf(products.get(product) - quantity));
+                }
+                found = true;
             }
         }
-        return true;
+        return found;
     }
     
 

@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ServiceLayer.UserServiceTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.659 s <<< FAILURE! -- in ServiceLayer.UserServiceTests
-ServiceLayer.UserServiceTests.purchaseCart_Right_params -- Time elapsed: 0.443 s <<< ERROR!
-java.lang.RuntimeException: Failed to purchase cart
-	at ServiceLayer.UserService.purchaseCart(UserService.java:126)
-	at ServiceLayer.UserServiceTests.purchaseCart_Right_params(UserServiceTests.java:254)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
+Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.953 s -- in ServiceLayer.UserServiceTests

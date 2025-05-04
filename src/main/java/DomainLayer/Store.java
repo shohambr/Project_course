@@ -3,6 +3,8 @@ package DomainLayer;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.micrometer.observation.Observation.Event;
 import ServiceLayer.EventLogger;
 public class Store {
@@ -58,10 +60,57 @@ public class Store {
     public void setRating(Double rating){
         this.rating = rating;
     }
-
-    public String getName() {
-        return id;
+    public String getOwnerId() {
+        return ownerId;
     }
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+    public List<String> getUsers() {
+        return users;
+    }
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
+    public Map<String, Integer> getProducts() {
+        return products;
+    }
+    public void setProducts(Map<String, Integer> products) {
+        this.products = products;
+    }
+    public Map<String, Integer> getReservedProducts() {
+        return reservedProducts;
+    }
+    public void setReservedProducts(Map<String, Integer> reservedProducts) {
+        this.reservedProducts = reservedProducts;
+    }
+    public boolean isOpen() {
+        return openNow;
+    }
+    public void setOpen(boolean open) {
+        this.openNow = open;
+    }
+    public void setId(UUID id) {
+        this.id = id.toString();
+    }
+    @JsonIgnore
+    public PurchasePolicy getPurchasePolicy() {
+        return purchasePolicy;
+    }
+    @JsonIgnore
+    public void setPurchasePolicy(PurchasePolicy purchasePolicy) {
+        this.purchasePolicy = purchasePolicy;
+    }
+    @JsonIgnore
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
+    @JsonIgnore
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+
+
     
 
 
@@ -336,6 +385,7 @@ public class Store {
         return sb.toString();
     }
 
+    @JsonIgnore
     public String getOrderHistory() {
         //returns an order history
         return "";

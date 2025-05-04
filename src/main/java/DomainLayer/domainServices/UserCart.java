@@ -112,7 +112,7 @@ public class UserCart {
         Map<String, Integer> reservedProducts = new HashMap<>();
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
+            Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
             if (store == null) {
                 EventLogger.logEvent(user.getUsername(), "RESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
@@ -136,6 +136,8 @@ public class UserCart {
                     EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - RESERVE_FAILED");
                     throw new IllegalArgumentException("Failed to reserve product: " + productId);
                 }
+                storeRepository.updateStore(storeId, mapper.writeValueAsString(store));
+                productRepository.save(product);
                 totalPrice += product.getPrice() * quantity;
             }
         }
@@ -161,12 +163,14 @@ public class UserCart {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - INSUFFICIENT_STOCK");
                 throw new IllegalArgumentException("Insufficient stock for product: " + productId);
             }
-            Store store = mapper.convertValue(storeRepository.getStore(product.getStoreId()), Store.class);
+            Store store = mapper.readValue(storeRepository.getStore(product.getStoreId()), Store.class);
             if (store == null) {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
             }
             store.unreserveProduct(productId, quantity);
+            storeRepository.updateStore(product.getStoreId(), mapper.writeValueAsString(store));
+            productRepository.save(product);
         }
     }
 
@@ -187,7 +191,8 @@ public class UserCart {
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
+            Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
+            EventLogger.logEvent("store" , mapper.writeValueAsString(store));
             if (store == null) {
                 EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");

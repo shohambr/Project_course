@@ -113,7 +113,7 @@ public class UserService {
          try{
             return userCart.reserveCart(token);
          } catch (Exception e) {
-             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED ");
+             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED " + e.getMessage());
              throw new RuntimeException("Failed to purchase cart");
          }
      }
@@ -122,7 +122,7 @@ public class UserService {
         try{
             userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv);
         } catch (Exception e) {
-            EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " );
+            EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to purchase cart");
         }
     }

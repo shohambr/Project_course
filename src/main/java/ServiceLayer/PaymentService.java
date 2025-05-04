@@ -28,7 +28,6 @@ public class PaymentService {
             EventLogger.logEvent(user.getID(), "Successfully payed for cart");
         return true;
         } catch (Exception e) {
-            System.out.println("Error encountered while processing payment:" + e.getMessage());
             ErrorLogger.logError(user.getID(), "Failed to pay"     , e.getMessage());
             return false;
         }

@@ -9,6 +9,7 @@ import DomainLayer.User;
 import Mocks.MockPayment;
 import infrastructureLayer.ProxyShipping;
 import Mocks.MockShipping;
+import infrastructureLayer.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ class ShippingServiceTest {
         Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
         store.addNewProduct(product.getId(), 3);
         user = new RegisteredUser();
-        user.addProduct(store, product);
+        user.addProduct(store.getId(), product.getId(), 3);
         IShipping mockShipping = new MockShipping();
         shippingService = new ShippingService(mockShipping);
     }

@@ -27,7 +27,7 @@
      @Test
      void addProduct_ShouldCallSaveAndReturnTrue() {
          // Arrange
-         Product product = new Product("p1", "1", "Laptop", "Gaming", 3000, 5 , 3.0);
+         Product product = new Product("p1", "1", "Laptop", "Gaming", 3000, 5 , 3.0, "category");
 
          // Act
          boolean result = productService.addProduct(product);
@@ -40,7 +40,7 @@
      @Test
      void getProductById_ShouldReturnProduct_WhenExists() {
          // Arrange
-         Product product = new Product("p2", "1", "Phone", "Smartphone", 2000, 10 , 3.0);
+         Product product = new Product("p2", "1", "Phone", "Smartphone", 2000, 10 , 3.0, "category");
          when(productRepo.findById("p2")).thenReturn(Optional.of(product));
 
          // Act
@@ -54,7 +54,7 @@
      @Test
      void increaseQuantity_ShouldAddToQuantityAndSave() {
          // Arrange
-         Product product = new Product("p3", "1", "Tablet", "Android tablet", 1500, 3 , 3.0);
+         Product product = new Product("p3", "1", "Tablet", "Android tablet", 1500, 3 , 3.0, "category");
          when(productRepo.findById("p3")).thenReturn(Optional.of(product));
 
          // Act
@@ -69,7 +69,7 @@
      @Test
      void decreaseQuantity_ShouldFail_WhenNotEnoughStock() {
          // Arrange
-         Product product = new Product("p4", "1", "Monitor", "4K Monitor", 1000, 1 , 3.0);
+         Product product = new Product("p4", "1", "Monitor", "4K Monitor", 1000, 1 , 3.0, "category");
          when(productRepo.findById("p4")).thenReturn(Optional.of(product));
 
          // Act
@@ -85,8 +85,8 @@
      void getAllProducts_ShouldReturnList() {
          // Arrange
          List<Product> products = new ArrayList<>();
-         products.add(new Product("p1", "1", "Laptop", "Gaming", 3000, 5 , 3.0));
-         products.add(new Product("p2", "1", "Phone", "Smartphone", 2000, 10 , 3.0));
+         products.add(new Product("p1", "1", "Laptop", "Gaming", 3000, 5 , 3.0, "category"));
+         products.add(new Product("p2", "1", "Phone", "Smartphone", 2000, 10 , 3.0, "category"));
          when(productRepo.findAll()).thenReturn(products);
 
          // Act

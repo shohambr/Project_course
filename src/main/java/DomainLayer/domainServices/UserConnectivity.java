@@ -1,7 +1,9 @@
 package DomainLayer.domainServices;
 
 import DomainLayer.User;
+import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.IToken;
+import DomainLayer.IUserRepository;
 import ServiceLayer.EventLogger;
 import io.micrometer.observation.Observation.Event;
 
@@ -12,12 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 public class UserConnectivity {
     private IToken Tokener;
+    private IUserRepository userRepository;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    public UserConnectivity(IToken Tokener) {
+    public UserConnectivity(IToken Tokener, IUserRepository userRepository) {
+        this.userRepository = userRepository;
         this.Tokener = Tokener;
     }
 
@@ -41,7 +48,7 @@ public class UserConnectivity {
         }
     }
 
-    public void signUp(String username, String password) {
+    public String signUp(String username, String password) throws JsonProcessingException {
         if (username == null || password == null) {
             EventLogger.logEvent(username, "SIGNUP_FAILED - NULL");
             throw new IllegalArgumentException("Username and password cannot be null");
@@ -49,9 +56,21 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "SIGNUP_FAILED - EMPTY");
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
+        if (userRepository.isUserExist(username)) {
+            EventLogger.logEvent(username, "SIGNUP_FAILED - USER_EXIST");
+            throw new IllegalArgumentException("User already exists");
+        }
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
+        userRepository.addUser(username, hashedPassword , mapper.writeValueAsString(user));
+        return user.getID();
     }
 
     public void logout(String username ,String token) {
+        if(username.equals("Guest")) {
+            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
+            throw new IllegalArgumentException("Guest cannot logout");
+        }
         if (username == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_NULL");
             throw new IllegalArgumentException("Username cannot be null");
@@ -66,6 +85,6 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "LOGOUT_FAILED - TOKEN_EMPTY");
             throw new IllegalArgumentException("Token cannot be empty");
         }
-        Tokener.invalidateToken(token);
+        EventLogger.logEvent(username, "LOGOUT_SUCCESS");
     }
 }

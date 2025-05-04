@@ -1,133 +1,66 @@
-[2025-04-24 10:40:01] User: testUser | Event: Event | Description: User logged in
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_SUCCESS
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: REMOVE_FROM_CART
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:01] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:01] User: null | Event: Event | Description: LOGIN_FAILED - NULL
-[2025-04-24 10:40:01] User: null | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: LOGIN
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: 863650b0-5868-40c3-8d9a-1bc7e87a52b0 | Event: Event | Description: ADD_TO_CART_FAILED - NULL
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: LOGOUT
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: LOGOUT_FAILED
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: ghost | Event: Event | Description: LOGIN_FAILED - USER_NOT_EXIST
-[2025-04-24 10:40:02] User: ghost | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: LOGOUT
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:02] User: 6ade5ed0-d211-4991-95e3-e23e78a8df96 | Event: Event | Description: ADD_TO_CART_FAILED - NULL
-[2025-04-24 10:40:02] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: 3e3534ac-77ad-487e-968c-269d1337e04f | Event: Event | Description: REMOVE_FROM_CART_FAILED - NULL
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User:  | Event: Event | Description: LOGIN_FAILED - EMPTY
-[2025-04-24 10:40:03] User:  | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP_FAILED - EMPTY
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: LOGIN_FAILED - NULL
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:03] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: LOGIN_FAILED - WRONG_PASSWORD
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: LOGOUT
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: LOGOUT_FAILED
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: null | Event: Event | Description: SIGNUP_FAILED - NULL
-[2025-04-24 10:40:04] User: null | Event: Event | Description: SIGNUP_FAILED
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: 400c0c31-d1a6-4fb7-bfe2-e2104d7b15e6 | Event: Event | Description: ADD_TO_CART_FAILED - NULL
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: ADD_TO_CART_SUCCESS
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: ADD_TO_CART
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: 4a51cb84-c6ed-47fb-b590-0169bca99955 | Event: Event | Description: REMOVE_FROM_CART_FAILED - NULL
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:04] User: e2e0d0e9-225d-455e-b3ee-849bd6e5fdc2 | Event: Event | Description: REMOVE_FROM_CART_FAILED - NULL
-[2025-04-24 10:40:04] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: LOGOUT
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User:  | Event: Event | Description: SIGNUP_FAILED - EMPTY
-[2025-04-24 10:40:05] User:  | Event: Event | Description: SIGNUP_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP_FAILED - NULL
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: LOGIN_FAILED - EMPTY
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: LOGIN_FAILED
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: SIGNUP
-[2025-04-24 10:40:05] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:51] User: testUser | Event: Event | Description: User logged in
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_SUCCESS
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: REMOVE_FROM_CART
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: null | Event: Event | Description: LOGIN_FAILED - NULL
+[2025-05-03 19:59:52] User: null | Event: Event | Description: LOGIN_FAILED
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: LOGIN
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED - NULL
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED ProductId cannot be null
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: ghost | Event: Event | Description: LOGIN_FAILED - USER_NOT_EXIST
+[2025-05-03 19:59:52] User: ghost | Event: Event | Description: LOGIN_FAILED
+[2025-05-03 19:59:52] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: dsds | Event: Event | Description: TokenService
+[2025-05-03 19:59:52] User: dsds | Event: Event | Description: ADD_TO_CART_FAILED argument "content" is null
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED - NULL
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: ADD_TO_CART_FAILED StoreId cannot be null
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED - NULL
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED StoreId cannot be null
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User:  | Event: Event | Description: LOGIN_FAILED - EMPTY
+[2025-05-03 19:59:53] User:  | Event: Event | Description: LOGIN_FAILED
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: SIGNUP_FAILED
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: SIGNUP_FAILED - EMPTY
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: SIGNUP_FAILED
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: RESERVE_CART
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: RESERVE_CART_SUCCESS
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: LOGIN_FAILED - NULL
+[2025-05-03 19:59:53] User: yaniv | Event: Event | Description: LOGIN_FAILED
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: LOGIN_FAILED - WRONG_PASSWORD
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: LOGIN_FAILED
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: null | Event: Event | Description: SIGNUP_FAILED - NULL
+[2025-05-03 19:59:54] User: null | Event: Event | Description: SIGNUP_FAILED
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: ADD_TO_CART_SUCCESS
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: ADD_TO_CART
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED - NULL
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: REMOVE_FROM_CART_FAILED ProductId cannot be null
+[2025-05-03 19:59:54] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:55] User:  | Event: Event | Description: SIGNUP_FAILED - EMPTY
+[2025-05-03 19:59:55] User:  | Event: Event | Description: SIGNUP_FAILED
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: SIGNUP_FAILED - NULL
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: SIGNUP_FAILED
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: TokenService
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: LOGIN_FAILED - EMPTY
+[2025-05-03 19:59:55] User: yaniv | Event: Event | Description: LOGIN_FAILED

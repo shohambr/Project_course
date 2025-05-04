@@ -45,6 +45,7 @@ public class RegisteredUser extends User {
         return this.name;
     }
 
+
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }

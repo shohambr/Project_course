@@ -1,6 +1,5 @@
 package DomainLayer;
-import ServiceLayer.PaymentService;
-import ServiceLayer.ProductService;
+
 
 import java.util.*;
 
@@ -8,10 +7,9 @@ public class Store {
     private String id;
     private PurchasePolicy purchasePolicy;
     private DiscountPolicy discountPolicy;
-    private List<User> users = new ArrayList<>();
-    private Map<Product, Integer> products = new HashMap<>();
-    private ProductService productService;
-    private PaymentService paymentService;
+    private List<String> users = new ArrayList<>();
+    private Map<String, Integer> products = new HashMap<>();
+    private Map<String, Integer> reservedProducts = new HashMap<>();
     private boolean openNow;
     private int rating;
 
@@ -55,90 +53,90 @@ public class Store {
     public String getName() {
         return id;
     }
+    
 
 
-    public Boolean registerUser(User user) {
-        if(users.contains(user)) {
+    public Boolean registerUser(String userId) {
+        if(users.contains(userId)) {
             return false;
         }
-        users.add(user);
+        users.add(userId);
         return true;
     }
 
-    public boolean increaseProduct(Product product, int quantity) {
+    public boolean increaseProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }
 
-        if (!products.containsKey(product)) {
+        if (!products.containsKey(productId)) {
             return false;
         }
 
-        int currentQuantity = products.get(product);
-        products.put(product, Integer.valueOf(currentQuantity + quantity));
+        int currentQuantity = products.get(productId);
+        products.put(productId, Integer.valueOf(currentQuantity + quantity));
         return true;
     }
 
 
-    public boolean decreaseProduct(Product product, int quantity) {
+    public boolean decreaseProduct(String idProduct, int quantity) {
         if (quantity <= 0) {
             return false;
         }
 
-        if (!products.containsKey(product)) {
+        if (!products.containsKey(idProduct)) {
             return false;
         }
 
-        int currentQuantity = products.get(product);
+        int currentQuantity = products.get(idProduct);
         if (quantity > currentQuantity) {
             return false;
         }
 
         int updatedQuantity = currentQuantity - quantity;
 
-        products.put(product, Integer.valueOf(updatedQuantity));
+        products.put(idProduct, Integer.valueOf(updatedQuantity));
 
-        productService.decreaseQuantity(product.getId(), quantity);
         return true;
     }
 
 
-    public boolean changeProductQuantity(Product product, int newQuantity) {
+    public boolean changeProductQuantity(String productId, int newQuantity) {
         if (newQuantity < 0) {
             return false;
         }
 
-        if (!products.containsKey(product)) {
+        if (!products.containsKey(productId)) {
             return false;
         }
 
         if (newQuantity == 0) {
-            products.remove(product);
+            products.remove(productId);
         } else {
-            products.put(product, Integer.valueOf(newQuantity));
+            products.put(productId, Integer.valueOf(newQuantity));
         }
 
         return true;
     }
 
 
-    public boolean removeProduct(Product product) {
-        if (!products.containsKey(product)) {
+    public boolean removeProduct(String productId) {
+        if (!products.containsKey(productId)) {
             return false;
         }
 
-        products.remove(product);
+        products.remove(productId);
         return true;
     }
 
 
-    public boolean addNewProduct(Product product, int quantity) {
+    public boolean addNewProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }
 
-        if (!products.containsKey(product) || products.get(product) == 0) {
-            products.put(product, Integer.valueOf(quantity));
+        if (!products.containsKey(productId) || products.get(productId) == 0) {
+            products.put(productId, Integer.valueOf(quantity));
             return true;
         }
 
@@ -146,143 +144,149 @@ public class Store {
     }
 
 
-    private Product findProductById(String productId) {
-        for (Product product : products.keySet()) {
-            if (product.getId().equals(productId)) {
-                return product;
-            }
+    public Integer getProductQuantity(String productId) {
+        if (!products.containsKey(productId)) {
+            return null;
         }
-        return null;
+        return products.get(productId);
     }
 
 
-
-    public boolean increaseProduct(String productId, int quantity) {
+    public void sellProduct(String productId, int quantity) {
         if (quantity <= 0) {
-            return false;
+            throw new IllegalArgumentException("Quantity must be greater than 0");
         }
 
-        Product product = findProductById(productId);
-        if (product == null) {
-            return false;
+        if (!reservedProducts.containsKey(productId)) {
+            throw new IllegalArgumentException("Product not reserved");
         }
-
-        int currentQuantity = products.get(product);
-        products.put(product, Integer.valueOf(currentQuantity + quantity));
-        return true;
-    }
-
-    public boolean decreaseProduct(String productId, int quantity) {
-        if (quantity <= 0) {
-            return false;
+        if (reservedProducts.get(productId) < quantity) {
+            throw new IllegalArgumentException("Not enough reserved quantity");
         }
-
-        Product product = findProductById(productId);
-        if (product == null) {
-            return false;
-        }
-
-        int currentQuantity = products.get(product);
-        if (quantity > currentQuantity) {
-            return false;
-        }
-
-        int updatedQuantity = currentQuantity - quantity;
-        products.put(product, Integer.valueOf(updatedQuantity));
-
-        productService.decreaseQuantity(product.getId(), quantity);
-        return true;
-    }
-
-    public boolean changeProductQuantity(String productId, int newQuantity) {
-        if (newQuantity < 0) {
-            return false;
-        }
-
-        Product product = findProductById(productId);
-        if (product == null) {
-            return false;
-        }
-
-        if (newQuantity == 0) {
-            products.remove(product);
+        int currentQuantity = reservedProducts.get(productId);
+        if (currentQuantity == quantity) {
+            reservedProducts.remove(productId);
         } else {
-            products.put(product, Integer.valueOf(newQuantity));
+            reservedProducts.put(productId, Integer.valueOf(currentQuantity - quantity));
         }
-
-        return true;
     }
+    // public boolean changeProductQuantity(String productId, int newQuantity) {
+    //     if (newQuantity < 0) {
+    //         return false;
+    //     }
 
-    public boolean removeProduct(String productId) {
-        Product product = findProductById(productId);
-        if (product == null) {
-            return false;
-        }
+    //     Product product = findProductById(productId);
+    //     if (product == null) {
+    //         return false;
+    //     }
 
-        products.remove(product);
-        return true;
-    }
+    //     if (newQuantity == 0) {
+    //         products.remove(product);
+    //     } else {
+    //         products.put(product, Integer.valueOf(newQuantity));
+    //     }
 
-    public boolean addNewProduct(String productId, int quantity) {
+    //     return true;
+    // }
+
+    // public boolean removeProduct(String productId) {
+    //     Product product = findProductById(productId);
+    //     if (product == null) {
+    //         return false;
+    //     }
+
+    //     products.remove(product);
+    //     return true;
+    // }
+
+
+    // public int calculateProduct(Product product, int quantity) {
+    //     if (quantity <= 0) {
+    //         return -1;
+    //     }
+    //     if (!products.containsKey(product)) {
+    //         return -1;
+    //     }
+    //     if (quantity > products.get(product)) {
+    //         return -1;
+    //     }
+
+    //     return product.getPrice() * quantity;            //got to decide how price works
+    // }
+
+
+    // public int sellProduct(String productId, int quantity) {
+    //     if (quantity <= 0) {
+    //         return -1;
+    //     }
+    //     if (!products.containsKey(productId)) {
+    //         return -1;
+    //     }
+    //     if (quantity > products.get(productId)) {
+    //         return -1;
+    //     }
+
+    //     int updatedQuantity = products.get(productId) - quantity;
+    //     if (updatedQuantity == 0) {
+    //         products.remove(productId);
+    //     } else {
+    //         products.put(productId, Integer.valueOf(updatedQuantity));
+    //     }
+    //     productService.decreaseQuantity(productId, quantity);       //Changed according productService implementation
+    //     Product product = productRepository.getProductById(productId);
+    //     return product.getPrice() * quantity;            //got to decide how price works
+    // }
+
+    public boolean availableProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }
+        return products.containsKey(productId) && products.get(productId) >= quantity;
+    }
 
-        Product product = findProductById(productId);
-        if (product == null) {
+    public boolean reserveProduct(String productId, int quantity) {
+        if (quantity <= 0) {
             return false;
         }
-
-        if (!products.containsKey(product) || products.get(product) == 0) {
-            products.put(product, Integer.valueOf(quantity));
-            return true;
+        if (!products.containsKey(productId)) {
+            return false;
         }
-
-        return false;
-    }
-
-
-    public int calculateProduct(Product product, int quantity) {
-        if (quantity <= 0) {
-            return -1;
+        if (products.get(productId) < quantity) {
+            return false;
         }
-        if (!products.containsKey(product)) {
-            return -1;
-        }
-        if (quantity > products.get(product)) {
-            return -1;
-        }
-
-        return product.getPrice() * quantity;            //got to decide how price works
-    }
-
-
-    public int sellProduct(Product product, int quantity) {
-        if (quantity <= 0) {
-            return -1;
-        }
-        if (!products.containsKey(product)) {
-            return -1;
-        }
-        if (quantity > products.get(product)) {
-            return -1;
-        }
-
-        int updatedQuantity = products.get(product) - quantity;
-        if (updatedQuantity == 0) {
-            products.remove(product);
+        int currentQuantity = products.get(productId);
+        if (currentQuantity == quantity) {
+            products.remove(productId);
+            reservedProducts.put(productId, Integer.valueOf(quantity));
+        } else if(currentQuantity > quantity) {
+            products.put(productId, Integer.valueOf(currentQuantity - quantity));
+            reservedProducts.put(productId, Integer.valueOf(quantity));
         } else {
-            products.put(product, Integer.valueOf(updatedQuantity));
+            return false;
         }
-        productService.decreaseQuantity(product.getId(), quantity);       //Changed according productService implementation
-        return product.getPrice() * quantity;            //got to decide how price works
+        return true;
     }
 
-    public boolean availableProduct(Product product, int quantity) {
+
+    public boolean unreserveProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }
-        return products.containsKey(product) && products.get(product) >= quantity;
+        if (!reservedProducts.containsKey(productId)) {
+            return false;
+        }
+        int currentQuantity = reservedProducts.get(productId);
+        if (currentQuantity < quantity) {
+            return false;
+        }
+        if (currentQuantity == quantity) {
+            reservedProducts.remove(productId);
+            products.put(productId, Integer.valueOf(quantity));
+        } else {
+            reservedProducts.put(productId, Integer.valueOf(currentQuantity - quantity));
+            products.put(productId, Integer.valueOf(products.get(productId) + quantity));
+        }
+        return true;
     }
 
 
@@ -291,13 +295,13 @@ public class Store {
         StringBuilder sb = new StringBuilder();
 
         sb.append("\nUsers:\n");
-        for (User user : users) {
-            sb.append(user.toString()).append("\n");
+        for (String userId : users) {
+            sb.append(userId).append("\n");
         }
 
         sb.append("\nAll Products in Store:\n");
-        for (Product product : products.keySet()) {
-            sb.append(product.toString()).append("\n");
+        for (String productId : products.keySet()) {
+            sb.append(productId).append("\n");
         }
 
         return sb.toString();

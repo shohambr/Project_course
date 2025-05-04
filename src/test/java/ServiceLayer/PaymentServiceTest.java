@@ -28,7 +28,7 @@ class PaymentServiceTest {
     void setUp() {
         store = new Store();
         Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
-        store.addNewProduct(product, 3);
+        store.addNewProduct(product.getId(), 3);
         MockPayment mockPayment = new MockPayment();
         paymentService = new PaymentService(mockPayment);
         user = new RegisteredUser();

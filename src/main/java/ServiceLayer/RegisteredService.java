@@ -8,6 +8,7 @@ import DomainLayer.IUserRepository;
 import DomainLayer.domainServices.History;
 import DomainLayer.domainServices.Rate;
 import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.domainServices.openStore;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class RegisteredService {
     private final UserConnectivity userConnectivity;
     private final Rate rateService;
     private final History history;
+    private final openStore opener;
 
     public RegisteredService(IUserRepository userRepo, IToken tokenService , IStoreRepository storeRepo, IProductRepository productRepo , IOrderRepository orderRepo) {
         this.orderRepo = orderRepo;
@@ -30,6 +32,7 @@ public class RegisteredService {
         this.userConnectivity = new UserConnectivity(tokenService, userRepo);
         this.rateService = new Rate(tokenService, storeRepo , userRepo, productRepo);
         this.history = new History(tokenService, orderRepo, userRepo);
+        this.opener = new openStore(tokenService, storeRepo, userRepo);
     }
 
 
@@ -41,6 +44,17 @@ public class RegisteredService {
             return tokenService.generateToken("Guest");
         }catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGOUT_FAILED" );
+            throw new RuntimeException("Invalid token");
+        }
+    }
+
+    public String openStore(String token) throws Exception {
+        String username = tokenService.extractUsername(token);
+        try {
+            EventLogger.logEvent(username, "OPEN_STORE");
+            return opener.openStore(token);
+        } catch (IllegalArgumentException e) {
+            EventLogger.logEvent(username, "OPEN_STORE_FAILED");
             throw new RuntimeException("Invalid token");
         }
     }

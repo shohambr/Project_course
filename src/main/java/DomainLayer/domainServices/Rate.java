@@ -23,20 +23,24 @@ public class Rate {
         this.productRepository = productRepository;
     }
 
-    public boolean rateStore(String token, String storeId, int rate) {
+    public boolean rateStore(String token, String storeId, int rate) throws Exception {
         if (token == null || storeId == null || rate < 1 || rate > 5) {
             throw new IllegalArgumentException("Invalid input");
         }
         Tokener.validateToken(token);
         String username = Tokener.extractUsername(token);
-        Store store = storeRepository.getStore(storeId);
+        Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
         if (store == null) {
             throw new IllegalArgumentException("Store does not exist");
         }
         if (userRepository.getUser(username) == null) {
             throw new IllegalArgumentException("User does not exist");
         }
-        return store.rate(rate);
+        if(store.rate(rate)){
+            storeRepository.updateStore(storeId, mapper.writeValueAsString(store));
+            return true;
+        }
+        return false;
     }
 
     public boolean rateProduct(String token, String productId, double rate) {
@@ -52,6 +56,10 @@ public class Rate {
         if (userRepository.getUser(username) == null) {
             throw new IllegalArgumentException("User does not exist");
         }
-        return product.addRating( username, rate);
+        if(product.addRating(username , rate)){
+            productRepository.save(product);
+            return true;
+        }
+        return false;
     }
 }

@@ -8,6 +8,7 @@ import ServiceLayer.EventLogger;
 import io.micrometer.observation.Observation.Event;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-
+@Component
 public class UserConnectivity {
     private IToken Tokener;
     private IUserRepository userRepository;

@@ -108,14 +108,13 @@ public class UserCart {
         Tokener.validateToken(token);
         double totalPrice = 0;
         RegisteredUser user = mapper.readValue(userRepository.getUser(username), RegisteredUser.class);
-        EventLogger.logEvent(user.getUsername(), "RESERVE_CART");
         ShoppingCart cart = user.getShoppingCart();
         Map<String, Integer> reservedProducts = new HashMap<>();
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = storeRepository.getStore(storeId);
+            Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
             if (store == null) {
-                EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
+                EventLogger.logEvent(user.getUsername(), "RESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
             }
             for (Map.Entry<String, Integer> entry : bag.getProducts().entrySet()) {
@@ -130,7 +129,7 @@ public class UserCart {
                     throw new IllegalArgumentException("Insufficient stock for product: " + productId);
                 }
                 if(store.reserveProduct(productId, quantity)){
-                    EventLogger.logEvent(user.getUsername(), "RESERVE_CART_SUCCESS");
+                    EventLogger.logEvent(user.getUsername(), "RESERVE_PRODUCT_SUCCESS");
                     reservedProducts.put(productId, quantity);
                 }else{
                     unreserveCart(reservedProducts, user.getUsername());
@@ -162,7 +161,7 @@ public class UserCart {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - INSUFFICIENT_STOCK");
                 throw new IllegalArgumentException("Insufficient stock for product: " + productId);
             }
-            Store store = storeRepository.getStore(product.getStoreId());
+            Store store = mapper.convertValue(storeRepository.getStore(product.getStoreId()), Store.class);
             if (store == null) {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
@@ -188,7 +187,7 @@ public class UserCart {
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = storeRepository.getStore(storeId);
+            Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
             if (store == null) {
                 EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");

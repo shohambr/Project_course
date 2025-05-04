@@ -30,7 +30,7 @@ public class UserConnectivity {
 
 
     
-    public void login(String username, String password ,String hashedpass) {
+    public String login(String username, String password) {
         if (username == null || password == null ) {
             EventLogger.logEvent(username, "LOGIN_FAILED - NULL");
             throw new IllegalArgumentException("Username and password cannot be null");
@@ -38,6 +38,7 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "LOGIN_FAILED - EMPTY");
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
+        String hashedpass = userRepository.getUserPass(username);
         if(hashedpass == null){
             EventLogger.logEvent(username, "LOGIN_FAILED - USER_NOT_EXIST");
             throw new IllegalArgumentException("User does not exist");
@@ -46,6 +47,9 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "LOGIN_FAILED - WRONG_PASSWORD");
             throw new IllegalArgumentException("Invalid username or password");
         }
+        String token = Tokener.generateToken(username);
+        EventLogger.logEvent(username, "LOGIN_SUCCESS");
+        return token;
     }
 
     public String signUp(String username, String password) throws JsonProcessingException {
@@ -85,6 +89,7 @@ public class UserConnectivity {
             EventLogger.logEvent(username, "LOGOUT_FAILED - TOKEN_EMPTY");
             throw new IllegalArgumentException("Token cannot be empty");
         }
+        Tokener.invalidateToken(token);
         EventLogger.logEvent(username, "LOGOUT_SUCCESS");
     }
 }

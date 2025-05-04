@@ -21,7 +21,7 @@ class OrderServiceTest {
 
     @Test
     void addOrder_ShouldCallAddOrder() {
-        Order order = new Order("blah1");
+        Order order = new Order("blah1", "1", 10.0);
 
         orderService.addOrder(order);
 
@@ -30,7 +30,7 @@ class OrderServiceTest {
 
     @Test
     void removeOrder_ShouldCallRemoveOrder_WhenOrderExists() {
-        Order order = new Order("blah2");
+        Order order = new Order("blah2", "2", 20.0);
         orderService.addOrder(order);
 
         orderService.removeOrder(order);

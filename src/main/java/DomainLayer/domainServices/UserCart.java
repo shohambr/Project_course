@@ -1,5 +1,6 @@
 package DomainLayer.domainServices;
 import ServiceLayer.EventLogger;
+import DomainLayer.IOrderRepository;
 import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
@@ -9,6 +10,7 @@ import DomainLayer.Product;
 import DomainLayer.ShoppingBag;
 import DomainLayer.ShoppingCart;
 import DomainLayer.Store;
+import DomainLayer.Order;
 import DomainLayer.Roles.RegisteredUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +24,11 @@ public class UserCart {
     private IStoreRepository storeRepository;
     private IUserRepository userRepository;
     private IProductRepository productRepository;
+    private IOrderRepository orderRepository;
     private IPayment paymentSystem;
 
-    public UserCart(IToken Tokener , IUserRepository userRepository, IStoreRepository storeRepository , IProductRepository productRepository , IPayment paymentSystem) {
+    public UserCart(IToken Tokener , IUserRepository userRepository, IStoreRepository storeRepository , IProductRepository productRepository , IPayment paymentSystem , IOrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
         this.Tokener = Tokener;
         this.userRepository = userRepository;
         this.storeRepository = storeRepository;
@@ -200,6 +204,8 @@ public class UserCart {
                 store.sellProduct(productId, quantity);
             }
         }
+        // create an order
+        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
         user.setCartReserved(false);
         user.getShoppingCart().getShoppingBags().clear();
         userRepository.update(username, mapper.writeValueAsString(user));

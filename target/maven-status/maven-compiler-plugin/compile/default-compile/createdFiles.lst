@@ -4,6 +4,7 @@ ServiceLayer/NotificationService.class
 DomainLayer/Roles/Jobs/Ownership.class
 ServiceLayer/ErrorLogger.class
 DomainLayer/Roles/Jobs/Job.class
+DomainLayer/domainServices/History.class
 DomainLayer/PurchasePolicy.class
 DomainLayer/ShoppingBag.class
 DomainLayer/domainServices/UserCart.class
@@ -46,3 +47,4 @@ ServiceLayer/EventLogger.class
 DomainLayer/Market.class
 ServiceLayer/UserService.class
 infrastructureLayer/OrderRepository.class
+DomainLayer/domainServices/Rate.class

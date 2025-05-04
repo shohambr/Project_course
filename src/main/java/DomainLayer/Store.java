@@ -11,7 +11,8 @@ public class Store {
     private Map<String, Integer> products = new HashMap<>();
     private Map<String, Integer> reservedProducts = new HashMap<>();
     private boolean openNow;
-    private int rating;
+    private double rating = 0;
+    private Map<String , Double> raterId = new HashMap<>();
 
     public Store() {
         this.id = "-1"; //currently doesnt have id as it gets one only when its added to the store repository
@@ -42,11 +43,11 @@ public class Store {
 
     }
     
-    public int getRating(){
+    public Double getRating(){
         return rating;
     }
 
-    public void setRating(int rating){
+    public void setRating(Double rating){
         this.rating = rating;
     }
 
@@ -169,6 +170,21 @@ public class Store {
         } else {
             reservedProducts.put(productId, Integer.valueOf(currentQuantity - quantity));
         }
+    }
+
+    public boolean rate(int rate) {
+        if (rate < 1 || rate > 5) {
+            return false;
+        }
+        if (raterId.containsKey(id)) {
+            double lastRate = raterId.get(id);
+            rating = (rating * raterId.size() - lastRate + rate) / raterId.size();
+        }
+        else {
+            rating = (rating * raterId.size() + rate) / (raterId.size() + 1);
+        }
+        raterId.put(id, Double.valueOf(rate));
+        return true;
     }
     // public boolean changeProductQuantity(String productId, int newQuantity) {
     //     if (newQuantity < 0) {

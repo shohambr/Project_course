@@ -20,7 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.io.IO;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +37,7 @@ class UserServiceTests {
     private IUserRepository    userRepo;
     @Mock private IStoreRepository   storeRepo;
     @Mock private IProductRepository productRepo;
+    @Mock private IOrderRepository   orderRepo;
     @Mock private IJobRepository     jobRepo;
     @Mock private IPayment payment;
 
@@ -44,6 +47,7 @@ class UserServiceTests {
     private StoreService   storeService;
     private JobService     jobService;
     private UserService    userService;
+    private RegisteredService registeredService;
 
     /* ------------- shared fixtures ------------------ */
     private final ObjectMapper mapper    = new ObjectMapper();
@@ -66,7 +70,8 @@ class UserServiceTests {
         storeService   = new StoreService(storeRepo, productService);
         jobService     = new JobService(jobRepo, storeService);
         userRepo       = new UserRepository();
-        userService    = new UserService(userRepo, tokenService, jobService, productService , storeRepo , productRepo , payment);
+        userService    = new UserService(userRepo, tokenService, jobService, productService , storeRepo , productRepo , payment , orderRepo);
+        registeredService = new RegisteredService(userRepo, tokenService , storeRepo, productRepo , orderRepo);
         mapper.registerModule(new ProductKeyModule());
 
 
@@ -78,6 +83,7 @@ class UserServiceTests {
 
         product = new Product("1", "store1", "product1", "description", 10, 10, 4.5, "");
         store   = new Store();
+        Order order = new Order("1", "yaniv", 10.0);
 
         storeId   = store.getId();
         productId = product.getId();
@@ -142,8 +148,8 @@ class UserServiceTests {
      /* =============== remove-from-cart tests =========== */
      @Test
      void removeFromCart_Right_params() throws Exception {
+         userService.addToCart(validToken, storeId, productId, 1);
          testUser.addProduct(storeId, productId, 1);
-         userRepo.update("yaniv" , mapper.writeValueAsString(testUser));
          assertEquals(mapper.writeValueAsString(testUser), userRepo.getUser("yaniv"));
          assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
          when(storeRepo.getStore(storeId)).thenReturn(store);
@@ -227,16 +233,71 @@ class UserServiceTests {
 
     @Test
     void purchaseCart_Right_params() throws Exception {
-        testUser.addProduct(storeId, productId, 3);
-        testUser.setToken(tokenService.generateToken(testUser.getUsername()));
-        userRepo.update("yaniv", mapper.writeValueAsString(testUser));
+        validToken = userService.login("yaniv", PLAIN_PW);
+        testUser.addProduct(storeId, productId, 1);
+        userRepo.update ("yaniv" ,mapper.writeValueAsString(testUser));
         assertEquals(mapper.writeValueAsString(testUser), userRepo.getUser("yaniv"));
         assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
         when(storeRepo.getStore(storeId)).thenReturn(store);
         when(productRepo.getProduct(productId)).thenReturn(product);
-        assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
-        userService.purchaseCart(validToken, "", "", "", "");
+        userService.addToCart(validToken, storeId, productId , 1);
         testUser = mapper.readValue(userRepo.getUser("yaniv"), RegisteredUser.class);
-        assertTrue(testUser.getShoppingCart().getShoppingBags().isEmpty());
+        assertTrue(!testUser.getShoppingCart().getShoppingBags().isEmpty());
+        userService.purchaseCart(validToken , "creditCard" , "1234567890123456" , "12/25" , "123");
+    }
+
+    @Test
+    void rateStore_Right_params() throws Exception {
+        validToken = userService.login("yaniv", PLAIN_PW);
+        testUser.addProduct(storeId, productId, 1);
+        userRepo.update ("yaniv" ,mapper.writeValueAsString(testUser));
+        assertEquals(mapper.writeValueAsString(testUser), userRepo.getUser("yaniv"));
+        assertFalse(testUser.getShoppingCart().getShoppingBags().isEmpty());
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.getProduct(productId)).thenReturn(product);
+        userService.addToCart(validToken, storeId, productId , 1);
+        testUser = mapper.readValue(userRepo.getUser("yaniv"), RegisteredUser.class);
+        assertTrue(!testUser.getShoppingCart().getShoppingBags().isEmpty());
+        registeredService.rateStore(validToken , storeId , 5);
+        assertEquals(5, store.getRating());
+        registeredService.rateStore(validToken , storeId , 3);
+        assertEquals(3, store.getRating());
+    }
+
+    @Test
+    void rateProduct_Right_params() throws Exception {
+        validToken = userService.login("yaniv", PLAIN_PW);
+        testUser.addProduct(storeId, productId, 1);
+        userRepo.update ("yaniv" ,mapper.writeValueAsString(testUser));
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.getProduct(productId)).thenReturn(product);
+        registeredService.rateProduct(validToken , productId , 5);
+        assertEquals(5, product.getRating());
+    }
+
+
+    @Test
+    void rateStoreAndProduct_Right_params() throws Exception {
+        validToken = userService.login("yaniv", PLAIN_PW);
+        testUser.addProduct(storeId, productId, 1);
+        userRepo.update ("yaniv" ,mapper.writeValueAsString(testUser));
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.getProduct(productId)).thenReturn(product);
+        registeredService.rateStoreAndProduct(validToken , storeId , productId , 5 , 4);
+        assertEquals(5, store.getRating());
+        assertEquals(4, product.getRating());
+    }
+
+    @Test
+    void getHistory_Right_params() throws Exception {
+        validToken = userService.login("yaniv", PLAIN_PW);
+        testUser.addProduct(storeId, productId, 1);
+        userRepo.update ("yaniv" ,mapper.writeValueAsString(testUser));
+        when(storeRepo.getStore(storeId)).thenReturn(store);
+        when(productRepo.getProduct(productId)).thenReturn(product);
+        List<String> orderHistory = new ArrayList<>();
+        orderHistory.add(mapper.writeValueAsString(new Order("1", "yaniv", 10.0)));
+        when(orderRepo.getOrderHistory("yaniv")).thenReturn(orderHistory);
+        assertEquals(orderHistory, registeredService.getUserOrderHistory(validToken));
     }
 }

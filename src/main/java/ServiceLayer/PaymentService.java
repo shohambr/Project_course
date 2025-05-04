@@ -1,10 +1,10 @@
 package ServiceLayer;
 
 import DomainLayer.IPayment;
-import DomainLayer.Store;
+import DomainLayer.IProductRepository;
+import DomainLayer.IStoreRepository;
 import DomainLayer.User;
 import DomainLayer.domainServices.PaymentConnectivity;
-import infrastructureLayer.ProxyPayment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +12,19 @@ import java.util.List;
 @Service
 public class PaymentService {
 
+    private IStoreRepository storeRepository;
+    private IProductRepository productRepository;
     private PaymentConnectivity paymentConnectivity;
 
-    public PaymentService(IPayment proxyPayment) {this.paymentConnectivity = new PaymentConnectivity(proxyPayment);}
+    public PaymentService(IStoreRepository storeRepository, IProductRepository productRepository, IPayment proxyPayment) {
+        this.paymentConnectivity = new PaymentConnectivity(proxyPayment);
+        this.storeRepository = storeRepository;
+        this.productRepository = productRepository;
+    }
 
-    public boolean processPayment(User user, String paymentService, String creditCardNumber, String expirationDate, String backNumber) {
+    public boolean processPayment(User user, String storeId, String paymentService, String creditCardNumber, String expirationDate, String backNumber) {
         try {
-            paymentConnectivity.processPayment(user, creditCardNumber, expirationDate, backNumber, paymentService);
+            paymentConnectivity.processPayment(user, storeRepository.getStore(storeId), productRepository, creditCardNumber, expirationDate, backNumber, paymentService);
             EventLogger.logEvent(user.getID(), "Successfully payed for cart");
         return true;
         } catch (Exception e) {

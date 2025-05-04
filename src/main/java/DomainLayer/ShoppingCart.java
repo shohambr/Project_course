@@ -15,69 +15,42 @@ public class ShoppingCart {
         this.shoppingBags = new ArrayList<ShoppingBag>();
     }
 
-    public void addProduct(Store store, Product product) {
-
+    public void addProduct(String storeId, String productId , Integer quantity) {
+        if(quantity <= 0){
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
         boolean found = false;
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreId().equals(store.getId())) {
-                shoppingBag.addProduct(product);
+            if (shoppingBag.getStoreId().equals(storeId)) {
+                shoppingBag.addProduct(productId, quantity);
                 found = true;
             }
         }
 
         if (!found) {
-            ShoppingBag newShoppingBag = new ShoppingBag(store);
-            newShoppingBag.addProduct(product);
+            ShoppingBag newShoppingBag = new ShoppingBag(storeId);
+            newShoppingBag.addProduct(productId, quantity);
             shoppingBags.add(newShoppingBag);
-
         }
     }
 
-    public boolean removeProduct(Store store, Product product) {
+    public boolean removeProduct(String storeId, String productId , Integer quantity) {
+        boolean found = false;
         for (ShoppingBag shoppingBag : shoppingBags) {
-            if (shoppingBag.getStoreId().equals(store.getId())) {
-                if (shoppingBag.removeProduct(product)) {
-                    if (shoppingBag.getProducts().isEmpty()) {
-                        shoppingBags.remove(shoppingBag);
-                    }
-                    return true;
+            if (shoppingBag.getStoreId().equals(storeId)) {
+                found = shoppingBag.removeProduct(productId , quantity);
+                if (shoppingBag.getProducts().isEmpty()) {
+                    shoppingBags.remove(shoppingBag);
                 }
             }
         }
-        return false;
+        return found;
     }
 
     public List<ShoppingBag> getShoppingBags() {return shoppingBags;}
 
     public String getUserId() { return userId; }
 
-    public boolean availablePurchaseCart() {
-        for (ShoppingBag shoppingBag : shoppingBags) {
-            if(!shoppingBag.availablePurchaseShoppingBag()){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public double calculatePurchaseCart() {
-        if(availablePurchaseCart()) {
-            double price = 0;
-            for (ShoppingBag shoppingBag : shoppingBags) {
-                price = price + shoppingBag.calculatePurchaseShoppingBag();
-                shoppingBags.remove(shoppingBag);
-            }
-            return price;
-        }
-        return -1;
-    }
-    public Map<Store, Double> calculatePaymentStore() {
-        Map<Store, Double> storePayment = new HashMap<Store, Double>();
-        for(ShoppingBag shoppingBag: shoppingBags) {
-            storePayment.put(shoppingBag.getStore(), shoppingBag.calculatePurchaseShoppingBag());
-        }
-        return storePayment;
-    }
 
 
     public void sold (){
@@ -86,5 +59,4 @@ public class ShoppingCart {
         }
         shoppingBags = new ArrayList<ShoppingBag>();
     }
-
 }

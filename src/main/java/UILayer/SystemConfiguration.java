@@ -60,7 +60,7 @@ public class SystemConfiguration {
 
     @Bean
     public PaymentService PaymentService() {
-        return new PaymentService(ProxyPayment());
+        return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
     };
 
     @Bean
@@ -85,7 +85,7 @@ public class SystemConfiguration {
 
     @Bean
     public UserService UserService() {
-        return new UserService(UserRepository(), TokenService(),JobService(), ProductService(), PaymentService(), ShippingService());
+        return new UserService(UserRepository(), TokenService(),JobService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository());
     };
 
 

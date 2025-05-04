@@ -1,7 +1,7 @@
 package ServiceLayer;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Store;
-
+import infrastructureLayer.StoreRepository;
 
 import java.util.*;
 
@@ -38,7 +38,7 @@ public class StoreService{
         StoreRepository.removeStore(store);
     }
 
-    public void setRating(Store store, int rating){
+    public void setRating(Store store, Double rating){
         store.setRating(rating);
     }
 

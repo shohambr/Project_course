@@ -1,8 +1,6 @@
 package DomainLayer.domainServices;
 
-import DomainLayer.IPayment;
-import DomainLayer.Store;
-import DomainLayer.User;
+import DomainLayer.*;
 import infrastructureLayer.ProxyPayment;
 
 import java.util.HashMap;
@@ -14,12 +12,17 @@ public class PaymentConnectivity {
     public PaymentConnectivity(IPayment proxyPayment) {
         this.proxyPayment = proxyPayment;
     }
-    public void processPayment(User user, String creditCardNumber, String expirationDate, String backNumber, String paymentService) throws Exception {
+    public void processPayment(User user, Store store, IProductRepository productRepository, String creditCardNumber, String expirationDate, String backNumber, String paymentService) throws Exception {
         try {
-            double payment = user.getShoppingCart().calculatePurchaseCart();
-            Map<Store, Double> stores = user.getShoppingCart().calculatePaymentStore();
+            List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
             // should have a choice for payment company
-            for (Store store: stores.keySet()) {
+            for (ShoppingBag shoppingBag : shoppingBags) {
+                double payment = 0;
+                if (shoppingBag.getStoreId().equals(store.getId() + "" + "")) {
+                    for (String product : shoppingBag.getProducts().keySet()) {
+                        payment = payment + productRepository.getProduct(product).getPrice() * shoppingBag.getProducts().get(product);
+                    }
+                }
                 proxyPayment.processPayment(payment, creditCardNumber, expirationDate, backNumber, store.getId(), paymentService);
             }
         } catch (Exception e) {

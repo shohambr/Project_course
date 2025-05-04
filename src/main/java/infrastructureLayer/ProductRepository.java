@@ -9,10 +9,12 @@ import java.util.*;
 public class ProductRepository implements IProductRepository {
     private final Map<String, Product> products = new HashMap<>();
     private final Map<String, Product> productsByName = new HashMap<>();
+    private final Map<String, Product> productsByCategory = new HashMap<>();
 
     public void save(Product product) {
         products.put(product.getId(), product);
         productsByName.put(product.getName(), product);
+        productsByCategory.put(product.getCategory(), product);
     }
 
     public Optional<Product> findById(String id) {

@@ -127,37 +127,4 @@ public class ProductService {
 
         return false;
     }
-
-    public List<String> searchItems(String name , String token) throws Exception {
-        //if (!tokenService.validateToken(token)) {
-        //    throw new RuntimeException("Invalid or expired token");
-        //}
-        if (name == null || name.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        if (name.equals("all")) {
-            return getAllProducts().stream()
-                    .map(product -> {
-                        try {
-                            return mapper.writeValueAsString(product);
-                        } catch (JsonProcessingException e) {
-                            throw new RuntimeException("Failed to serialize product to JSON", e);
-                        }
-                    })
-                    .collect(Collectors.toList());
-        } else {
-            return getProductByName(name).stream()
-                    .map(product -> {
-                        try {
-                            return mapper.writeValueAsString(product);
-                        } catch (JsonProcessingException e) {
-                            throw new RuntimeException("Failed to serialize product to JSON", e);
-                        }
-                    })
-                    .collect(Collectors.toList());
-        }
-    }
-
-
 }

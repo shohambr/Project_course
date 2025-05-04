@@ -2,7 +2,7 @@ package UILayer;
 
 import DomainLayer.Product;
 import DomainLayer.User;
-import ServiceLayer.ProductService;
+import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -18,17 +18,17 @@ import java.util.Objects;
 @Route("/searchproduct")
 public class SearchProductUI extends VerticalLayout {
 
-    private final ProductService productService;
+    private final UserService userService;
 
     @Autowired
-    public SearchProductUI(ProductService configuredProductService) {
-        this.productService = configuredProductService;
+    public SearchProductUI(UserService configuredUserService) {
+        this.userService = configuredUserService;
 
         TextField productName = new TextField("product name");
-        Button searchProduct = new Button("search product", e -> {
+        Button searchProduct = new Button("search product by name", e -> {
             try {
                 User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                List<String> items = productService.searchItems(productName.getValue(), user.getToken());
+                List<String> items = userService.searchItems(productName.getValue(), user.getToken());
                 List<Product> products = items.stream().map(item -> {
                     try {
                         return new ObjectMapper().readValue(item, Product.class);

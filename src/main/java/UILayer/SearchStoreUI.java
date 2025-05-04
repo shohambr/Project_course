@@ -3,7 +3,6 @@ package UILayer;
 import DomainLayer.Product;
 import DomainLayer.Store;
 import DomainLayer.User;
-import ServiceLayer.StoreService;
 import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
@@ -20,18 +19,18 @@ import java.util.Objects;
 @Route("/searchstore")
 public class SearchStoreUI extends VerticalLayout {
 
-    private final StoreService storeService;
+    private final UserService userService;
 
     @Autowired
-    public SearchStoreUI(StoreService configuredStoreService) {
+    public SearchStoreUI(UserService configuredUserService) {
 
-        this.storeService = configuredStoreService;
+        this.userService = configuredUserService;
 
         TextField storeName = new TextField("store name");
         Button searchStore = new Button("search store", e -> {
             try {
                 User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                List<String> items = storeService.searchStores(storeName.getValue(), user.getToken());
+                List<String> items = userService.searchStores(storeName.getValue(), user.getToken());
                 List<Store> stores = items.stream().map(item -> {
                     try {
                         return new ObjectMapper().readValue(item, Store.class);

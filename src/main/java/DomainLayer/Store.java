@@ -3,19 +3,27 @@ package DomainLayer;
 
 import java.util.*;
 
+import io.micrometer.observation.Observation.Event;
+import ServiceLayer.EventLogger;
 public class Store {
-    private String id;
-    private PurchasePolicy purchasePolicy;
-    private DiscountPolicy discountPolicy;
+    private String id= UUID.randomUUID().toString();
+    private PurchasePolicy purchasePolicy = new PurchasePolicy();
+    private DiscountPolicy discountPolicy = new DiscountPolicy();
     private List<String> users = new ArrayList<>();
     private Map<String, Integer> products = new HashMap<>();
     private Map<String, Integer> reservedProducts = new HashMap<>();
     private boolean openNow;
     private double rating = 0;
     private Map<String , Double> raterId = new HashMap<>();
+    private String ownerId;
+
+
+    public Store(String ownerId) {
+        this.ownerId = ownerId;
+        openNow = true;
+    }
 
     public Store() {
-        this.id = "-1"; //currently doesnt have id as it gets one only when its added to the store repository
         openNow = true;
     }
 
@@ -138,6 +146,9 @@ public class Store {
 
         if (!products.containsKey(productId) || products.get(productId) == 0) {
             products.put(productId, Integer.valueOf(quantity));
+            return true;
+        }else if (products.get(productId) > 0) {
+            products.put(productId, Integer.valueOf(products.get(productId) + quantity));
             return true;
         }
 
@@ -265,9 +276,11 @@ public class Store {
             return false;
         }
         if (!products.containsKey(productId)) {
+            EventLogger.logEvent("ReserveProduct", "Product not found");
             return false;
         }
         if (products.get(productId) < quantity) {
+            EventLogger.logEvent("ReserveProduct", "Not enough quantity available");
             return false;
         }
         int currentQuantity = products.get(productId);

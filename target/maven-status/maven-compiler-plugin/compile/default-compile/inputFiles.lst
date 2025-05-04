@@ -7,6 +7,7 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/ShippingService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/IJobRepository.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/NotificationService.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Bid.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/JobService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Product.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/JobRepository.java
@@ -18,6 +19,7 @@
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/ProductService.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/Roles/Jobs/Managing.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/infrastructureLayer/OrderRepository.java
+/Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/domainServices/openStore.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/DomainLayer/PurchasePolicy.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/utils/ProductKeyModule.java
 /Users/yanivefremov/Documents/firstDeg/project/Project_course/src/main/java/ServiceLayer/OrderService.java

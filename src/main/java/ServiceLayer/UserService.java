@@ -29,7 +29,9 @@ import DomainLayer.User;
 import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
     private final IToken tokenService;
@@ -39,12 +41,19 @@ public class UserService {
     private final IOrderRepository orderRepo;
     private final IPayment payment;
     private final ObjectMapper mapper = new ObjectMapper();
-    private final JobService jobService;
     private final ProductService productService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment , IOrderRepository orderRepo) {
+    public UserService(IUserRepository repository,
+                        IToken tokenService,
+                        ProductService productService, 
+                        IStoreRepository storeRepo , 
+                        IProductRepository productRepo , 
+                        IPayment payment , 
+                        IOrderRepository orderRepo ,
+                        UserConnectivity userConnectivity , 
+                        UserCart userCart) {
         this.orderRepo = orderRepo;
         this.payment = payment;
         this.storeRepo = storeRepo;
@@ -52,11 +61,10 @@ public class UserService {
         this.userRepo = repository;
         this.productRepo = productRepo;
         this.tokenService = tokenService;
-        this.userConnectivity = new UserConnectivity(tokenService , repository);
-        this.jobService = jobService;
+        this.userConnectivity = userConnectivity;
         this.mapper.registerModule(new ProductKeyModule());
         this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo , payment , orderRepo);
+        this.userCart = userCart;
     }
 
 
@@ -105,7 +113,7 @@ public class UserService {
          try{
             return userCart.reserveCart(token);
          } catch (Exception e) {
-             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED");
+             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED ");
              throw new RuntimeException("Failed to purchase cart");
          }
      }
@@ -114,7 +122,7 @@ public class UserService {
         try{
             userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv);
         } catch (Exception e) {
-            EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED");
+            EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " );
             throw new RuntimeException("Failed to purchase cart");
         }
     }

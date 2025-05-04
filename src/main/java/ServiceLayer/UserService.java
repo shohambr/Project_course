@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
+import DomainLayer.IOrderRepository;
 import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
@@ -35,6 +36,7 @@ public class UserService {
     private final IUserRepository userRepo;
     private final IStoreRepository storeRepo;
     private final IProductRepository productRepo;
+    private final IOrderRepository orderRepo;
     private final IPayment payment;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
@@ -42,7 +44,8 @@ public class UserService {
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment , IOrderRepository orderRepo) {
+        this.orderRepo = orderRepo;
         this.payment = payment;
         this.storeRepo = storeRepo;
         this.productService = productService;
@@ -53,15 +56,14 @@ public class UserService {
         this.jobService = jobService;
         this.mapper.registerModule(new ProductKeyModule());
         this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo , payment);
+        this.userCart = new UserCart(tokenService , repository , storeRepo , productRepo , payment , orderRepo);
     }
 
 
     public String login(String username, String password) throws JsonProcessingException {
         try {
-            userConnectivity.login(username, password , userRepo.getUserPass(username));
             EventLogger.logEvent(username , "LOGIN");
-            return tokenService.generateToken(username);
+            return userConnectivity.login(username, password);
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGIN_FAILED");
             throw new RuntimeException("Invalid username or password");

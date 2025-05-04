@@ -13,17 +13,12 @@ public class Guest {
 
     protected String id = UUID.randomUUID().toString();
     protected ShoppingCart shoppingCart = new ShoppingCart((id));
-    protected String myToken;
     protected static int counter = 0;
     protected String username = "Guest"+ counter++;
     protected Boolean cartReserved = false;
 
 
     public Guest() {
-    }
-
-    public Guest(String token) {
-        this.myToken = token;
     }
 
 
@@ -60,9 +55,6 @@ public class Guest {
         }
     }
 
-    public String getToken() {
-        return myToken;
-    }
     public String getID() {
         return this.id;
     }

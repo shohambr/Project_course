@@ -33,4 +33,8 @@ public class ProductRepository implements IProductRepository {
             productsByName.remove(product.getName());
         }
     }
+
+    public Product getProduct(String id) {
+        return products.get(id);
+    }
 }

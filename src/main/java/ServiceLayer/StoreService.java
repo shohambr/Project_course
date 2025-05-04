@@ -1,12 +1,10 @@
 package ServiceLayer;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Store;
-import org.springframework.stereotype.Service;
 
 
 import java.util.*;
 
-@Service
 public class StoreService{
     IStoreRepository StoreRepository;
     ProductService productService;

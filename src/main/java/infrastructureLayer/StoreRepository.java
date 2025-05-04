@@ -35,4 +35,24 @@ public class StoreRepository implements IStoreRepository {
         }
     }
 
+
+    public Store getStore(String storeId) {
+        for (Store store : Stores.keySet()) {
+            if (store.getId().equals(storeId)) {
+                return store;
+            }
+        }
+        return null;
+    }
+    public void updateStore(String storeId, String storeJson) {
+        for (Store store : Stores.keySet()) {
+            if (store.getId().equals(storeId)) {
+                Stores.put(store, storeJson);
+                return;
+            }
+        }
+    }
+    public Map<Store, String> getStores() {
+        return Stores;
+    }
 }

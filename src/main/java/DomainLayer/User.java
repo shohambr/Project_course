@@ -6,7 +6,7 @@ import ServiceLayer.UserService;
 
 public abstract class User {
     protected String id = UUID.randomUUID().toString();
-    protected ShoppingCart shoppingCart = new ShoppingCart(id);
+    protected ShoppingCart shoppingCart = new ShoppingCart((id));
     protected String myToken;
 
     public User() {

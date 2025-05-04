@@ -2,11 +2,10 @@ package infrastructureLayer;
 import DomainLayer.IUserRepository;
 import DomainLayer.Store;
 import DomainLayer.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
-@Repository
+
 public class UserRepository implements IUserRepository {
     //entry in the hashmap is of the form <username , (pass;json)>
     HashMap<String , String> rep = new HashMap<String ,String>();

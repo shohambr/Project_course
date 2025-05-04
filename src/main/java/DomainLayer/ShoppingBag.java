@@ -71,4 +71,6 @@ public class ShoppingBag {
             store.decreaseProduct(product.getKey(), product.getValue());
         }
     }
+
+    public Store getStore() {return store;}
 }

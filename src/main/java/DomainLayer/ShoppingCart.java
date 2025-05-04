@@ -71,11 +71,20 @@ public class ShoppingCart {
         }
         return -1;
     }
+    public Map<Store, Double> calculatePaymentStore() {
+        Map<Store, Double> storePayment = new HashMap<Store, Double>();
+        for(ShoppingBag shoppingBag: shoppingBags) {
+            storePayment.put(shoppingBag.getStore(), shoppingBag.calculatePurchaseShoppingBag());
+        }
+        return storePayment;
+    }
+
 
     public void sold (){
         for (ShoppingBag shoppingBag : shoppingBags) {
             shoppingBag.sold();
         }
+        shoppingBags = new ArrayList<ShoppingBag>();
     }
 
 }

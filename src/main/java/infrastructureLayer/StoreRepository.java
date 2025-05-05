@@ -2,11 +2,10 @@ package infrastructureLayer;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Store;
-import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-@Repository
 public class StoreRepository implements IStoreRepository {
     private Map<Store, String> Stores = new HashMap<>();
 
@@ -34,26 +33,24 @@ public class StoreRepository implements IStoreRepository {
         }
     }
 
-    public Store getStore(String id) {
-        for (Store existingStore : Stores.keySet()) {
-            if (existingStore.getId().equals(id)) {
-                return existingStore;
+
+    public Store getStore(String storeId) {
+        for (Store store : Stores.keySet()) {
+            if (store.getId().equals(storeId)) {
+                return store;
             }
         }
-
         return null;
     }
-    public Optional<String> findByName(String name) {
-        for (Store existingStore : Stores.keySet()) {
-            if (existingStore.getId().equals(name)) {
-                return Optional.ofNullable(Stores.get(existingStore));
+    public void updateStore(String storeId, String storeJson) {
+        for (Store store : Stores.keySet()) {
+            if (store.getId().equals(storeId)) {
+                Stores.put(store, storeJson);
+                return;
             }
         }
-        return Optional.empty();
     }
-
-    public List<Store> findAll() {
-        return new ArrayList<>(Stores.keySet());
+    public Map<Store, String> getStores() {
+        return Stores;
     }
-
 }

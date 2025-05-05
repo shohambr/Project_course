@@ -22,7 +22,6 @@ public class RegisteredUser extends User {
             this.id = temp.id;
             this.name = temp.name;
             this.shoppingCart = temp.shoppingCart;
-            this.myToken = temp.myToken;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -45,14 +44,11 @@ public class RegisteredUser extends User {
         return this.name;
     }
 
+
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
 
-
-    public void logout()  {
-        myToken=null;
-    }
 
     public RegisteredUser register(String u , String p){
         throw new UnsupportedOperationException("allready registered.");
@@ -64,9 +60,6 @@ public class RegisteredUser extends User {
         return this.name;
     }
 
-    public void setToken(String token) {
-        myToken = token;
-    }
 
     public boolean receivedOwnershipRequest(String request) {
         //some logic for how to show the user that he received an ownership request

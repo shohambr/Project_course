@@ -1,18 +1,20 @@
 package DomainLayer;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Product {
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private String storeId;
     private String name;
     private String description;
     private int price;
     private int quantity;
     private double rating;
+    private HashMap<String , Double> raterId = new HashMap<>();
     private String category;
 
     public Product(String id, String storeId, String name, String description, int price , int quantity, double rating, String category) {
         if(quantity > 0) {
-            this.id = id;
             this.storeId = storeId;
             this.name = name;
             this.description = description;
@@ -57,6 +59,22 @@ public class Product {
     public synchronized void setQuantity(int quantity) { this.quantity = quantity; }
     public synchronized void setRating(double rating) { this.rating = rating; }
     public synchronized void setCategory(String category) { this.category = category; }
+
+
+    public synchronized boolean addRating(String username, double rating) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
+        if(raterId.containsKey(username)) {
+            this.rating = (rating - raterId.get(username) + rating) / raterId.size();
+        } 
+        else {
+            this.rating = (this.rating * raterId.size() + rating) / (raterId.size() + 1);
+
+        }
+        raterId.put(username, rating);
+        return true;
+    }
 
     public String toString() {
         return "Product{" +

@@ -4,6 +4,7 @@ import DomainLayer.Product;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import ServiceLayer.ProductService;
+import ServiceLayer.RegisteredService;
 import ServiceLayer.StoreService;
 import ServiceLayer.UserService;
 import com.vaadin.flow.component.UI;
@@ -25,19 +26,21 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
     private ProductService productService;
     private StoreService storeService;
     private UserService userService;
+    private RegisteredService registeredService;
 
     @Autowired
-    public ProductPageUI(ProductService configuredProductService, StoreService configuredStoreService, UserService configuredUserService, String productId, String storeId) {
+    public ProductPageUI(ProductService configuredProductService, StoreService configuredStoreService, UserService configuredUserService, RegisteredService configuredRegisteredService, String productId, String storeId) {
         this.productService = configuredProductService;
         this.storeService = configuredStoreService;
         this.userService = configuredUserService;
+        this.registeredService = configuredRegisteredService;
         if (productService.getProductById(productId).isPresent()) {
             Product product = productService.getProductById(productId).get();
-            Store store = storeService.getStoreById(storeId);
+            String storeName = storeService.getStoreName(storeId);
             Button signOut = new Button("Sign out", e -> {
                 try {
-                    RegisteredUser user = (RegisteredUser) UI.getCurrent().getSession().getAttribute("user");
-                    UI.getCurrent().getSession().setAttribute("user", userService.logoutRegistered(user.getToken(), user));
+                    String token = (String) UI.getCurrent().getSession().getAttribute("token");
+                    UI.getCurrent().getSession().setAttribute("token", registeredService.logoutRegistered(token));
                     UI.getCurrent().navigate("");
                 } catch (Exception exception) {
                     Notification.show(exception.getMessage());
@@ -46,18 +49,18 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
             );
 
             Button homePage = new Button("Home page", e -> {
-                RegisteredUser user = (RegisteredUser) UI.getCurrent().getSession().getAttribute("user");
-                UI.getCurrent().navigate("/:userid");
+                String token = (String) UI.getCurrent().getSession().getAttribute("token");
+                UI.getCurrent().navigate("/:token");
             });
 
-            HorizontalLayout upwardsPage = new HorizontalLayout(signOut, new H1(product.getName()),new H1(store.getName()), homePage);
+            HorizontalLayout upwardsPage = new HorizontalLayout(signOut, new H1(product.getName()),new H1(storeName), homePage);
             upwardsPage.setAlignItems(Alignment.CENTER);
 
             add(upwardsPage);
 
             Button addToCart = new Button("add to cart", e -> {
-                RegisteredUser user = (RegisteredUser) UI.getCurrent().getSession().getAttribute("user");
-                Notification.show(userService.addToCart(user.getToken(), user, store, product));
+                String token = (String) UI.getCurrent().getSession().getAttribute("token");
+                Notification.show(userService.addToCart(token, storeId, productId, 1));
             });
 
             HorizontalLayout bottomDescription = new HorizontalLayout(new Span(product.getDescription()), new Span("" + product.getPrice()));

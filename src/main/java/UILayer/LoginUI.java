@@ -1,7 +1,10 @@
 package UILayer;
 
+import DomainLayer.Product;
 import DomainLayer.Roles.RegisteredUser;
+import DomainLayer.User;
 import ServiceLayer.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
@@ -25,9 +28,9 @@ public class LoginUI extends VerticalLayout {
         Span error = new Span("");
         Button login = new Button("login",e -> {
             try {
-                RegisteredUser user = userService.login(username.getValue(), password.getValue());
-                UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/" + user.getID());
+                String token = userService.login(username.getValue(), password.getValue());
+                UI.getCurrent().getSession().setAttribute("token", token);
+                UI.getCurrent().navigate("/" + token);
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

@@ -3,7 +3,7 @@ package UILayer;
 import DomainLayer.Product;
 import DomainLayer.Store;
 import DomainLayer.User;
-import ServiceLayer.UserService;
+import ServiceLayer.StoreService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -15,29 +15,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Route("/searchstore")
 public class SearchStoreUI extends VerticalLayout {
 
-    private final UserService userService;
+    private final StoreService storeService;
 
     @Autowired
-    public SearchStoreUI(UserService configuredUserService) {
+    public SearchStoreUI(StoreService configuredStoreService) {
 
-        this.userService = configuredUserService;
+        this.storeService = configuredStoreService;
 
         TextField storeName = new TextField("store name");
         Button searchStore = new Button("search store", e -> {
             try {
                 User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                List<String> items = userService.searchStores(storeName.getValue(), user.getToken());
+                Optional<Store> items = storeService.getStoreByName(storeName.getValue());
                 List<Store> stores = items.stream().map(item -> {
                     try {
-                        return new ObjectMapper().readValue(item, Store.class);
+                        return item;
                     } catch (Exception exception) {
                         return null;
                     }
-                }).filter(Objects::nonNull).toList();
+                }).toList();
                 for (Store store : stores) {
                     add(new Button(store.getName() , choose -> {UI.getCurrent().navigate("/store/" + store.getId());}));
                 }

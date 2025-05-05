@@ -2,6 +2,6 @@ package UILayer;
 
 import com.vaadin.flow.router.Route;
 
-@Route("/:userid")
+@Route("/:token")
 public class UserHomePageUI {
 }

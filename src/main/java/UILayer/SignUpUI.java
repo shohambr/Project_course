@@ -27,9 +27,8 @@ public class SignUpUI extends VerticalLayout {
         Span error = new Span("");
         Button login = new Button("sign up", e -> {
             try {
-                RegisteredUser user = userService.signUp(username.getValue(), password.getValue());
-                UI.getCurrent().getSession().setAttribute("user", user);
-                UI.getCurrent().navigate("/" + user.getID());
+                userService.signUp(username.getValue(), password.getValue());
+                UI.getCurrent().navigate("");
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

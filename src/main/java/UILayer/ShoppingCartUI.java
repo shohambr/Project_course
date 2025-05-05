@@ -3,7 +3,9 @@ package UILayer;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.User;
-import ServiceLayer.UserService;
+import ServiceLayer.ProductService;
+import ServiceLayer.RegisteredService;
+import ServiceLayer.StoreService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -18,15 +20,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Route("/shoppingcart")
 public class ShoppingCartUI extends VerticalLayout {
 
-    private final UserService userService;
+    private final RegisteredService registeredService;
+    private final ProductService productService;
+    private final StoreService storeService;
 
     @Autowired
-    public ShoppingCartUI(UserService configuredUserService) {
-        this.userService = configuredUserService;
+    public ShoppingCartUI(RegisteredService configuredRegisteredService, ProductService configuredProductService, StoreService configuredStoreService) {
+        this.registeredService = configuredRegisteredService;
+        this.productService = configuredProductService;
+        this.storeService = configuredStoreService;
         Button signOut = new Button("Sign out", e -> {
             try {
-                RegisteredUser user = (RegisteredUser) UI.getCurrent().getSession().getAttribute("user");
-                UI.getCurrent().getSession().setAttribute("user", userService.logoutRegistered(user.getToken(), user));
+                String token = (String) UI.getCurrent().getSession().getAttribute("token");
+                UI.getCurrent().getSession().setAttribute("token", registeredService.logoutRegistered(token));
                 UI.getCurrent().navigate("");
             } catch (Exception exception) {
                 Notification.show(exception.getMessage());
@@ -44,9 +50,8 @@ public class ShoppingCartUI extends VerticalLayout {
 
         ShoppingCart shoppingCart = user.getShoppingCart();
 
-        add(new ProductListUI(shoppingCart));
+        add(new ProductListUI(shoppingCart, productService, storeService));
 
-        add(new Span("Price" + shoppingCart.calculatePurchaseCart()));
         add(new Button("purchase cart", e -> {UI.getCurrent().navigate("/purchasecart");}));
 
         setPadding(true);

@@ -8,6 +8,7 @@ import DomainLayer.IUserRepository;
 import DomainLayer.domainServices.History;
 import DomainLayer.domainServices.Rate;
 import DomainLayer.domainServices.UserConnectivity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class RegisteredService {
     private final Rate rateService;
     private final History history;
 
+    @Service
     public RegisteredService(IUserRepository userRepo, IToken tokenService , IStoreRepository storeRepo, IProductRepository productRepo , IOrderRepository orderRepo) {
         this.orderRepo = orderRepo;
         this.storeRepo = storeRepo;

@@ -2,7 +2,7 @@ package UILayer;
 
 import DomainLayer.Product;
 import DomainLayer.User;
-import ServiceLayer.UserService;
+import ServiceLayer.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -14,28 +14,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Route("/searchproduct")
 public class SearchProductUI extends VerticalLayout {
 
-    private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public SearchProductUI(UserService configuredUserService) {
-        this.userService = configuredUserService;
+    public SearchProductUI(ProductService configuredProductService) {
+        this.productService = configuredProductService;
 
         TextField productName = new TextField("product name");
         Button searchProduct = new Button("search product by name", e -> {
             try {
-                User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                List<String> items = userService.searchItems(productName.getValue(), user.getToken());
+                String token = (String) UI.getCurrent().getSession().getAttribute("token");
+                Optional<Product> items = productService.getProductByName(productName.getValue());
                 List<Product> products = items.stream().map(item -> {
                     try {
-                        return new ObjectMapper().readValue(item, Product.class);
+                        return item;
                     } catch (Exception exception) {
                         return null;
                     }
-                }).filter(Objects::nonNull).toList();
+                }).toList();
                 for (Product product : products) {
                     add(new Button(product.getName() + "\n" + product.getPrice(), choose -> {UI.getCurrent().navigate("/product/" + product.getId() + "/" + product.getStoreId());}));
                 }

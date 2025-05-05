@@ -1,5 +1,6 @@
 package ServiceLayer;
 import DomainLayer.IStoreRepository;
+import DomainLayer.Product;
 import DomainLayer.Store;
 import infrastructureLayer.StoreRepository;
 
@@ -40,6 +41,23 @@ public class StoreService{
 
     public void setRating(Store store, Double rating){
         store.setRating(rating);
+    }
+
+    public String getStoreName(String id) {return StoreRepository.getStore(id).getName();}
+
+    public Optional<Store> getStoreByName(String name) {
+        try {
+            Map<Store, String> stores = StoreRepository.getStores();
+            for (Store store : stores.keySet()) {
+                if (store.getName().equals(name)) {
+                    return Optional.of(store);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return Optional.empty();
+        }
+        return Optional.empty();
     }
 
 }

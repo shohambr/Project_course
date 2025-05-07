@@ -8,7 +8,7 @@ import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.DomainServices.History;
 import DomainLayer.DomainServices.toNotify;
-import DomainLayer.DomainServices.temp;
+import DomainLayer.DomainServices.OpenStore;
 import DomainLayer.DomainServices.Rate;
 import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.DomainServices.History;
@@ -27,7 +27,7 @@ public class RegisteredService {
     private final UserConnectivity userConnectivity;
     private final Rate rateService;
     private final History history;
-    private final temp opener;
+    private final OpenStore opener;
     private final toNotify notifyService;
 
     public RegisteredService(IUserRepository userRepo, IToken tokenService , IStoreRepository storeRepo, IProductRepository productRepo , IOrderRepository orderRepo , INotificationRepository notificationRepo) {
@@ -40,7 +40,7 @@ public class RegisteredService {
         this.userConnectivity = new UserConnectivity(tokenService, userRepo);
         this.rateService = new Rate(tokenService, storeRepo , userRepo, productRepo);
         this.history = new History(tokenService, orderRepo, userRepo);
-        this.opener = new temp(tokenService, storeRepo, userRepo);
+        this.opener = new OpenStore(tokenService, storeRepo, userRepo);
         this.notifyService = new toNotify(notificationRepo, tokenService);
     }
 

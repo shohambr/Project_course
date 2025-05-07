@@ -2,10 +2,12 @@ package infrastructureLayer;
 
 import DomainLayer.IJobRepository;
 import DomainLayer.Roles.Jobs.Job;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
+@Repository
 public class JobRepository implements IJobRepository {
     /**user to jobs list connection*/
     HashMap<String, LinkedList<Job>> userToJobRep = new HashMap<>();

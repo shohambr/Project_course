@@ -1,10 +1,13 @@
 package ServiceLayer;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Service
 public class ErrorLogger {
     private static final String ERROR_LOG_FILE = "src/main/resources/logs/error-log.txt";
 

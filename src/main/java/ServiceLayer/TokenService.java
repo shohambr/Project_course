@@ -5,14 +5,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import io.micrometer.observation.Observation.Event;
 
 import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-
-import ServiceLayer.EventLogger;
 
 public class TokenService implements IToken {
 
@@ -33,10 +30,6 @@ public class TokenService implements IToken {
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key)
                 .compact();
-        if (blacklistedTokens.contains(JWT)) {
-            blacklistedTokens.remove(JWT);
-            EventLogger.logEvent(username ,"Token reactivated");
-        }
         activeTokens.put(JWT, username);
         return JWT;
     }
@@ -48,6 +41,7 @@ public class TokenService implements IToken {
         if (blacklistedTokens.contains(token)) {
             throw new IllegalArgumentException("user not logged in");
         }
+
         if (!activeTokens.containsKey(token))
             throw new IllegalArgumentException("Token is not active");
         if (suspendedUsers.contains(extractUsername(token))) {
@@ -83,11 +77,10 @@ public class TokenService implements IToken {
             throw new IllegalArgumentException("Token cannot be null or empty");
         }
         if (blacklistedTokens.contains(token)) {
-            throw new IllegalArgumentException("user already logged out");
+            throw new IllegalArgumentException("user not logged in");
         }
-        EventLogger.logEvent("TokenService" , "Token invalidated ");
         blacklistedTokens.add(token);
-        activeTokens.remove(token , extractUsername(token) );
+        activeTokens.remove(extractUsername(token) , token);
     }
 
     private static void requireNonEmpty(String token) {

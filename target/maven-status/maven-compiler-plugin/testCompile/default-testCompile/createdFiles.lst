@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DomainLayer\Roles\RegisteredUserTest.class
 Mocks\TestOwnership.class
 ServiceLayer\EventLoggerTest.class
@@ -20,4 +21,23 @@ DomainLayer\Roles\GuestTest.class
 ServiceLayer\StoreServiceTest.class
 ServiceLayer\JobServiceTest.class
 DomainLayer\DomainServices\HistoryTest.class
+=======
+Mocks\TestOwnership.class
+ServiceLayer\EventLoggerTest.class
+ServiceLayer\PaymentServiceTest.class
+Mocks\MockShipping.class
+ServiceLayer\ErrorLoggerTest.class
+ServiceLayer\JobServiceTest$1.class
+ServiceLayer\OrderServiceTest.class
+ServiceLayer\ShippingServiceTest.class
+Mocks\TestManaging.class
+ServiceLayer\JobServiceTest$2.class
+DomainLayer\ShoppingCartTest.class
+ServiceLayer\JobServiceTest$3.class
+ServiceLayer\StoreServiceTest$1.class
+Mocks\MockPayment.class
+Mocks\TestRegisteredUser.class
+ServiceLayer\StoreServiceTest.class
+ServiceLayer\JobServiceTest.class
+>>>>>>> origin/main
 Mocks\TestStore.class

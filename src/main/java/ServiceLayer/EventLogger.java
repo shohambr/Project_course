@@ -1,10 +1,13 @@
 package ServiceLayer;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Service
 public class EventLogger {
     private static final String EVENT_LOG_FILE = "src/main/resources/logs/event-log.txt";
 

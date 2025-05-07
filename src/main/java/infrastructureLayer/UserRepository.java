@@ -12,7 +12,6 @@ import java.util.HashMap;
 
 
 
-
 public class UserRepository implements IUserRepository {
     //entry in the hashmap is of the form <username , (pass;json)>
     HashMap<String , String> rep = new HashMap<String ,String>();
@@ -27,8 +26,8 @@ public class UserRepository implements IUserRepository {
         return pass.get(username);
     }
 
-    public boolean addUser(String username , String hashedPassword , String json) {
-        if(rep.containsKey(username) || pass.containsKey(username)){
+    public boolean addUser(String username, String hashedPassword , String json) {
+        if(rep.containsKey(username)){
             throw new IllegalArgumentException("User already exists");
         }
         rep.put(username , json);
@@ -37,15 +36,15 @@ public class UserRepository implements IUserRepository {
     }
 
     public boolean isUserExist(String username) {
-        return pass.containsKey(username);
+        return rep.containsKey(username);
     }
 
-    public boolean update(String username, String s) {
-        if(!rep.containsKey(username)){
-            EventLogger.logEvent(username, "User not found");
+    public boolean update(String name, String s) {
+
+        if(!rep.containsKey(s)){
             return false;
         }
-        rep.put(username , s);
+        rep.replace(name , s);
         return true;
     }
 

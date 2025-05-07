@@ -2,10 +2,12 @@ package infrastructureLayer;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Store;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class StoreRepository implements IStoreRepository {
     private Map<String, String> stores = new HashMap<>();
 

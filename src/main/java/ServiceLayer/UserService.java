@@ -110,14 +110,14 @@ public class UserService {
         }
     }
 
-     public Double reserveCart(String token) {
-         try{
+    public Double reserveCart(String token) {
+        try{
             return userCart.reserveCart(token);
-         } catch (Exception e) {
-             EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED " + e.getMessage());
-             throw new RuntimeException("Failed to purchase cart");
-         }
-     }
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "RESERVE_CART_FAILED");
+            throw new RuntimeException("Failed to purchase cart");
+        }
+    }
 
     public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv , String state ,String city , String street , String homeNumber) {
         try{

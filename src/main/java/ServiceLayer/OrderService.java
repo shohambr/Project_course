@@ -1,9 +1,11 @@
 package ServiceLayer;
 import DomainLayer.IOrderRepository;
 import DomainLayer.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class OrderService{
     IOrderRepository OrderRepository;
     private String id = "1";

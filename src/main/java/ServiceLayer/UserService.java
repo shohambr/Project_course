@@ -5,12 +5,11 @@ import DomainLayer.IUserRepository;
 import DomainLayer.IOrderRepository;
 import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
+import DomainLayer.IShipping;
 import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
-import DomainLayer.domainServices.UserCart;
-import DomainLayer.domainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.ShoppingBag;
@@ -25,6 +24,8 @@ import utils.ProductKeyModule;
 
 import DomainLayer.Store;
 import DomainLayer.User;
+import DomainLayer.DomainServices.UserCart;
+import DomainLayer.DomainServices.UserConnectivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -53,7 +54,7 @@ public class UserService {
                         IPayment payment , 
                         IOrderRepository orderRepo ,
                         UserConnectivity userConnectivity , 
-                        UserCart userCart) {
+                        UserCart userCart ) {
         this.orderRepo = orderRepo;
         this.payment = payment;
         this.storeRepo = storeRepo;
@@ -118,9 +119,9 @@ public class UserService {
          }
      }
 
-    public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv) {
+    public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv , String state ,String city , String street , String homeNumber) {
         try{
-            userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv);
+            userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv , state, city, street, homeNumber);
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to purchase cart");

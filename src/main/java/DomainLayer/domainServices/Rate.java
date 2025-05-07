@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,7 +29,7 @@ public class Rate {
         }
         Tokener.validateToken(token);
         String username = Tokener.extractUsername(token);
-        Store store = mapper.convertValue(storeRepository.getStore(storeId), Store.class);
+        Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
         if (store == null) {
             throw new IllegalArgumentException("Store does not exist");
         }
@@ -40,7 +40,7 @@ public class Rate {
             storeRepository.updateStore(storeId, mapper.writeValueAsString(store));
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("invalid rate");
     }
 
     public boolean rateProduct(String token, String productId, double rate) {

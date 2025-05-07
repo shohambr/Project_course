@@ -7,10 +7,10 @@ import DomainLayer.IUserRepository;
 import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.Jobs.Managing;
 import DomainLayer.Roles.Jobs.Ownership;
-import DomainLayer.domainServices.openStore;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Roles.SystemManager;
 import DomainLayer.Store;
+import DomainLayer.DomainServices.OpenStore;
 
 import java.util.LinkedList;
 
@@ -20,13 +20,13 @@ public class JobService {
     private final IUserRepository userRepository;
     private final StoreService storeService;
     private final IToken tokenService;
-    private final openStore openStoreService;
+    private final OpenStore openStoreService;
 
     public JobService(IJobRepository jobRepository, StoreService storeService , IStoreRepository storeRepository, IToken token , IUserRepository userRepository) {
         this.storeRepository = storeRepository;
         this.userRepository = userRepository;
         this.tokenService = token;
-        this.openStoreService = new openStore(token, storeRepository, userRepository);
+        this.openStoreService = new OpenStore(token, storeRepository, userRepository);
         this.JobRepository = jobRepository;
         this.storeService = storeService;
     }

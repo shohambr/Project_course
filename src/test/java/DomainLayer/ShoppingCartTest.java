@@ -1,136 +1,84 @@
-// package DomainLayer;
+package DomainLayer;
 
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-// import java.util.List;
+import DomainLayer.ShoppingCart;
+import DomainLayer.ShoppingBag;
 
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
+import java.util.List;
 
-// class ShoppingCartTest {
+class ShoppingCartTest {
 
-//     private Store store;
-//     private ShoppingCart shoppingCart;
+    private ShoppingCart cart;
+    private final String userId = "user123";
+    private final String storeId = "storeA";
+    private final String productId = "prod1";
 
-//     @BeforeEach
-//     void setUp() {
-//         store = new Store();
-//         shoppingCart = new ShoppingCart("1");
-//     }
+    @BeforeEach
+    void setUp() {
+        cart = new ShoppingCart(userId);
+    }
 
-//     @Test
-//     void addNewProductInNewStore_Successful() {
-//         Product product = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
+    @Test
+    void testConstructorSetsUserIdAndEmptyBags() {
+        assertEquals(userId, cart.getUserId(), "UserId should be set by constructor");
+        assertNotNull(cart.getShoppingBags(), "ShoppingBags list should not be null");
+        assertTrue(cart.getShoppingBags().isEmpty(), "ShoppingBags should start empty");
+    }
 
-//         shoppingCart.addProduct(store, product);
+    @Test
+    void testAddProduct_NewStore_CreatesBagWithProduct() {
+        cart.addProduct(storeId, productId, 2);
+        List<ShoppingBag> bags = cart.getShoppingBags();
+        assertEquals(1, bags.size(), "Should create one shopping bag");
+        ShoppingBag bag = bags.get(0);
+        assertEquals(storeId, bag.getStoreId(), "Bag should have correct storeId");
+        assertTrue(bag.getProducts().containsKey(productId), "Bag should contain added product");
+        assertEquals(2, bag.getProducts().get(productId).intValue(), "Product quantity should match");
+    }
 
-//         assertTrue(shoppingCart.getShoppingBags().size() == 1 & shoppingCart.getShoppingBags().get(0).getProducts().get(product) == 1);
-//     }
+    @Test
+    void testAddProduct_ExistingBag_IncrementsQuantity() {
+        cart.addProduct(storeId, productId, 1);
+        cart.addProduct(storeId, productId, 3);
+        ShoppingBag bag = cart.getShoppingBags().get(0);
+        assertEquals(4, bag.getProducts().get(productId).intValue(), "Quantity should accumulate on repeated adds");
+    }
 
-//     @Test
-//     void addNewProductInExistingStore_Successful() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "9", "bgdfbf", "bdfgbfgds", 321, 3);
+    @Test
+    void testAddProduct_NonPositiveQuantity_ThrowsException() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> cart.addProduct(storeId, productId, 0));
+        assertEquals("Quantity must be greater than 0", ex.getMessage());
+    }
 
-//         shoppingCart.addProduct(store, product1);
-//         shoppingCart.addProduct(store, product2);
+    @Test
+    void testRemoveProduct_ExistingProduct_ReturnsTrueAndAdjustsQuantity() {
+        cart.addProduct(storeId, productId, 5);
+        boolean removed = cart.removeProduct(storeId, productId, 3);
+        assertTrue(removed, "removeProduct should return true when product found");
+        ShoppingBag bag = cart.getShoppingBags().get(0);
+        assertEquals(2, bag.getProducts().get(productId).intValue(), "Quantity should decrease by removed amount");
+    }
 
-//         assertTrue(shoppingCart.getShoppingBags().size() == 1 & shoppingCart.getShoppingBags().get(0).getProducts().size() == 2);
-//     }
+    @Test
+    void testRemoveProduct_RemovesBagWhenEmpty() {
+        cart.addProduct(storeId, productId, 2);
+        boolean removed = cart.removeProduct(storeId, productId, 2);
+        assertTrue(removed);
+        assertTrue(cart.getShoppingBags().isEmpty(), "Bag should be removed when no products remain");
+    }
 
+    @Test
+    void testRemoveProduct_Nonexistent_ReturnsFalseWithoutException() {
+        boolean removed = cart.removeProduct(storeId, productId, 1);
+        assertFalse(removed, "removeProduct should return false when product not found");
+    }
 
-//     @Test
-//     void addExistingProduct_Successful() {
-//         Product product = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-
-//         shoppingCart.addProduct(store, product);
-//         shoppingCart.addProduct(store, product);
-
-//         assertTrue(shoppingCart.getShoppingBags().size() == 1 & shoppingCart.getShoppingBags().get(0).getProducts().get(product) == 2);
-//     }
-
-//     @Test
-//     void removeExistingProductLastInBag_Successful() {
-//         Product product = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         store.increaseProduct(product, 3);
-//         shoppingCart.addProduct(store, product);
-//         shoppingCart.removeProduct(store, product);
-
-//         assertEquals(0, shoppingCart.getShoppingBags().size());
-//     }
-
-//     @Test
-//     void removeExistingProductNotLastInBag_Successful() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "9", "bgdfbf", "bdfgbfgds", 321, 3);
-//         store.increaseProduct(product1, 3);
-//         store.increaseProduct(product2, 3);
-//         shoppingCart.addProduct(store, product1);
-//         shoppingCart.addProduct(store, product2);
-//         shoppingCart.removeProduct(store, product1);
-
-//         assertTrue(shoppingCart.getShoppingBags().size() == 1 & shoppingCart.getShoppingBags().get(0).getProducts().size() == 1);
-//     }
-
-//     @Test
-//     void purchaseShoppingCart_Successful() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "9", "bgdfbf", "bdfgbfgds", 321, 3);
-//         store.increaseProduct(product1, 3);
-//         store.increaseProduct(product2, 3);
-//         shoppingCart.addProduct(store, product1);
-//         shoppingCart.addProduct(store, product2);
-//         double price = shoppingCart.calculatePurchaseCart();
-//         assertTrue(price == 642 & shoppingCart.getShoppingBags().isEmpty());
-//     }
-
-//     @Test
-//     void purchaseShoppingCartWithUnavailableProduct_Failure() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "9", "bgdfbf", "bdfgbfgds", 321, 3);
-//         store.increaseProduct(product1, 3);
-//         store.increaseProduct(product2, 3);
-//         shoppingCart.addProduct(store, product1);
-//         shoppingCart.addProduct(store, product2);
-//         store.increaseProduct(product2, 3);
-//         double price = shoppingCart.calculatePurchaseCart();
-//         assertTrue(price == -1);
-//     }
-
-//     @Test
-//     void purchaseShoppingCartWithClosedStore_Failure() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "9", "bgdfbf", "bdfgbfgds", 321, 3);
-//         store.increaseProduct(product1, 3);
-//         store.increaseProduct(product2, 3);
-//         shoppingCart.addProduct(store, product1);
-//         shoppingCart.addProduct(store, product2);
-//         store = null;
-//         double price = shoppingCart.calculatePurchaseCart();
-//         assertTrue(price == -1);
-//     }
-
-
-//     @Test
-//     void removeNonExistingProduct_Failure() {
-//         Product product1 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         Product product2 = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         shoppingCart.addProduct(store, product2);
-//         boolean result = shoppingCart.removeProduct(store, product2);
-
-//         assertFalse(result);
-//     }
-
-//     @Test
-//     void removeExistingProductInANonExistentStore() {
-//         Product product = new Product("1", "1", "bgdfbf", "bdfgbfgds", 321, 3);
-//         boolean result = shoppingCart.removeProduct(store, product);
-
-//         assertFalse(result);
-//     }
-
-
-
-
-// }
+    @Test
+    void testSold_DoesNotThrow() {
+        cart.addProduct(storeId, productId, 1);
+        assertDoesNotThrow(() -> cart.sold(), "sold() should execute without exception");
+    }
+}

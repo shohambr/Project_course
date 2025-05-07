@@ -2,10 +2,14 @@ package infrastructureLayer;
 import DomainLayer.IUserRepository;
 import DomainLayer.Store;
 import DomainLayer.User;
+import DomainLayer.Roles.RegisteredUser;
 import io.micrometer.observation.Observation.Event;
 import ServiceLayer.EventLogger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.HashMap;
+
 
 
 
@@ -13,6 +17,7 @@ public class UserRepository implements IUserRepository {
     //entry in the hashmap is of the form <username , (pass;json)>
     HashMap<String , String> rep = new HashMap<String ,String>();
     HashMap<String , String> pass = new HashMap<String ,String>();
+    public final ObjectMapper mapper = new ObjectMapper();
 
     public static void sendNewOwnershipRequest(int newOwnerId, Store myStore) {
 

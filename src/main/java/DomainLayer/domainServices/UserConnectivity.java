@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.User;
 import DomainLayer.Roles.RegisteredUser;
@@ -72,18 +72,16 @@ public class UserConnectivity {
     }
 
     public void logout(String username ,String token) {
-        if(username.equals("Guest")) {
-            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
-            throw new IllegalArgumentException("Guest cannot logout");
-        }
         if (username == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_NULL");
             throw new IllegalArgumentException("Username cannot be null");
-        } else if (username.isEmpty()) {
+        }else if(username.equals("Guest")) {
+            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
+            throw new IllegalArgumentException("Guest cannot logout");
+        }else if (username.isEmpty()) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_EMPTY");
             throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if (token == null) {
+        }else if (token == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - TOKEN_NULL");
             throw new IllegalArgumentException("Token cannot be null");
         } else if (token.isEmpty()) {

@@ -13,6 +13,7 @@ public class RegisteredUser extends User {
 
     ObjectMapper mapper = new ObjectMapper();
     private List<Job> jobs;
+    private Map<String, String> answers = new HashMap<>();
     private String name;
 
     public RegisteredUser(String json) {
@@ -22,6 +23,7 @@ public class RegisteredUser extends User {
             this.id = temp.id;
             this.name = temp.name;
             this.shoppingCart = temp.shoppingCart;
+            this.answers = temp.answers;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -49,15 +51,14 @@ public class RegisteredUser extends User {
         return shoppingCart;
     }
 
-
-    public RegisteredUser register(String u , String p){
-        throw new UnsupportedOperationException("allready registered.");
-    }
     public List<Job> getJobs() {
         return jobs;
     }
     public String getName() {
         return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -79,5 +80,9 @@ public class RegisteredUser extends User {
 
     public void acceptQueryResponse(String s) {
 
+    }
+
+    public void setAnswers(Map<String, String> answers) {
+        this.answers = answers;
     }
 }

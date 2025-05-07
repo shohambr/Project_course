@@ -14,6 +14,7 @@ public class Store {
     private List<String> users = new ArrayList<>();
     private Map<String, Integer> products = new HashMap<>();
     private Map<String, Integer> reservedProducts = new HashMap<>();
+    private Map<String, String> questions = new HashMap<>();
     private boolean openNow;
     private double rating = 0;
     private Map<String , Double> raterId = new HashMap<>();

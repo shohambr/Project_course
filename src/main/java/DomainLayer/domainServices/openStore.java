@@ -1,17 +1,17 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.Store;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class openStore {
+public class OpenStore {
     private IToken Tokener;
     private IStoreRepository storeRepository;
     private IUserRepository userRepository;
     private ObjectMapper mapper = new ObjectMapper();
 
-    public openStore(IToken Tokener, IStoreRepository storeRepository, IUserRepository userRepository) {
+    public OpenStore(IToken Tokener, IStoreRepository storeRepository, IUserRepository userRepository) {
         this.Tokener = Tokener;
         this.storeRepository = storeRepository;
         this.userRepository = userRepository;

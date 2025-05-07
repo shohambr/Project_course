@@ -7,9 +7,11 @@ import DomainLayer.Roles.Jobs.Ownership;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Roles.SystemManager;
 import DomainLayer.Store;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 
+@Service
 public class JobService {
     private final IJobRepository JobRepository;
     private final StoreService storeService;

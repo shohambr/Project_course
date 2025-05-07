@@ -1,6 +1,7 @@
 package infrastructureLayer;
 import DomainLayer.IOrderRepository;
 import DomainLayer.Order;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+@Repository
 public class OrderRepository implements IOrderRepository {
     private Map<Order, String> Orders = new HashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();

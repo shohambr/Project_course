@@ -1,11 +1,16 @@
 package Mocks;
 
 import DomainLayer.IShipping;
+import DomainLayer.Product;
+import DomainLayer.Store;
+import DomainLayer.User;
+
+import java.util.Map;
 
 public class MockShipping implements IShipping {
     public MockShipping() {}
 
-    public void processShipping(String state, String city, String street, String homeNumber) throws Exception {
+    public void processShipping(User user, String storeId, String state, String city, String street, Map<String, Integer> products, String homeNumber) throws Exception {
         if(state == null | state.length() == 0) {
             throw new Exception("Empty state");
         }
@@ -16,7 +21,7 @@ public class MockShipping implements IShipping {
             throw new Exception("Empty street");
         }
         try {
-            Integer intHomeNumber = new Integer(homeNumber);
+            Integer intHomeNumber = Integer.valueOf(homeNumber);
             if(intHomeNumber < 1) {
                 throw new Exception("negative home number");
             }

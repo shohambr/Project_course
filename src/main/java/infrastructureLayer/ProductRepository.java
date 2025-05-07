@@ -1,9 +1,11 @@
 package infrastructureLayer;
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class ProductRepository implements IProductRepository {
     private final Map<String, Product> products = new HashMap<>();
     private final Map<String, Product> productsByName = new HashMap<>();

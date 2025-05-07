@@ -2,9 +2,11 @@ package ServiceLayer;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class ProductService {
     private final IProductRepository productRepo;
 

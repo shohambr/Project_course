@@ -1,6 +1,7 @@
 Mocks\TestOwnership.class
 ServiceLayer\EventLoggerTest.class
 ServiceLayer\PaymentServiceTest.class
+ServiceLayer\ProductServiceTest.class
 Mocks\MockShipping.class
 ServiceLayer\ErrorLoggerTest.class
 ServiceLayer\JobServiceTest$1.class
@@ -8,7 +9,6 @@ ServiceLayer\OrderServiceTest.class
 ServiceLayer\ShippingServiceTest.class
 Mocks\TestManaging.class
 ServiceLayer\JobServiceTest$2.class
-DomainLayer\ShoppingCartTest.class
 ServiceLayer\JobServiceTest$3.class
 ServiceLayer\StoreServiceTest$1.class
 Mocks\MockPayment.class

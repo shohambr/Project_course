@@ -9,8 +9,8 @@ import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
-import DomainLayer.domainServices.UserCart;
-import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.DomainServices.UserCart;
+import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.ShoppingBag;
@@ -40,15 +40,15 @@ public class UserService {
     private final IPayment payment;
     private final ObjectMapper mapper = new ObjectMapper();
     private final JobService jobService;
-    private final ProductService productService;
+    private final ShippingService shippingService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ProductService productService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment , IOrderRepository orderRepo) {
+    public UserService(IUserRepository repository, IToken tokenService, JobService jobService, ShippingService shippingService, IStoreRepository storeRepo , IProductRepository productRepo , IPayment payment , IOrderRepository orderRepo) {
         this.orderRepo = orderRepo;
         this.payment = payment;
         this.storeRepo = storeRepo;
-        this.productService = productService;
+        this.shippingService = shippingService;
         this.userRepo = repository;
         this.productRepo = productRepo;
         this.tokenService = tokenService;
@@ -110,9 +110,18 @@ public class UserService {
         }
     }
 
-    public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv) {
+    public void purchaseCart(String token , 
+                             String paymentMethod , 
+                             String cardNumber, 
+                             String expirationDate, 
+                             String cvv,
+                             String state,
+                             String city,
+                             String street,
+                             String homeNumber) {
         try{
-            userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv);
+            reserveCart(token);
+            shippingService.processShipping(token, state, city, street, homeNumber);
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED");
             throw new RuntimeException("Failed to purchase cart");

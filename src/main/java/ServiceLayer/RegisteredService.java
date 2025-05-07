@@ -5,9 +5,9 @@ import DomainLayer.IOrderRepository;
 import DomainLayer.IProductRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
-import DomainLayer.domainServices.History;
-import DomainLayer.domainServices.Rate;
-import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.DomainServices.History;
+import DomainLayer.DomainServices.Rate;
+import DomainLayer.DomainServices.UserConnectivity;
 
 import java.util.List;
 

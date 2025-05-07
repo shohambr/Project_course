@@ -1,67 +1,14 @@
-[2025-05-05 00:41:19] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
-[2025-05-07 20:49:54] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:49:55] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:49:55] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:49:55] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:49:55] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:49:55] User: username | Error: Error in shipping | Details: Cannot invoke "DomainLayer.IUserRepository.getUser(String)" because "this.userRepository" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:52:37] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:53:43] User: username | Error: Error in shipping | Details: argument "content" is null
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"1a07ce2b-df4f-4a6c-b86c-75f81eff7107","shoppingCart":{"userId":"1a07ce2b-df4f-4a6c-b86c-75f81eff7107","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"97261314-ba2b-4bec-9b65-1cdd230588d2","shoppingCart":{"userId":"97261314-ba2b-4bec-9b65-1cdd230588d2","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"47c756ef-b775-4fe4-92c9-31287efdcce4","shoppingCart":{"userId":"47c756ef-b775-4fe4-92c9-31287efdcce4","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"96f3f67a-3326-4b34-9af2-bac38b691089","shoppingCart":{"userId":"96f3f67a-3326-4b34-9af2-bac38b691089","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"fa380e8f-b811-4290-92cf-f8632727f527","shoppingCart":{"userId":"fa380e8f-b811-4290-92cf-f8632727f527","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 20:59:26] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"3bcb1e68-b394-4690-8980-2b80a1b945a3","shoppingCart":{"userId":"3bcb1e68-b394-4690-8980-2b80a1b945a3","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"d231482a-36b5-40bd-a892-bd955ed4909b","shoppingCart":{"userId":"d231482a-36b5-40bd-a892-bd955ed4909b","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"0e1feb43-e22c-4702-913e-61fa1dd86d8b","shoppingCart":{"userId":"0e1feb43-e22c-4702-913e-61fa1dd86d8b","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"2f14c017-ddf3-4f31-9fc6-2db1b1068c7a","shoppingCart":{"userId":"2f14c017-ddf3-4f31-9fc6-2db1b1068c7a","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"996ba269-6c31-43cc-8787-d46471745c03","shoppingCart":{"userId":"996ba269-6c31-43cc-8787-d46471745c03","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"0cf1268e-8be7-46fe-a27f-967a3cd0a52e","shoppingCart":{"userId":"0cf1268e-8be7-46fe-a27f-967a3cd0a52e","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:00:09] User: username | Error: Error in shipping | Details: Cannot construct instance of `DomainLayer.User` (no Creators, like default constructor, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
- at [Source: (String)"{"id":"9916ce98-e421-4a6f-8f5a-6a6e07a4c7b3","shoppingCart":{"userId":"9916ce98-e421-4a6f-8f5a-6a6e07a4c7b3","shoppingBags":[]},"username":"username","cartReserved":false,"jobs":[],"name":"username"}"; line: 1, column: 1]
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:05:15] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:04] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:23] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
-[2025-05-07 21:06:49] User: username | Error: Error in shipping | Details: Index 0 out of bounds for length 0
+[2025-05-07 22:16:12] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
+[2025-05-07 22:16:13] User: d6ce7646-6cbb-4fcd-92c0-0a05114289b5 | Error: Failed to pay | Details: Exception for payment: Unknown credit card company
+[2025-05-07 22:16:13] User: 023213d2-3ac7-4905-8dcd-0e46b0753684 | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-05-07 22:16:13] User: 59b571ac-f09f-478e-954e-dbdf607ecb3d | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-07 22:16:13] User: 14eed080-9627-4dfa-9e71-0ca182e5835b | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-07 22:16:13] User: d0194a77-2be0-4de5-92d3-0566a1538740 | Error: Failed to pay | Details: Exception for payment: For input string: ""
+[2025-05-07 22:16:13] User: c31b28a6-dd6b-41b5-8143-b14da4094aea | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-07 22:16:13] User: 4f984484-e60f-446c-8675-c791deca9670 | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-07 22:16:13] User: efef6e67-c76b-449f-ba08-2e4e9b4618e2 | Error: Failed to pay | Details: Exception for payment: For input string: "kfjeowia0"
+[2025-05-07 22:16:13] User: username | Error: Error in shipping | Details: Invalid home number
+[2025-05-07 22:16:13] User: username | Error: Error in shipping | Details: Empty state
+[2025-05-07 22:16:13] User: username | Error: Error in shipping | Details: Empty street
+[2025-05-07 22:16:13] User: username | Error: Error in shipping | Details: Invalid home number
+[2025-05-07 22:16:13] User: username | Error: Error in shipping | Details: Empty city

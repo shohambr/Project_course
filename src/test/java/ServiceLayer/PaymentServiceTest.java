@@ -5,7 +5,7 @@ import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
 import infrastructureLayer.ProductRepository;
 import infrastructureLayer.ProxyPayment;
 import Mocks.MockPayment;

@@ -4,7 +4,7 @@ import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.User;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

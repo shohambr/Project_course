@@ -18,7 +18,7 @@ class OpenStoreTest {
     @Mock private IStoreRepository storeRepository;
     @Mock private IUserRepository userRepository;
 
-    @InjectMocks private OpenStore openStoreService;
+    @InjectMocks private temp openStoreService;
     private AutoCloseable mocks;
     private ObjectMapper mapper = new ObjectMapper();
 

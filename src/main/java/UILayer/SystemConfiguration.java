@@ -46,7 +46,8 @@ public class SystemConfiguration {
 
     @Bean
     public JobService JobService() {
-        return new JobService(JobRepository(), StoreService());
+        //return new JobService(JobRepository(), StoreService());
+        return null;
     };
 
     @Bean
@@ -61,7 +62,8 @@ public class SystemConfiguration {
 
     @Bean
     public PaymentService PaymentService() {
-        return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        return null;
     };
 
     @Bean
@@ -71,7 +73,7 @@ public class SystemConfiguration {
 
     @Bean
     public ShippingService ShippingService() {
-        return new ShippingService(ProxyShipping());
+        return new ShippingService(ProxyShipping(), TokenService(), UserRepository());
     };
 
     @Bean
@@ -94,7 +96,7 @@ public class SystemConfiguration {
 
     @Bean
     public UserService UserService() {
-        return new UserService(UserRepository(), TokenService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), UserConnectivity(), UserCart());
+        return new UserService(TokenService(), ShippingService(), UserConnectivity(), UserCart());
     };
 
 

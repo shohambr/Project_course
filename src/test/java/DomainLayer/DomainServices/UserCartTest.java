@@ -150,8 +150,7 @@ class UserCartTest {
     void purchaseCart_notReserved_throwsIAE() {
         IllegalArgumentException ex = assertThrows(
             IllegalArgumentException.class,
-            () -> userCart.purchaseCart(TOKEN, 10.0,
-                "4111", "12/25", "123", "IL", "City", "Street", "1")
+            () -> userCart.purchaseCart(TOKEN, 10.0)
         );
         assertEquals("Cart is not reserved", ex.getMessage());
     }
@@ -175,11 +174,8 @@ class UserCartTest {
         when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
 
         // execute
-        userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),
-            "4111", "12/25", "123", "IL", "City", "Street", "1");
+        userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN));
 
-        verify(paymentSystem).processPayment(anyDouble(), eq("4111"), eq("12/25"), eq("123") , anyString());
-        verify(shippingSystem).processShipping(anyString(), eq("IL"), eq("City"), eq("Street"), anyMap(), eq("1"));
         verify(orderRepository).addOrder(any(Order.class));
 
         // final state persisted
@@ -188,54 +184,6 @@ class UserCartTest {
         RegisteredUser post = mapper.readValue(jsonCaptor.getValue(), RegisteredUser.class);
         assertFalse(post.getCartReserved());
         assertTrue(post.getShoppingCart().getShoppingBags().isEmpty());
-    }
-
-
-    @Test
-    void purchaseCart_invalidPayment_throwsIAE() throws Exception {
-        baseUser.addProduct("store1", "p1", 2);
-        baseUser.setCartReserved(true);
-        when(userRepository.getUser(USER))
-            .thenReturn(mapper.writeValueAsString(baseUser));
-
-        Store store = new Store("store1");
-
-        // stub product
-        Product product = new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1");
-        when(productRepository.getProduct("p1")).thenReturn(product);
-        
-        store.addNewProduct("p1", 5);
-        store.reserveProduct("p1", 2);
-        when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
-        doThrow(new IllegalArgumentException("Invalid payment details"))
-            .when(paymentSystem).processPayment(anyDouble(), isNull(), anyString(), anyString(), anyString());
-
-        IllegalArgumentException ex = assertThrows(
-            IllegalArgumentException.class,
-            () -> userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),
-                null, "12/25", "123", "IL", "City", "Street", "1")
-        );
-        assertEquals("Invalid payment details", ex.getMessage());
-    }
-
-    @Test
-    void purchaseCart_invalidShipping_throwsIAE() throws Exception {
-        baseUser.addProduct("store1", "p1", 2);
-        baseUser.setCartReserved(true);
-        Store store = new Store("store1");
-        store.addNewProduct("p1", 5);
-        when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
-        when(userRepository.getUser(USER))
-            .thenReturn(mapper.writeValueAsString(baseUser));
-        when(productRepository.getProduct("p1")).thenReturn(new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1"));
-        doThrow(new IllegalArgumentException("Invalid shipping details"))
-            .when(shippingSystem).processShipping(anyString(), isNull(), anyString(), anyString(), anyMap(), anyString());
-        IllegalArgumentException ex = assertThrows(
-            IllegalArgumentException.class,
-            () -> userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),
-                "4111", "12/25", "123", null, "City", "Street", "1")
-        );
-        assertEquals("Invalid shipping details", ex.getMessage());
     }
 
     @Test
@@ -257,8 +205,7 @@ class UserCartTest {
 
         IllegalArgumentException ex = assertThrows(
             IllegalArgumentException.class,
-            () -> userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),
-                "4111", "12/25", "123", "IL", "City", "Street", "1")
+            () -> userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN))
         );
         assertEquals("Failed to reserve product: " + "p1" , ex.getMessage());
     }

@@ -179,15 +179,7 @@ public class UserCart {
         }
     }
 
-    public void purchaseCart(String token , 
-                             Double totalPrice ,  
-                             String creditCardNumber, 
-                             String expirationDate, 
-                             String backNumber , 
-                             String state ,
-                             String city , 
-                             String street , 
-                             String homeNumber) throws Exception {
+    public void purchaseCart(String token , double totalPrice) throws JsonProcessingException {
         if (token == null) {
             EventLogger.logEvent(Tokener.extractUsername(token), "PURCHASE_CART_FAILED - NULL");
             throw new IllegalArgumentException("Token cannot be null");
@@ -198,16 +190,6 @@ public class UserCart {
             EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - CART_NOT_RESERVED");
             throw new IllegalArgumentException("Cart is not reserved");
         }
-        paymentSystem.processPayment(totalPrice , creditCardNumber, expirationDate, backNumber, username);
-        Map<String, Integer> toSend = new HashMap<>();
-        for (ShoppingBag bag : user.getShoppingCart().getShoppingBags()) {
-            for (Map.Entry<String, Integer> entry : bag.getProducts().entrySet()) {
-                String productId = entry.getKey();
-                Integer quantity = entry.getValue();
-                toSend.put(productId, quantity);
-            }
-        }
-        shippingSystem.processShipping(username, state, city, street, toSend, homeNumber);
         ShoppingCart cart = user.getShoppingCart();
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
@@ -235,4 +217,4 @@ public class UserCart {
         userRepository.update(username, mapper.writeValueAsString(user));
     }
 
-}   //I AM HERE! I ADD IT
+}  

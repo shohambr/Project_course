@@ -10,6 +10,8 @@ import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
+import DomainLayer.DomainServices.UserCart;
+import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.ShoppingBag;
@@ -36,35 +38,20 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final IToken tokenService;
-    private final IUserRepository userRepo;
-    private final IStoreRepository storeRepo;
-    private final IProductRepository productRepo;
-    private final IOrderRepository orderRepo;
-    private final IPayment payment;
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final ProductService productService;
+    private final ShippingService shippingService;
+    private final PaymentService paymentService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IUserRepository repository,
-                        IToken tokenService,
-                        ProductService productService, 
-                        IStoreRepository storeRepo , 
-                        IProductRepository productRepo , 
-                        IPayment payment , 
-                        IOrderRepository orderRepo ,
-                        UserConnectivity userConnectivity , 
-                        UserCart userCart ) {
-        this.orderRepo = orderRepo;
-        this.payment = payment;
-        this.storeRepo = storeRepo;
-        this.productService = productService;
-        this.userRepo = repository;
-        this.productRepo = productRepo;
+    public UserService(IToken tokenService, 
+                        ShippingService shippingService,
+                        UserConnectivity userConnectivity,
+                        UserCart userCart, 
+                        PaymentService paymentService) {
+        this.paymentService = paymentService;
         this.tokenService = tokenService;
+        this.shippingService = shippingService;
         this.userConnectivity = userConnectivity;
-        this.mapper.registerModule(new ProductKeyModule());
-        this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.userCart = userCart;
     }
 
@@ -119,9 +106,20 @@ public class UserService {
         }
     }
 
-    public void purchaseCart(String token , String paymentMethod , String cardNumber, String expirationDate, String cvv , String state ,String city , String street , String homeNumber) {
+    public void purchaseCart(String token , 
+                             String paymentMethod , 
+                             String cardNumber, 
+                             String expirationDate, 
+                             String cvv,
+                             String state,
+                             String city,
+                             String street,
+                             String homeNumber) {
         try{
-            userCart.purchaseCart(token , reserveCart(token),cardNumber, expirationDate, cvv , state, city, street, homeNumber);
+            reserveCart(token);
+            shippingService.processShipping(token, state, city, street, homeNumber);
+            //paymentService.processPayment(token, paymentMethod, cardNumber, expirationDate, cvv);
+            userCart.purchaseCart(token);
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to purchase cart");

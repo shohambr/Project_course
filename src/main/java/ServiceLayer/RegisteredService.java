@@ -11,6 +11,9 @@ import DomainLayer.DomainServices.Notify;
 import DomainLayer.DomainServices.OpenStore;
 import DomainLayer.DomainServices.Rate;
 import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.DomainServices.History;
+import DomainLayer.DomainServices.Rate;
+import DomainLayer.DomainServices.UserConnectivity;
 
 import java.util.List;
 

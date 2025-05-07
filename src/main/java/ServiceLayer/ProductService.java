@@ -2,27 +2,18 @@ package ServiceLayer;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import utils.ProductKeyModule;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static utils.JsonUtils.mapper;
 
 @Service
 public class ProductService {
     private final IProductRepository productRepo;
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public ProductService(IProductRepository productRepo){
 
         this.productRepo = productRepo;
-        this.mapper.registerModule(new ProductKeyModule());
-        this.mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     }
 
@@ -126,5 +117,21 @@ public class ProductService {
         }
 
         return false;
+    }
+
+    public List<Product> getProductByCategory(String category) {
+        List<Product> products = productRepo.findAll();
+        List<Product> producByCategory = new ArrayList<Product>();
+        try {
+            for (Product product : products) {
+                if (product.getCategory().equals(category)) {
+                    producByCategory.add(product);
+                }
+            }
+            return producByCategory;
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return null;
+        }
     }
 }

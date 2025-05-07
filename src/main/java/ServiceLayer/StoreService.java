@@ -54,7 +54,22 @@ public class StoreService{
                 }
             }
         } catch (Exception e) {
-            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            System.out.println("ERROR finding store by Name:" + e.getMessage());
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Store> getStoreById(String id) {
+        try {
+            Map<Store, String> stores = StoreRepository.getStores();
+            for (Store store : stores.keySet()) {
+                if (store.getId().equals(id)) {
+                    return Optional.of(store);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR finding store by id:" + e.getMessage());
             return Optional.empty();
         }
         return Optional.empty();

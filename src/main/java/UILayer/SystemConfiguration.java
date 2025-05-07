@@ -70,7 +70,7 @@ public class SystemConfiguration {
 
     @Bean
     public ShippingService ShippingService() {
-        return new ShippingService(ProxyShipping());
+        return new ShippingService(ProxyShipping(), TokenService(), UserRepository());
     };
 
     @Bean

@@ -1,1 +1,1 @@
-[2025-05-07 17:10:15] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found
+[2025-05-07 17:54:51] User: admin | Error: Failed to delete product | Details: java.lang.IllegalArgumentException: ID not found

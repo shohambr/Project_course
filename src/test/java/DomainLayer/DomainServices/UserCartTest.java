@@ -178,8 +178,8 @@ class UserCartTest {
         userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),
             "4111", "12/25", "123", "IL", "City", "Street", "1");
 
-        verify(paymentSystem).processPayment(10.0, "4111", "12/25", "123");
-        verify(shippingSystem).processShipping("IL", "City", "Street", "1");
+        verify(paymentSystem).processPayment(anyDouble(), eq("4111"), eq("12/25"), eq("123") , anyString());
+        verify(shippingSystem).processShipping(anyString(), eq("IL"), eq("City"), eq("Street"), anyMap(), eq("1"));
         verify(orderRepository).addOrder(any(Order.class));
 
         // final state persisted
@@ -208,7 +208,7 @@ class UserCartTest {
         store.reserveProduct("p1", 2);
         when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
         doThrow(new IllegalArgumentException("Invalid payment details"))
-            .when(paymentSystem).processPayment(anyDouble(), isNull(), anyString(), anyString());
+            .when(paymentSystem).processPayment(anyDouble(), isNull(), anyString(), anyString(), anyString());
 
         IllegalArgumentException ex = assertThrows(
             IllegalArgumentException.class,
@@ -229,7 +229,7 @@ class UserCartTest {
             .thenReturn(mapper.writeValueAsString(baseUser));
         when(productRepository.getProduct("p1")).thenReturn(new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1"));
         doThrow(new IllegalArgumentException("Invalid shipping details"))
-            .when(shippingSystem).processShipping(isNull(), anyString(), anyString(), anyString());
+            .when(shippingSystem).processShipping(anyString(), isNull(), anyString(), anyString(), anyMap(), anyString());
         IllegalArgumentException ex = assertThrows(
             IllegalArgumentException.class,
             () -> userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN),

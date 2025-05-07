@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.*;
 
@@ -17,7 +17,7 @@ public class ShippingConnectivity {
         // shoulod have choice deciding here on proxy for shipping
         List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
         for (ShoppingBag shoppingBag : shoppingBags) {
-            proxyShipping.processShipping(user, shoppingBag.getStoreId(), state, city, street, shoppingBag.getProducts(), homeNumber);
+            proxyShipping.processShipping(user.getID(), state, city, street, shoppingBag.getProducts(), homeNumber);
         }
     }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 public class MockShipping implements IShipping {
     public MockShipping() {}
 
-    public void processShipping(User user, String storeId, String state, String city, String street, Map<String, Integer> products, String homeNumber) throws Exception {
+    public void processShipping(String userId, String state, String city, String street, Map<String, Integer> products, String homeNumber) throws Exception {
         if(state == null | state.length() == 0) {
             throw new Exception("Empty state");
         }

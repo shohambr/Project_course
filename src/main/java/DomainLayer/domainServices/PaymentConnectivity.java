@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.*;
 import infrastructureLayer.ProxyPayment;
@@ -23,7 +23,7 @@ public class PaymentConnectivity {
                         payment = payment + productRepository.getProduct(product).getPrice() * shoppingBag.getProducts().get(product);
                     }
                 }
-                proxyPayment.processPayment(payment, creditCardNumber, expirationDate, backNumber, store.getId(), paymentService);
+                proxyPayment.processPayment(payment, creditCardNumber, expirationDate, backNumber, paymentService);
             }
         } catch (Exception e) {
             throw new Exception("Exception for payment: " + e.getMessage());

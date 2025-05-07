@@ -198,14 +198,21 @@ public class UserCart {
             EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - CART_NOT_RESERVED");
             throw new IllegalArgumentException("Cart is not reserved");
         }
-        paymentSystem.processPayment(totalPrice , creditCardNumber, expirationDate, backNumber);
-        shippingSystem.processShipping(state, city, street, homeNumber);
+        paymentSystem.processPayment(totalPrice , creditCardNumber, expirationDate, backNumber, username);
+        Map<String, Integer> toSend = new HashMap<>();
+        for (ShoppingBag bag : user.getShoppingCart().getShoppingBags()) {
+            for (Map.Entry<String, Integer> entry : bag.getProducts().entrySet()) {
+                String productId = entry.getKey();
+                Integer quantity = entry.getValue();
+                toSend.put(productId, quantity);
+            }
+        }
+        shippingSystem.processShipping(username, state, city, street, toSend, homeNumber);
         ShoppingCart cart = user.getShoppingCart();
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
             Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
-            EventLogger.logEvent("store" , mapper.writeValueAsString(store));
             if (store == null) {
                 EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");

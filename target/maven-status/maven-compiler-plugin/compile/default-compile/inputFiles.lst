@@ -9,7 +9,7 @@ C:\FirstDegree\Project\Project_course\src\main\java\UILayer\Login.java
 C:\FirstDegree\Project\Project_course\src\main\java\UILayer\SystemConfiguration.java
 C:\FirstDegree\Project\Project_course\src\main\java\ServiceLayer\StoreService.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\DomainServices\PaymentConnectivity.java
-C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\DomainServices\openStore.java
+C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\DomainServices\OpenStore.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\IOrderRepository.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\IProductRepository.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\Roles\Guest.java
@@ -24,6 +24,7 @@ C:\FirstDegree\Project\Project_course\src\main\java\infrastructureLayer\OrderRep
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\Roles\Jobs\Ownership.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\Order.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\Roles\RegisteredUser.java
+C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\DomainServices\Notify.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\IJobRepository.java
 C:\FirstDegree\Project\Project_course\src\main\java\DomainLayer\Roles\Jobs\Job.java
 C:\FirstDegree\Project\Project_course\src\main\java\ServiceLayer\TokenService.java

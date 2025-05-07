@@ -1,5 +1,6 @@
 package UILayer;
 
+import DomainLayer.DomainServices.*;
 import ServiceLayer.*;
 import infrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
@@ -83,9 +84,17 @@ public class SystemConfiguration {
         return new TokenService();
     };
 
+    public UserCart UserCart() {
+        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), ProxyShipping());
+    };
+
+    public UserConnectivity UserConnectivity() {
+        return new UserConnectivity(TokenService(), UserRepository());
+    };
+
     @Bean
     public UserService UserService() {
-        return new UserService(UserRepository(), TokenService(),JobService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository());
+        return new UserService(UserRepository(), TokenService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), UserConnectivity(), UserCart());
     };
 
 

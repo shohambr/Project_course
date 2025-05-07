@@ -1,1 +1,1 @@
-[2025-05-07 17:10:15] User: testUser | Event: Event | Description: User logged in
+[2025-05-07 17:54:51] User: testUser | Event: Event | Description: User logged in

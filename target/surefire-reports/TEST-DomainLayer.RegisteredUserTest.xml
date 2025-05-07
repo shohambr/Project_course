@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="DomainLayer.DomainServices.RateTest" time="0.182" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="DomainLayer.RegisteredUserTest" time="0.013" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,16 +58,11 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="rateProduct_userNotExist_throws" classname="DomainLayer.DomainServices.RateTest" time="0.083"/>
-  <testcase name="rateStore_userNotExist_throws" classname="DomainLayer.DomainServices.RateTest" time="0.01"/>
-  <testcase name="rateProduct_addRatingTrue_savesAndReturnsTrue" classname="DomainLayer.DomainServices.RateTest" time="0.01"/>
-  <testcase name="rateStore_nullToken_throws" classname="DomainLayer.DomainServices.RateTest" time="0.004"/>
-  <testcase name="rateProduct_nullArgs_throws" classname="DomainLayer.DomainServices.RateTest" time="0.003"/>
-  <testcase name="rateStore_nullStoreId_throws" classname="DomainLayer.DomainServices.RateTest" time="0.002"/>
-  <testcase name="rateProduct_productNotExist_throws" classname="DomainLayer.DomainServices.RateTest" time="0.002"/>
-  <testcase name="rateStore_storeNotExist_throws" classname="DomainLayer.DomainServices.RateTest" time="0.005"/>
-  <testcase name="rateStore_invalidRate_throws" classname="DomainLayer.DomainServices.RateTest" time="0.002"/>
-  <testcase name="rateProduct_addRatingFalse_returnsFalse" classname="DomainLayer.DomainServices.RateTest" time="0.003"/>
-  <testcase name="rateStore_rateTrue_updatesAndReturnsTrue" classname="DomainLayer.DomainServices.RateTest" time="0.044"/>
-  <testcase name="rateStore_rateFalse_returnsFalse" classname="DomainLayer.DomainServices.RateTest" time="0.007"/>
+  <testcase name="testParameterizedConstructor" classname="DomainLayer.RegisteredUserTest" time="0.002"/>
+  <testcase name="testJsonConstructorCopiesFields" classname="DomainLayer.RegisteredUserTest" time="0.003"/>
+  <testcase name="testReceivedManagingRequest_DefaultFalse" classname="DomainLayer.RegisteredUserTest" time="0.0"/>
+  <testcase name="testSetAnswers" classname="DomainLayer.RegisteredUserTest" time="0.003"/>
+  <testcase name="testSetName" classname="DomainLayer.RegisteredUserTest" time="0.0"/>
+  <testcase name="testReceivedOwnershipRequest_DefaultFalse" classname="DomainLayer.RegisteredUserTest" time="0.002"/>
+  <testcase name="testDefaultConstructor" classname="DomainLayer.RegisteredUserTest" time="0.0"/>
 </testsuite>

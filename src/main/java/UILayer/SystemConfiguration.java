@@ -94,9 +94,13 @@ public class SystemConfiguration {
         return new UserConnectivity(TokenService(), UserRepository());
     };
 
+    public PaymentService paymentService() {
+        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        return null;
+    };
     @Bean
     public UserService UserService() {
-        return new UserService(TokenService(), ShippingService(), UserConnectivity(), UserCart());
+        return new UserService(TokenService(), ShippingService(), UserConnectivity(), UserCart() , paymentService());
     };
 
 

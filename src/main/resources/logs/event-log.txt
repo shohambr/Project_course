@@ -1,8 +1,8 @@
-[2025-05-07 22:35:58] User: testUser | Event: Event | Description: User logged in
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:35:58] User: username | Event: Event | Description: Shipping successful
+[2025-05-07 22:40:01] User: testUser | Event: Event | Description: User logged in
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: TokenService
+[2025-05-07 22:40:01] User: username | Event: Event | Description: Shipping successful

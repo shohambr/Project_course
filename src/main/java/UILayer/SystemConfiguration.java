@@ -62,8 +62,7 @@ public class SystemConfiguration {
 
     @Bean
     public PaymentService PaymentService() {
-        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
-        return null;
+        return new PaymentService(UserRepository(), ProductRepository(), ProxyPayment(), TokenService());
     };
 
     @Bean

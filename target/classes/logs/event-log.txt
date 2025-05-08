@@ -1,8 +1,0 @@
-[2025-05-07 22:50:52] User: testUser | Event: Event | Description: User logged in
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: TokenService
-[2025-05-07 22:50:52] User: username | Event: Event | Description: Shipping successful

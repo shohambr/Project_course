@@ -118,7 +118,7 @@ public class UserService {
         try{
             Double price = reserveCart(token);
             shippingService.processShipping(token, state, city, street, homeNumber);
-            //paymentService.processPayment(token, paymentMethod, cardNumber, expirationDate, cvv);
+            paymentService.processPayment(token, paymentMethod, cardNumber, expirationDate, cvv);
             userCart.purchaseCart(token , price);
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());

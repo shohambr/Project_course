@@ -24,11 +24,9 @@ public class ShippingConnectivity {
     }
 
     public void processShipping(String username, String state, String city, String street, String homeNumber) throws Exception {
-        // shoulod have choice deciding here on proxy for shipping
         String jsonUser = userRepository.getUser(username);
         User user = mapper.readValue(jsonUser, User.class);
         List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
-        System.out.println(shoppingBags.get(0));
         for (ShoppingBag shoppingBag : shoppingBags) {
             proxyShipping.processShipping(user.getID(), state, city, street, shoppingBag.getProducts(), homeNumber);
         }

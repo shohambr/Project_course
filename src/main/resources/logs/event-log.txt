@@ -100,3 +100,19 @@
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN_FAILED - EMPTY
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN_FAILED
+[2025-05-09 19:07:19] User: SEARCH_BY_STORE | Event: Event | Description: Store=invalid-store NOT_FOUND
+[2025-05-09 19:07:33] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:07:58] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=accessories Matches=1
+[2025-05-09 19:08:02] User: SEARCH_BY_NAME | Event: Event | Description: Query=Socks Matches=1
+[2025-05-09 19:08:05] User: SEARCH_BY_STORE | Event: Event | Description: Store=invalid-store NOT_FOUND
+[2025-05-09 19:08:05] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:08:05] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=accessories Matches=1
+[2025-05-09 19:08:05] User: SEARCH_BY_NAME | Event: Event | Description: Query=Socks Matches=1
+[2025-05-09 19:12:30] User: SEARCH_BY_STORE | Event: Event | Description: Store=invalid-store NOT_FOUND
+[2025-05-09 19:12:33] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:12:33] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=accessories Matches=1
+[2025-05-09 19:12:33] User: SEARCH_BY_NAME | Event: Event | Description: Query=Socks Matches=1
+[2025-05-09 19:15:30] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:28:44] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:28:45] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0
+[2025-05-09 19:30:10] User: SEARCH_BY_STORE | Event: Event | Description: Store=store2 Matches=0

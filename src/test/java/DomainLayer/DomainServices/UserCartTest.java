@@ -46,7 +46,7 @@ class UserCartTest {
         mocks = MockitoAnnotations.openMocks(this);
 
         // Base user with empty cart
-        baseUser = new RegisteredUser();
+        baseUser = new RegisteredUser("username");
         baseUser.setName(USER);
         String userJson = mapper.writeValueAsString(baseUser);
 

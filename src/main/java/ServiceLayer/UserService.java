@@ -1,37 +1,10 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
-import DomainLayer.IUserRepository;
-import DomainLayer.IOrderRepository;
-import DomainLayer.IPayment;
-import DomainLayer.IProductRepository;
-import DomainLayer.IShipping;
-import DomainLayer.IStoreRepository;
-import DomainLayer.Product;
-import DomainLayer.Roles.Guest;
-import DomainLayer.Roles.Jobs.Job;
-import DomainLayer.DomainServices.UserCart;
-import DomainLayer.DomainServices.UserConnectivity;
-import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.ShoppingCart;
-import DomainLayer.ShoppingBag;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.Optional;
-import utils.ProductKeyModule;
-
-import DomainLayer.Store;
-import DomainLayer.User;
 import DomainLayer.DomainServices.UserCart;
 import DomainLayer.DomainServices.UserConnectivity;
 
-import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,10 +16,10 @@ public class UserService {
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
 
-    public UserService(IToken tokenService, 
+    public UserService(IToken tokenService,
                         ShippingService shippingService,
                         UserConnectivity userConnectivity,
-                        UserCart userCart, 
+                        UserCart userCart,
                         PaymentService paymentService) {
         this.paymentService = paymentService;
         this.tokenService = tokenService;
@@ -106,10 +79,10 @@ public class UserService {
         }
     }
 
-    public void purchaseCart(String token , 
-                             String paymentMethod , 
-                             String cardNumber, 
-                             String expirationDate, 
+    public void purchaseCart(String token ,
+                             String paymentMethod ,
+                             String cardNumber,
+                             String expirationDate,
                              String cvv,
                              String state,
                              String city,

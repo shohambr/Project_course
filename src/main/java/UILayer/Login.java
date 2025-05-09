@@ -1,7 +1,5 @@
 package UILayer;
 
-import DomainLayer.*;
-import DomainLayer.Roles.Jobs.Job;
 import ServiceLayer.*;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -11,13 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import infrastructureLayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Route("")
 public class Login extends VerticalLayout {

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.ShoppingCart;
 
 import java.util.*;
@@ -20,14 +19,12 @@ class RegisteredUserTest {
 
     @BeforeEach
     void setUp() {
-        user = new RegisteredUser();
+        user = new RegisteredUser("username");
         mapper = new ObjectMapper();
     }
 
     @Test
     void testDefaultConstructor() {
-        assertNotNull(user.getJobs(), "Jobs list should not be null");
-        assertTrue(user.getJobs().isEmpty(), "Jobs list should start empty");
         assertEquals("", user.getName(), "Default name should be empty");
         assertEquals(user.getName(), user.getUsername(), "Username should match name");
         ShoppingCart cart = user.getShoppingCart();
@@ -36,10 +33,8 @@ class RegisteredUserTest {
 
     @Test
     void testParameterizedConstructor() {
-        List<Job> jobs = new ArrayList<>();
         String name = "Alice";
-        RegisteredUser ru = new RegisteredUser(jobs, name);
-        assertSame(jobs, ru.getJobs());
+        RegisteredUser ru = new RegisteredUser(name);
         assertEquals(name, ru.getName());
         assertEquals(name, ru.getUsername());
     }
@@ -50,16 +45,6 @@ class RegisteredUserTest {
         user.setName(newName);
         assertEquals(newName, user.getName());
         assertEquals(newName, user.getUsername());
-    }
-
-    @Test
-    void testReceivedOwnershipRequest_DefaultFalse() {
-        assertFalse(user.receivedOwnershipRequest("request"));
-    }
-
-    @Test
-    void testReceivedManagingRequest_DefaultFalse() {
-        assertFalse(user.receivedManagingRequest("request"));
     }
 
     @Test
@@ -77,7 +62,6 @@ class RegisteredUserTest {
         String json = mapper.writeValueAsString(user);
         RegisteredUser reconstructed = new RegisteredUser(json);
         assertEquals(user.getName(), reconstructed.getName(), "Name should persist through JSON constructor");
-        assertEquals(user.getJobs().size(), reconstructed.getJobs().size(), "Jobs list size should persist through JSON constructor");
         assertNotNull(reconstructed.getShoppingCart(), "ShoppingCart should not be null after JSON constructor");
         assertEquals(
             user.getShoppingCart().getShoppingBags().size(),

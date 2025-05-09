@@ -2,29 +2,20 @@ package ServiceLayer;
 
 import DomainLayer.IToken;
 import DomainLayer.Product;
-import DomainLayer.Roles.Guest;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.DomainServices.PaymentConnectivity;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import infrastructureLayer.ProductRepository;
-import infrastructureLayer.ProxyPayment;
+import InfrastructureLayer.ProductRepository;
 import Mocks.MockPayment;
-import ServiceLayer.PaymentService;
-import infrastructureLayer.StoreRepository;
-import infrastructureLayer.UserRepository;
+import InfrastructureLayer.StoreRepository;
+import InfrastructureLayer.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import java.util.List;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static utils.JsonUtils.mapper;
 
 class PaymentServiceTest {
 
@@ -40,7 +31,7 @@ class PaymentServiceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        store = new Store();
+        store = new Store("founderID");
         storeRepository = new StoreRepository();
         productRepository = new ProductRepository();
         storeRepository.addStore(store.getId() , mapper.writeValueAsString(store));
@@ -51,7 +42,7 @@ class PaymentServiceTest {
         tokenService = new TokenService();
         userRepository = new UserRepository();
         paymentService = new PaymentService(userRepository, productRepository, mockPayment, tokenService);
-        user = new RegisteredUser(new ArrayList<Job>(), "username");
+        user = new RegisteredUser("username");
         token = tokenService.generateToken("username");
         user.addProduct(store.getId(), product.getId(), 3);
         try {

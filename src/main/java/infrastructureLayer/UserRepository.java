@@ -1,4 +1,4 @@
-package infrastructureLayer;
+package InfrastructureLayer;
 import DomainLayer.IUserRepository;
 import DomainLayer.Store;
 import DomainLayer.User;

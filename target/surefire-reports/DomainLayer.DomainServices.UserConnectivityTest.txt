@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: DomainLayer.DomainServices.UserConnectivityTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.693 s -- in DomainLayer.DomainServices.UserConnectivityTest
-=======
-Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.304 s -- in DomainLayer.DomainServices.UserConnectivityTest
->>>>>>> user
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.305 s -- in DomainLayer.DomainServices.UserConnectivityTest

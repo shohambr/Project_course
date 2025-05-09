@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.EventLoggerTest" time="0.011" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ServiceLayer.UserServiceAllPathsTest" time="0.151" tests="14" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,5 +58,18 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="logEvent_ShouldWriteToLogFile" classname="ServiceLayer.EventLoggerTest" time="0.01"/>
+  <testcase name="addToCart_happy" classname="ServiceLayer.UserServiceAllPathsTest" time="0.09"/>
+  <testcase name="purchaseCart_bad_reserveFailsImmediately" classname="ServiceLayer.UserServiceAllPathsTest" time="0.006"/>
+  <testcase name="removeFromCart_sad_cartThrows" classname="ServiceLayer.UserServiceAllPathsTest" time="0.002"/>
+  <testcase name="purchaseCart_sad_paymentFails" classname="ServiceLayer.UserServiceAllPathsTest" time="0.003"/>
+  <testcase name="purchaseCart_happy_fullFlow" classname="ServiceLayer.UserServiceAllPathsTest" time="0.002"/>
+  <testcase name="login_sad_illegalArgumentWrapped" classname="ServiceLayer.UserServiceAllPathsTest" time="0.025"/>
+  <testcase name="signUp_happy" classname="ServiceLayer.UserServiceAllPathsTest" time="0.002"/>
+  <testcase name="purchaseCart_sad_shippingFails" classname="ServiceLayer.UserServiceAllPathsTest" time="0.003"/>
+  <testcase name="reserveCart_happy_returnsPrice" classname="ServiceLayer.UserServiceAllPathsTest" time="0.002"/>
+  <testcase name="addToCart_bad_failureInCart" classname="ServiceLayer.UserServiceAllPathsTest" time="0.003"/>
+  <testcase name="signUp_bad_userExists" classname="ServiceLayer.UserServiceAllPathsTest" time="0.003"/>
+  <testcase name="removeFromCart_happy" classname="ServiceLayer.UserServiceAllPathsTest" time="0.003"/>
+  <testcase name="reserveCart_bad_wrapException" classname="ServiceLayer.UserServiceAllPathsTest" time="0.001"/>
+  <testcase name="login_happy_returnsJwt" classname="ServiceLayer.UserServiceAllPathsTest" time="0.002"/>
 </testsuite>

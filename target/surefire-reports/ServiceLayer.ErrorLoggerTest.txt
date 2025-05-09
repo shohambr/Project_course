@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ServiceLayer.ErrorLoggerTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in ServiceLayer.ErrorLoggerTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in ServiceLayer.ErrorLoggerTest
->>>>>>> user
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in ServiceLayer.ErrorLoggerTest

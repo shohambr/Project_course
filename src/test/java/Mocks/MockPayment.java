@@ -18,7 +18,7 @@ public class MockPayment implements IPayment {
         if(!isValidExpirationDate(expirationDate)) {
             throw new Exception("Invalid expiration date");
         }
-        new Integer(backNumber);
+        Integer.valueOf(backNumber);
     }
 
     private String getCreditCardType(String creditCardNumber){

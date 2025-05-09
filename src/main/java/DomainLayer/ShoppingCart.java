@@ -58,5 +58,4 @@ public class ShoppingCart {
             shoppingBag.sold();
         }
     }
-
 }

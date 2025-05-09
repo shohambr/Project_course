@@ -56,11 +56,12 @@ public class ShoppingBag {
         }
         return found;
     }
-    
+
 
     public void sold() {
         for (String product : products.keySet()) {
             products.put(product, 0);
         }
     }
+
 }

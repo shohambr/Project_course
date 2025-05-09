@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface IShipping {
-    void processShipping(User user, Store store, String state, String city, String street, Map<Product, Integer> products, String homeNumber) throws Exception;
+    void processShipping(User user, String storeId, String state, String city, String street, Map<String, Integer> products, String homeNumber) throws Exception;
 }

@@ -35,7 +35,7 @@ public class UserCart {
         this.productRepository = productRepository;
         this.paymentSystem = paymentSystem;
     }
-    
+
     public void removeFromCart(String token , String storeId , String productId , Integer quantity) throws JsonProcessingException {
         if (token == null ){
             EventLogger.logEvent(Tokener.extractUsername(token), "REMOVE_FROM_CART_FAILED - NULL");
@@ -148,7 +148,7 @@ public class UserCart {
         userRepository.update(username, mapper.writeValueAsString(user));
         return totalPrice;
     }
-    
+
     public void unreserveCart(Map<String, Integer> reservedProducts ,String username) throws JsonProcessingException {
         for(Map.Entry<String, Integer> entry : reservedProducts.entrySet()) {
             String productId = entry.getKey();
@@ -183,7 +183,7 @@ public class UserCart {
             EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - CART_NOT_RESERVED");
             throw new IllegalArgumentException("Cart is not reserved");
         }
-        paymentSystem.processPayment(totalPrice , creditCardNumber, expirationDate, backNumber);
+//        paymentSystem.processPayment(totalPrice, creditCardNumber, expirationDate, backNumber);
         ShoppingCart cart = user.getShoppingCart();
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
@@ -210,5 +210,5 @@ public class UserCart {
         user.getShoppingCart().getShoppingBags().clear();
         userRepository.update(username, mapper.writeValueAsString(user));
     }
-        
+
 }   //I AM HERE! I ADD IT

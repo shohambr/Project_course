@@ -1,6 +1,5 @@
 package UILayer;
 
-import DomainLayer.*;
 import ServiceLayer.*;
 import infrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +60,7 @@ public class SystemConfiguration {
 
     @Bean
     public PaymentService PaymentService() {
-        return new PaymentService(ProxyPayment());
+        return new PaymentService(UserRepository(), ProductRepository(), ProxyPayment(), TokenService());
     };
 
     @Bean
@@ -71,7 +70,7 @@ public class SystemConfiguration {
 
     @Bean
     public ShippingService ShippingService() {
-        return new ShippingService(ProxyShipping());
+        return new ShippingService(ProxyShipping(), TokenService(), UserRepository());
     };
 
     @Bean
@@ -87,11 +86,6 @@ public class SystemConfiguration {
     @Bean
     public UserService UserService() {
         return new UserService(UserRepository(), TokenService(),JobService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository());
-    };
-
-    @Bean
-    public RegisteredService RegisteredService() {
-        return new RegisteredService(UserRepository(), TokenService() , StoreRepository(), ProductRepository(), OrderRepository());
     };
 
 

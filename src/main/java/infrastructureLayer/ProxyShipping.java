@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public class ProxyShipping implements IShipping {
     public ProxyShipping() {}
-    public void processShipping(User user, Store store, String state, String city, String street, Map<Product, Integer> products, String homeNumber) throws Exception {
+    public void processShipping(User user, String storeId, String state, String city, String street, Map<String, Integer> products, String homeNumber) throws Exception {
         //based on shipping service
     }
 

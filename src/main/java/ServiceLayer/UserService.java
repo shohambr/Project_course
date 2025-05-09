@@ -10,6 +10,10 @@ import DomainLayer.IStoreRepository;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.Jobs.Job;
+import infrastructureLayer.OrderRepository;
+import infrastructureLayer.ProductRepository;
+import infrastructureLayer.StoreRepository;
+import infrastructureLayer.UserRepository;
 import DomainLayer.DomainServices.UserCart;
 import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.Roles.RegisteredUser;
@@ -44,16 +48,19 @@ public class UserService {
     private final UserCart userCart;
 
     public UserService(IToken tokenService, 
-                        ShippingService shippingService,
-                        UserConnectivity userConnectivity,
-                        UserCart userCart, 
-                        PaymentService paymentService) {
-        this.paymentService = paymentService;
+                       IStoreRepository storeRepository,
+                       IUserRepository userRepository,
+                       IProductRepository productRepository,
+                       IOrderRepository orderRepository,
+                       ShippingService shippingService,
+                       PaymentService paymentService){
         this.tokenService = tokenService;
         this.shippingService = shippingService;
-        this.userConnectivity = userConnectivity;
-        this.userCart = userCart;
+        this.paymentService = paymentService;
+        this.userConnectivity = new UserConnectivity(tokenService, userRepository);
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);       
     }
+
 
 
     public String login(String username, String password) throws JsonProcessingException {

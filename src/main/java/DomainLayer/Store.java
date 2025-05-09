@@ -19,9 +19,11 @@ public class Store {
     private double rating = 0;
     private Map<String , Double> raterId = new HashMap<>();
     private String ownerId;
+    private String name;
 
 
-    public Store(String ownerId) {
+    public Store(String ownerId , String name) {
+        this.name = name;
         this.ownerId = ownerId;
         openNow = true;
     }
@@ -52,6 +54,13 @@ public class Store {
     public void setId(String id) {
         this.id = id;
 
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
     
     public Double getRating(){
@@ -110,10 +119,6 @@ public class Store {
     public void setDiscountPolicy(DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
-
-
-    
-
 
     public Boolean registerUser(String userId) {
         if(users.contains(userId)) {

@@ -15,10 +15,6 @@ public class SystemManager extends RegisteredUser {
     public SystemManager(String json) {
         super(json);
     }
-
-    public SystemManager(List<Job> jobs, String name) {
-        super(jobs, name);
-    }
     public void closeStore(Store store){
         //jobService.closeStore(store,this);
     }

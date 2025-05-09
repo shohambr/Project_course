@@ -66,7 +66,7 @@ public class UserConnectivity {
             throw new IllegalArgumentException("User already exists");
         }
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        RegisteredUser user = new RegisteredUser(new ArrayList<>(), username);
+        RegisteredUser user = new RegisteredUser(username);
         userRepository.addUser(username, hashedPassword , mapper.writeValueAsString(user));
         return user.getID();
     }

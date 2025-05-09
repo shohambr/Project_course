@@ -24,7 +24,7 @@ public class TestRegisteredUser extends RegisteredUser {
     private List<Job> testJobs;
 
     public TestRegisteredUser(String id) {
-        super(new LinkedList<>(), "TestUser");
+        super("TestUser");
         this.testId = id;
         this.testJobs = new LinkedList<>();
     }

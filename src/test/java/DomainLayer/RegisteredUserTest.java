@@ -36,10 +36,8 @@ class RegisteredUserTest {
 
     @Test
     void testParameterizedConstructor() {
-        List<Job> jobs = new ArrayList<>();
         String name = "Alice";
-        RegisteredUser ru = new RegisteredUser(jobs, name);
-        assertSame(jobs, ru.getJobs());
+        RegisteredUser ru = new RegisteredUser(name);
         assertEquals(name, ru.getName());
         assertEquals(name, ru.getUsername());
     }
@@ -69,20 +67,5 @@ class RegisteredUserTest {
         user.setAnswers(answers);
         // No getter, but we can serialize to JSON and ensure field exists
         assertDoesNotThrow(() -> mapper.writeValueAsString(user));
-    }
-
-    @Test
-    void testJsonConstructorCopiesFields() throws Exception {
-        user.setName("Carol");
-        String json = mapper.writeValueAsString(user);
-        RegisteredUser reconstructed = new RegisteredUser(json);
-        assertEquals(user.getName(), reconstructed.getName(), "Name should persist through JSON constructor");
-        assertEquals(user.getJobs().size(), reconstructed.getJobs().size(), "Jobs list size should persist through JSON constructor");
-        assertNotNull(reconstructed.getShoppingCart(), "ShoppingCart should not be null after JSON constructor");
-        assertEquals(
-            user.getShoppingCart().getShoppingBags().size(),
-            reconstructed.getShoppingCart().getShoppingBags().size(),
-            "ShoppingBags size should persist through JSON constructor"
-        );
     }
 }

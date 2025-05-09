@@ -86,7 +86,7 @@ public class SystemConfiguration {
     };
 
     public UserCart UserCart() {
-        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), ProxyShipping());
+        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), OrderRepository());
     };
 
     public UserConnectivity UserConnectivity() {
@@ -99,9 +99,7 @@ public class SystemConfiguration {
     };
     @Bean
     public UserService UserService() {
-        return new UserService(TokenService(), ShippingService(), UserConnectivity(), UserCart() , paymentService());
+        return new UserService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), ShippingService(), PaymentService());
     };
-
-
 
 }

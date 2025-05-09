@@ -34,7 +34,7 @@ import java.util.ArrayList;
         store.addNewProduct(product.getId(), 3);
         tokenService = new TokenService();
         userRepository = new UserRepository();
-        user = new RegisteredUser(new ArrayList<Job>(), "username");
+        user = new RegisteredUser("username");
         user.addProduct(store.getId(), product.getId(), 3);
         try {
             userRepository.addUser("username", "fsdfd", mapper.writeValueAsString(user));

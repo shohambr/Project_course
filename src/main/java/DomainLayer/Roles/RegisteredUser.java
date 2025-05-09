@@ -16,24 +16,10 @@ public class RegisteredUser extends User {
     private Map<String, String> answers = new HashMap<>();
     private String name;
 
-    public RegisteredUser(String json) {
-        try {
-            RegisteredUser temp = mapper.readValue(json , RegisteredUser.class);
-            this.jobs = temp.jobs;
-            this.id = temp.id;
-            this.name = temp.name;
-            this.shoppingCart = temp.shoppingCart;
-            this.answers = temp.answers;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-
-    public RegisteredUser(List<Job> jobs , String name) {
+    public RegisteredUser(String name) {
         super();
          //needed for Jackson
-        this.jobs = jobs;
         this.name = name;
     }
     public RegisteredUser() {

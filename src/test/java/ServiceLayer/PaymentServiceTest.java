@@ -51,7 +51,7 @@ class PaymentServiceTest {
         tokenService = new TokenService();
         userRepository = new UserRepository();
         paymentService = new PaymentService(userRepository, productRepository, mockPayment, tokenService);
-        user = new RegisteredUser(new ArrayList<Job>(), "username");
+        user = new RegisteredUser("username");
         token = tokenService.generateToken("username");
         user.addProduct(store.getId(), product.getId(), 3);
         try {

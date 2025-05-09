@@ -106,7 +106,7 @@ public class StoreManagementMicroservice {
             throw new IllegalArgumentException("User is already an owner or manager of the store");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("Hi, would you like to become an owner of the store ").append(store.getName()).append("? \n");
+        sb.append("Hi, would you like to become an owner of the store ").append(store.getId()).append("? \n");
         return sb.toString();
     }
     /**

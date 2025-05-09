@@ -34,8 +34,8 @@ public class Store {
         founder = founderID;
         openNow = true;
     }
-
-
+    public Store() {
+    }
     /**
      * use this function to detect if the store is open now so the logic is not depended on the boolean itself.
      * for example a store that despite being open would like to automatically open and close in certain hours.
@@ -59,7 +59,7 @@ public class Store {
         this.id = id;
 
     }
-    
+
     public Double getRating(){
         return rating;
     }
@@ -72,9 +72,6 @@ public class Store {
     }
     public boolean isFounder(String founder) {
         return this.founder.equals(founder);
-    }
-    public String getName() {
-        return id;
     }
     public List<String> getUsers() {
         return users;
@@ -574,7 +571,7 @@ public class Store {
             buildRoleTree(sb, subordinate, childPrefix, i == subordinates.size() - 1);
         }
     }
-
+    @JsonIgnore
     public String getRoles() {
         StringBuilder sb = new StringBuilder();
         sb.append("Store Management Structure:\n");

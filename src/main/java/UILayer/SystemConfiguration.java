@@ -1,5 +1,6 @@
 package UILayer;
 
+import DomainLayer.DomainServices.*;
 import ServiceLayer.*;
 import infrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +46,8 @@ public class SystemConfiguration {
 
     @Bean
     public JobService JobService() {
-        return new JobService(JobRepository(), StoreService());
+        //return new JobService(JobRepository(), StoreService());
+        return null;
     };
 
     @Bean
@@ -60,7 +62,7 @@ public class SystemConfiguration {
 
     @Bean
     public PaymentService PaymentService() {
-        return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        return new PaymentService(UserRepository(), ProductRepository(), ProxyPayment(), TokenService());
     };
 
     @Bean
@@ -70,7 +72,7 @@ public class SystemConfiguration {
 
     @Bean
     public ShippingService ShippingService() {
-        return new ShippingService(ProxyShipping());
+        return new ShippingService(ProxyShipping(), TokenService(), UserRepository());
     };
 
     @Bean
@@ -83,9 +85,21 @@ public class SystemConfiguration {
         return new TokenService();
     };
 
+    public UserCart UserCart() {
+        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), ProxyShipping());
+    };
+
+    public UserConnectivity UserConnectivity() {
+        return new UserConnectivity(TokenService(), UserRepository());
+    };
+
+    public PaymentService paymentService() {
+        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        return null;
+    };
     @Bean
     public UserService UserService() {
-        return new UserService(UserRepository(), TokenService(),JobService(), ProductService(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository());
+        return new UserService(TokenService(), ShippingService(), UserConnectivity(), UserCart() , paymentService());
     };
 
 

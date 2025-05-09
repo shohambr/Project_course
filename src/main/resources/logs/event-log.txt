@@ -1,3 +1,18 @@
-[2025-05-05 00:41:17] User: testUser | Event: Event | Description: User logged in
-[2025-05-05 00:41:19] User: a1ad1d40-4a5c-45aa-8168-a55c73b3778b | Event: Event | Description: Successfully payed for cart
-[2025-05-05 00:41:19] User: 0b8020e4-ce27-4db6-a854-fde43d2383cd | Event: Event | Description: Shipping successful
+[2025-05-08 12:34:16] User: testUser | Event: Event | Description: User logged in
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: Successfully payed for cart
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: Shipping successful

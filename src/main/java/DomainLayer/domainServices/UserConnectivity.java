@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.User;
 import DomainLayer.Roles.RegisteredUser;
@@ -8,6 +8,7 @@ import ServiceLayer.EventLogger;
 import io.micrometer.observation.Observation.Event;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-
+@Component
 public class UserConnectivity {
     private IToken Tokener;
     private IUserRepository userRepository;
@@ -71,18 +72,16 @@ public class UserConnectivity {
     }
 
     public void logout(String username ,String token) {
-        if(username.equals("Guest")) {
-            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
-            throw new IllegalArgumentException("Guest cannot logout");
-        }
         if (username == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_NULL");
             throw new IllegalArgumentException("Username cannot be null");
-        } else if (username.isEmpty()) {
+        }else if(username.equals("Guest")) {
+            EventLogger.logEvent(username, "LOGOUT_FAILED - GUEST");
+            throw new IllegalArgumentException("Guest cannot logout");
+        }else if (username.isEmpty()) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - USER_EMPTY");
             throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if (token == null) {
+        }else if (token == null) {
             EventLogger.logEvent(username, "LOGOUT_FAILED - TOKEN_NULL");
             throw new IllegalArgumentException("Token cannot be null");
         } else if (token.isEmpty()) {

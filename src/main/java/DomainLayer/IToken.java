@@ -18,4 +18,7 @@ public interface IToken {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
     public Claims extractAllClaims(String token);
     public void invalidateToken(String token);
+    public void suspendUser(String token);
+    public void unsuspendUser(String token);
+    public List<String> showSuspended();
 }

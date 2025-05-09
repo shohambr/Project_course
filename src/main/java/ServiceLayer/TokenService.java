@@ -20,6 +20,7 @@ public class TokenService implements IToken {
 
     private final Set<String> blacklistedTokens = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final Map<String, String> activeTokens = new ConcurrentHashMap<>();
+    private final Set<String> suspendedUsers = new HashSet<>();
 
     public String generateToken(String username) {
         EventLogger.logEvent(username ,"TokenService");
@@ -43,6 +44,9 @@ public class TokenService implements IToken {
 
         if (!activeTokens.containsKey(token))
             throw new IllegalArgumentException("Token is not active");
+        if (suspendedUsers.contains(extractUsername(token))) {
+            throw new IllegalArgumentException("User is suspended");
+        }
 
         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
@@ -82,5 +86,36 @@ public class TokenService implements IToken {
     private static void requireNonEmpty(String token) {
         if (token == null || token.isEmpty())
             throw new IllegalArgumentException("Token cannot be null or empty");
+    }
+
+
+    public void suspendUser(String username){
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+        if (suspendedUsers.contains(username)) {
+            throw new IllegalArgumentException("User is already suspended");
+        }
+        suspendedUsers.add(username);
+        EventLogger.logEvent(username , "User suspended");
+    }
+
+    public void unsuspendUser(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+        if (!suspendedUsers.contains(username)) {
+            throw new IllegalArgumentException("User is not suspended");
+        }
+        suspendedUsers.remove(username);
+        EventLogger.logEvent(username , "User unsuspended");
+    }
+
+    public List<String> showSuspended() {
+        List<String> suspendedList = new ArrayList<>();
+        for (String username : suspendedUsers) {
+            suspendedList.add(username);
+        }
+        return suspendedList;
     }
 }

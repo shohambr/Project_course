@@ -1,16 +1,20 @@
 package ServiceLayer;
 
+import DomainLayer.IToken;
 import DomainLayer.Product;
 import DomainLayer.Roles.Guest;
+import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import infrastructureLayer.ProductRepository;
 import infrastructureLayer.ProxyPayment;
 import Mocks.MockPayment;
 import ServiceLayer.PaymentService;
 import infrastructureLayer.StoreRepository;
+import infrastructureLayer.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static utils.JsonUtils.mapper;
 
 class PaymentServiceTest {
 
@@ -28,72 +33,85 @@ class PaymentServiceTest {
     private Store store;
     private StoreRepository storeRepository;
     private ProductRepository productRepository;
+    private IToken tokenService;
+    private String token;
+    private UserRepository userRepository;
+    private final ObjectMapper mapper = new ObjectMapper();
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         store = new Store();
         storeRepository = new StoreRepository();
         productRepository = new ProductRepository();
-        storeRepository.addStore(store);
+        storeRepository.addStore(store.getId() , mapper.writeValueAsString(store));
         Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
         productRepository.save(product);
         store.addNewProduct(product.getId(), 3);
         MockPayment mockPayment = new MockPayment();
-        paymentService = new PaymentService(storeRepository, productRepository, mockPayment);
-        user = new RegisteredUser();
+        tokenService = new TokenService();
+        userRepository = new UserRepository();
+        paymentService = new PaymentService(userRepository, productRepository, mockPayment, tokenService);
+        user = new RegisteredUser(new ArrayList<Job>(), "username");
+        token = tokenService.generateToken("username");
         user.addProduct(store.getId(), product.getId(), 3);
+        try {
+            userRepository.addUser("username", "fsdfd", mapper.writeValueAsString(user));
+        } catch (Exception e) {
+
+        }
     }
 
     @Test
     public void testProcessPayment_Successful() {
-        boolean response = paymentService.processPayment(user, store.getId(), "csda", "5555555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(token, "csda", "5555555555554444", "10/26", "395");
         assertTrue(response);
     }
 
     @Test
     public void testProcessPayment_BadCreditCardNumber_Failure() {
-        boolean response = paymentService.processPayment(user,  store.getId(),"csda","5355555555554444", "10/26", "395");
+        boolean response = paymentService.processPayment(token,"csda","5355555555554444", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyCreditCardNumber_Failure() {
-        boolean response = paymentService.processPayment(user,  store.getId(),"csda", "", "10/26", "395");
+        boolean response = paymentService.processPayment(token,"csda", "", "10/26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_BadlyWrittenExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user,  store.getId(),"csda","5555555555554444", "10'26", "395");
+        boolean response = paymentService.processPayment(token,"csda","5555555555554444", "10'26", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_InvalidExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user, store.getId(),"csda","5555555555554444", "fewdki", "395");
+        boolean response = paymentService.processPayment(token,"csda","5555555555554444", "fewdki", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyExpirationDate_Failure() {
-        boolean response = paymentService.processPayment(user, store.getId(),"csda", "5555555555554444", "", "395");
+        boolean response = paymentService.processPayment(token,"csda", "5555555555554444", "", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_InvalidBackNumber_Failure() {
-        boolean response = paymentService.processPayment(user, store.getId(),"csda","5555555555554444", "10/26", "kfjeowia0");
+        boolean response = paymentService.processPayment(token,"csda","5555555555554444", "10/26", "kfjeowia0");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_ExpiredCreditCard_Failure() {
-        boolean response = paymentService.processPayment(user, store.getId(),"csda", "5555555555554444", "10/24", "395");
+        boolean response = paymentService.processPayment(token,"csda", "5555555555554444", "10/24", "395");
         assertFalse(response);
     }
 
     @Test
     public void testProcessPayment_EmptyBackNumber_Failure() {
-        boolean response = paymentService.processPayment(user, store.getId(),"csda", "5555555555554444", "10/26", "");
+        boolean response = paymentService.processPayment(token,"csda", "5555555555554444", "10/26", "");
         assertFalse(response);
     }
 

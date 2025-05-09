@@ -1,29 +1,30 @@
 package ServiceLayer;
-import DomainLayer.IPayment;
-import DomainLayer.IShipping;
-import DomainLayer.Store;
-import DomainLayer.User;
-import DomainLayer.domainServices.ShippingConnectivity;
+import DomainLayer.*;
+import DomainLayer.DomainServices.ShippingConnectivity;
+import infrastructureLayer.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class ShippingService {
-    private ShippingConnectivity shippingConnectivity;
 
-    public ShippingService(IShipping ProxyShipping) {
-        this.shippingConnectivity = new ShippingConnectivity(ProxyShipping);
+    private final ShippingConnectivity shippingConnectivity;
+    private final IToken tokenService;
+
+    public ShippingService(IShipping ProxyShipping, IToken tokenService, IUserRepository userRepository) {
+        this.shippingConnectivity = new ShippingConnectivity(ProxyShipping, userRepository);
+        this.tokenService = tokenService;
     }
 
-    public boolean processShipping(User user, String state, String city, String street, String homeNumber) {
+    public boolean processShipping(String token, String state, String city, String street, String homeNumber) {
         try {
-            shippingConnectivity.processShipping(user, state, city, street, homeNumber);
-            EventLogger.logEvent(user.getID(), "Shipping successful");
+            String username = tokenService.extractUsername(token);
+            shippingConnectivity.processShipping(username, state, city, street, homeNumber);
+            EventLogger.logEvent(username, "Shipping successful");
             return true;
         } catch (Exception e) {
-            System.out.println("Error encountered while processing shipping:" + e.getMessage());
-            ErrorLogger.logError(user.getID(), "Error in shipping", e.getMessage());
+            ErrorLogger.logError(tokenService.extractUsername(token), "Error in shipping", e.getMessage());
             return false;
         }
     }

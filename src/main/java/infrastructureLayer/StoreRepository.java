@@ -9,50 +9,33 @@ import java.util.Map;
 
 @Repository
 public class StoreRepository implements IStoreRepository {
-    private Map<Store, String> Stores = new HashMap<>();
+    private Map<String, String> stores = new HashMap<>();
 
-    public void addStore(Store store) {
-        for (Store existingStore : Stores.keySet()) {
-            if (existingStore.getId().equals(store.getId())) {
-                return;
-            }
-        }
-        Stores.put(store, store.getId());
+    public void addStore(String storeId , String storeJson) {
+        stores.put(storeId, storeJson);
     }
 
 
-    public void removeStore(Store store) {
-        Store storeToRemove = null;
-        for (Store existingStore : Stores.keySet()) {
-            if (existingStore.getId().equals(store.getId())) {
-                storeToRemove = existingStore;
-                break;
-            }
-        }
-
-        if (storeToRemove != null) {
-            Stores.remove(storeToRemove);
-        }
+    public void removeStore(String storeId) {
+        stores.remove(storeId);
     }
 
 
-    public Store getStore(String storeId) {
-        for (Store store : Stores.keySet()) {
-            if (store.getId().equals(storeId)) {
-                return store;
-            }
-        }
-        return null;
+    public String getStore(String storeId) {
+        return stores.get(storeId);
     }
+
+
     public void updateStore(String storeId, String storeJson) {
-        for (Store store : Stores.keySet()) {
-            if (store.getId().equals(storeId)) {
-                Stores.put(store, storeJson);
-                return;
-            }
+        if(stores.containsKey(storeId)) {
+            stores.put(storeId, storeJson);
+        } else {
+            throw new IllegalArgumentException("Store does not exist");
         }
     }
-    public Map<Store, String> getStores() {
-        return Stores;
+
+    public Map<String, String> getStores() {
+        return stores;
     }
+
 }

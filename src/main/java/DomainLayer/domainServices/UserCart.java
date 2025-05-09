@@ -1,8 +1,9 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 import ServiceLayer.EventLogger;
 import DomainLayer.IOrderRepository;
 import DomainLayer.IPayment;
 import DomainLayer.IProductRepository;
+import DomainLayer.IShipping;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
@@ -26,8 +27,10 @@ public class UserCart {
     private IProductRepository productRepository;
     private IOrderRepository orderRepository;
     private IPayment paymentSystem;
+    private IShipping shippingSystem;
 
-    public UserCart(IToken Tokener , IUserRepository userRepository, IStoreRepository storeRepository , IProductRepository productRepository , IPayment paymentSystem , IOrderRepository orderRepository) {
+    public UserCart(IToken Tokener , IUserRepository userRepository, IStoreRepository storeRepository , IProductRepository productRepository , IPayment paymentSystem , IOrderRepository orderRepository , IShipping shippingSystem) {
+        this.shippingSystem = shippingSystem;
         this.orderRepository = orderRepository;
         this.Tokener = Tokener;
         this.userRepository = userRepository;
@@ -108,14 +111,15 @@ public class UserCart {
         Tokener.validateToken(token);
         double totalPrice = 0;
         RegisteredUser user = mapper.readValue(userRepository.getUser(username), RegisteredUser.class);
-        EventLogger.logEvent(user.getUsername(), "RESERVE_CART");
         ShoppingCart cart = user.getShoppingCart();
         Map<String, Integer> reservedProducts = new HashMap<>();
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = storeRepository.getStore(storeId);
-            if (store == null) {
-                EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
+            Store store;
+            try{
+                store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
+            } catch (Exception e) {
+                EventLogger.logEvent(user.getUsername(), "RESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
             }
             for (Map.Entry<String, Integer> entry : bag.getProducts().entrySet()) {
@@ -130,13 +134,15 @@ public class UserCart {
                     throw new IllegalArgumentException("Insufficient stock for product: " + productId);
                 }
                 if(store.reserveProduct(productId, quantity)){
-                    EventLogger.logEvent(user.getUsername(), "RESERVE_CART_SUCCESS");
+                    EventLogger.logEvent(user.getUsername(), "RESERVE_PRODUCT_SUCCESS");
                     reservedProducts.put(productId, quantity);
                 }else{
                     unreserveCart(reservedProducts, user.getUsername());
                     EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - RESERVE_FAILED");
                     throw new IllegalArgumentException("Failed to reserve product: " + productId);
                 }
+                storeRepository.updateStore(storeId, mapper.writeValueAsString(store));
+                productRepository.save(product);
                 totalPrice += product.getPrice() * quantity;
             }
         }
@@ -162,33 +168,33 @@ public class UserCart {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - INSUFFICIENT_STOCK");
                 throw new IllegalArgumentException("Insufficient stock for product: " + productId);
             }
-            Store store = storeRepository.getStore(product.getStoreId());
+            Store store = mapper.readValue(storeRepository.getStore(product.getStoreId()), Store.class);
             if (store == null) {
                 EventLogger.logEvent(username, "UNRESERVE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
             }
             store.unreserveProduct(productId, quantity);
+            storeRepository.updateStore(product.getStoreId(), mapper.writeValueAsString(store));
+            productRepository.save(product);
         }
     }
 
-    public void purchaseCart(String token , Double totalPrice ,  String creditCardNumber, String expirationDate, String backNumber) throws Exception {
+    public void purchaseCart(String token , double totalPrice) throws JsonProcessingException {
         if (token == null) {
             EventLogger.logEvent(Tokener.extractUsername(token), "PURCHASE_CART_FAILED - NULL");
             throw new IllegalArgumentException("Token cannot be null");
         }
         String username = Tokener.extractUsername(token);
-        Tokener.validateToken(token);
         RegisteredUser user = mapper.readValue(userRepository.getUser(username), RegisteredUser.class);
         if (!user.getCartReserved()) {
             EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - CART_NOT_RESERVED");
             throw new IllegalArgumentException("Cart is not reserved");
         }
-//        paymentSystem.processPayment(totalPrice, creditCardNumber, expirationDate, backNumber);
         ShoppingCart cart = user.getShoppingCart();
         // tell the store the products are sold
         for (ShoppingBag bag : cart.getShoppingBags()) {
             String storeId = bag.getStoreId();
-            Store store = storeRepository.getStore(storeId);
+            Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
             if (store == null) {
                 EventLogger.logEvent(user.getUsername(), "PURCHASE_CART_FAILED - STORE_NOT_FOUND");
                 throw new IllegalArgumentException("Store not found");
@@ -211,4 +217,4 @@ public class UserCart {
         userRepository.update(username, mapper.writeValueAsString(user));
     }
 
-}   //I AM HERE! I ADD IT
+}  

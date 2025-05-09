@@ -42,6 +42,7 @@ public class ShoppingCart {
                 if (shoppingBag.getProducts().isEmpty()) {
                     shoppingBags.remove(shoppingBag);
                 }
+                return found;
             }
         }
         return found;

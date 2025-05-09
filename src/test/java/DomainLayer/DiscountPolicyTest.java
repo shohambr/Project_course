@@ -6,31 +6,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import DomainLayer.DiscountPolicy;
 import DomainLayer.Product;
-import DomainLayer.Category;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 
 class DiscountPolicyTest {
-    private Category electronics;
     private Product tablet;
     private Product phone;
     private DiscountPolicy policy;
 
     @BeforeEach
     void setUp() {
-        electronics = new Category("Electronics");
-        tablet = new Product("Tablet", 100.0f, electronics);
-        phone = new Product("Phone", 100.0f, electronics);
+        tablet = new Product(
+                UUID.randomUUID().toString(),
+                "store123",
+                "Tablet",
+                "High-end gaming tablet",
+                100,
+                10,
+                4.5,
+                "Electronics"
+        );
+
+        phone = new Product(
+                UUID.randomUUID().toString(),
+                "store123",
+                "Phone",
+                "Flagship smartphone",
+                100,
+                10,
+                4.5,
+                "Electronics"
+        );
+
         policy = new DiscountPolicy();
     }
 
     @Test
     void testStackedProductDiscounts() {
-        // Arrange
         policy.addDiscount(1, -1, 2, new ArrayList<>(), 0.1f, "Tablet", -1, -1, "");
         policy.addDiscount(1, -1, 2, new ArrayList<>(), 0.2f, "Tablet", -1, -1, "");
 
@@ -38,64 +52,44 @@ class DiscountPolicyTest {
         cart.put(tablet, 1);
         cart.put(phone, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(172.0f, result, 0.001f);
+        assertEquals(172.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testCategoryDiscount() {
-        // Arrange
         policy.addDiscount(2, -1, 2, new ArrayList<>(), 0.15f, "Electronics", -1, -1, "");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 1);
         cart.put(phone, 2);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(255.0f, result, 0.001f);
+        assertEquals(255.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testQuantityConditionalDiscount() {
-        // Arrange
         policy.addDiscount(1, -1, 2, new ArrayList<>(), 0.2f, "Phone", 2, 3, "Phone");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(phone, 3);
         cart.put(tablet, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(340.0f, result, 0.001f);
+        assertEquals(340.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testStoreWideDiscount() {
-        // Arrange
         policy.addDiscount(3, -1, 2, new ArrayList<>(), 0.1f, "", -1, -1, "");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 2);
         cart.put(phone, 2);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(360.0f, result, 0.001f);
+        assertEquals(360.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testOrLogicDiscount() {
-        // Arrange
         List<Discount> nested = new ArrayList<>();
         nested.add(new Discount(1, -1, -1, new ArrayList<>(), 0f, "Tablet", 2, 1, "Tablet"));
         nested.add(new Discount(1, -1, -1, new ArrayList<>(), 0f, "Phone", 2, 1, "Phone"));
@@ -105,16 +99,11 @@ class DiscountPolicyTest {
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(90.0f, result, 0.001f);
+        assertEquals(90.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testAndLogicDiscount() {
-        // Arrange
         List<Discount> nested = new ArrayList<>();
         nested.add(new Discount(-1, -1, -1, new ArrayList<>(), 0f, "", 2, 2, "Tablet"));
         nested.add(new Discount(-1, -1, -1, new ArrayList<>(), 0f, "", 1, 250, ""));
@@ -125,63 +114,43 @@ class DiscountPolicyTest {
         cart.put(tablet, 2);
         cart.put(phone, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(270.0f, result, 0.001f);
+        assertEquals(270.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testStoreWideMinTotal() {
-        // Arrange
         policy.addDiscount(3, -1, -1, new ArrayList<>(), 0.1f, "", 1, 300, "");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 3);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(270.0f, result, 0.001f);
+        assertEquals(270.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testCategoryProductStacking() {
-        // Arrange
         policy.addDiscount(2, -1, 2, new ArrayList<>(), 0.1f, "Electronics", -1, -1, "");
         policy.addDiscount(1, -1, 2, new ArrayList<>(), 0.05f, "Tablet", -1, -1, "");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(85.5f, result, 0.001f);
+        assertEquals(85.5f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testConditionalQuantityNotMet() {
-        // Arrange
         policy.addDiscount(1, -1, 2, new ArrayList<>(), 0.2f, "Phone", 2, 3, "Phone");
 
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(phone, 2);
         cart.put(tablet, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(300.0f, result, 0.001f);
+        assertEquals(300.0f, policy.applyDiscounts(cart), 0.001f);
     }
 
     @Test
     void testMaximumNestedDiscount() {
-        // Arrange
         List<Discount> nested = new ArrayList<>();
         nested.add(new Discount(1, -1, 2, new ArrayList<>(), 0.1f, "Tablet", -1, -1, ""));
         nested.add(new Discount(1, -1, 2, new ArrayList<>(), 0.2f, "Tablet", -1, -1, ""));
@@ -191,10 +160,6 @@ class DiscountPolicyTest {
         Map<Product, Integer> cart = new HashMap<>();
         cart.put(tablet, 1);
 
-        // Act
-        float result = policy.applyDiscounts(cart);
-
-        // Assert
-        assertEquals(80.0f, result, 0.001f);
+        assertEquals(80.0f, policy.applyDiscounts(cart), 0.001f);
     }
 }

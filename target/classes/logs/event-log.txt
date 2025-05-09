@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2025-05-09 14:57:52] User: testUser | Event: Event | Description: User logged in
 [2025-05-09 14:57:52] User: admin1 | Event: Event | Description: ADMIN_REMOVE_MEMBER_START
 [2025-05-09 14:57:52] User: owner1 | Event: Event | Description: UPDATE_MANAGER_PERMISSIONS_START
@@ -116,3 +117,23 @@
 [2025-05-09 14:57:53] User: username | Event: Event | Description: TokenService
 [2025-05-09 14:57:53] User: username | Event: Event | Description: TokenService
 [2025-05-09 14:57:53] User: username | Event: Event | Description: Shipping successful
+=======
+[2025-05-09 16:05:44] User: testUser | Event: Event | Description: User logged in
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: Successfully payed for cart
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:44] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:45] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:45] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:45] User: username | Event: Event | Description: TokenService
+[2025-05-09 16:05:45] User: username | Event: Event | Description: Shipping successful
+>>>>>>> user

@@ -1,4 +1,4 @@
-package ServiceLayer;
+ package ServiceLayer;
 
 import DomainLayer.*;
 import DomainLayer.Roles.Guest;
@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+ import static org.junit.jupiter.api.Assertions.*;
 
-class ShippingServiceTest {
+ class ShippingServiceTest {
 
     private ShippingService shippingService;
     private RegisteredUser user;
@@ -84,4 +84,4 @@ class ShippingServiceTest {
 
 
 
-}
+ }

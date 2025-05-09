@@ -45,14 +45,18 @@ public class Guest {
                 if (found) {
                     if (shoppingBag.getProducts().isEmpty()) {
                         shoppingCart.getShoppingBags().remove(shoppingBag);
+                        EventLogger.logEvent("removeProduct", "Shopping bag removed from cart");
                     }
-                    break;
+                    EventLogger.logEvent("removeProduct", "Product removed from cart");
+                    return;
                 } else {
-                    EventLogger.logEvent(productId, "Product not found in cart");
+                    EventLogger.logEvent("removeProduct", "Product not found in cart");
                     throw new IllegalArgumentException("Product not found in cart");
                 }
             }
         }
+        EventLogger.logEvent("removeProduct", "Product not found in cart");
+        throw new IllegalArgumentException("Product not found in cart");
     }
 
     public String getID() {

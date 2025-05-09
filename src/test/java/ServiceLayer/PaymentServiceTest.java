@@ -7,7 +7,7 @@ import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import infrastructureLayer.ProductRepository;
 import infrastructureLayer.ProxyPayment;
@@ -39,11 +39,11 @@ class PaymentServiceTest {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         store = new Store();
         storeRepository = new StoreRepository();
         productRepository = new ProductRepository();
-        storeRepository.addStore(store);
+        storeRepository.addStore(store.getId() , mapper.writeValueAsString(store));
         Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
         productRepository.save(product);
         store.addNewProduct(product.getId(), 3);

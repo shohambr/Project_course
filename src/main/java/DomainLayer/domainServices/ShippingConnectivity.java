@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.*;
 import ServiceLayer.UserService;
@@ -28,7 +28,7 @@ public class ShippingConnectivity {
         User user = mapper.readValue(jsonUser, User.class);
         List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
         for (ShoppingBag shoppingBag : shoppingBags) {
-            proxyShipping.processShipping(user, shoppingBag.getStoreId(), state, city, street, shoppingBag.getProducts(), homeNumber);
+            proxyShipping.processShipping(user.getID(), state, city, street, shoppingBag.getProducts(), homeNumber);
         }
     }
 }

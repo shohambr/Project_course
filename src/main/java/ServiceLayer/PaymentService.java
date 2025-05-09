@@ -1,7 +1,7 @@
 package ServiceLayer;
 
 import DomainLayer.*;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

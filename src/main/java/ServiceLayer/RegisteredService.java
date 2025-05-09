@@ -1,29 +1,37 @@
 package ServiceLayer;
 
 import DomainLayer.IStoreRepository;
+import DomainLayer.INotificationRepository;
 import DomainLayer.IOrderRepository;
 import DomainLayer.IProductRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
-import DomainLayer.domainServices.History;
-import DomainLayer.domainServices.Rate;
-import DomainLayer.domainServices.UserConnectivity;
-import org.springframework.stereotype.Service;
+import DomainLayer.DomainServices.History;
+import DomainLayer.DomainServices.toNotify;
+import DomainLayer.DomainServices.OpenStore;
+import DomainLayer.DomainServices.Rate;
+import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.DomainServices.History;
+import DomainLayer.DomainServices.Rate;
+import DomainLayer.DomainServices.UserConnectivity;
 
 import java.util.List;
 
-@Service
 public class RegisteredService {
     private final IToken tokenService;
     private final IUserRepository userRepo;
     private final IStoreRepository storeRepo;
     private final IProductRepository productRepo;
     private final IOrderRepository orderRepo;
+    private final INotificationRepository notificationRepo;
     private final UserConnectivity userConnectivity;
     private final Rate rateService;
     private final History history;
+    private final OpenStore opener;
+    private final toNotify notifyService;
 
-    public RegisteredService(IUserRepository userRepo, IToken tokenService , IStoreRepository storeRepo, IProductRepository productRepo , IOrderRepository orderRepo) {
+    public RegisteredService(IUserRepository userRepo, IToken tokenService , IStoreRepository storeRepo, IProductRepository productRepo , IOrderRepository orderRepo , INotificationRepository notificationRepo) {
+        this.notificationRepo = notificationRepo;
         this.orderRepo = orderRepo;
         this.storeRepo = storeRepo;
         this.productRepo = productRepo;
@@ -32,6 +40,8 @@ public class RegisteredService {
         this.userConnectivity = new UserConnectivity(tokenService, userRepo);
         this.rateService = new Rate(tokenService, storeRepo , userRepo, productRepo);
         this.history = new History(tokenService, orderRepo, userRepo);
+        this.opener = new OpenStore(tokenService, storeRepo, userRepo);
+        this.notifyService = new toNotify(notificationRepo, tokenService);
     }
 
 
@@ -43,6 +53,17 @@ public class RegisteredService {
             return tokenService.generateToken("Guest");
         }catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGOUT_FAILED" );
+            throw new RuntimeException("Invalid token");
+        }
+    }
+
+    public String openStore(String token) throws Exception {
+        String username = tokenService.extractUsername(token);
+        try {
+            EventLogger.logEvent(username, "OPEN_STORE");
+            return opener.openStore(token);
+        } catch (IllegalArgumentException e) {
+            EventLogger.logEvent(username, "OPEN_STORE_FAILED");
             throw new RuntimeException("Invalid token");
         }
     }
@@ -87,6 +108,18 @@ public class RegisteredService {
             return history.getOrderHistory(token);
         } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "GET_ORDER_HISTORY_FAILED");
+            throw new RuntimeException("Invalid token");
+        }
+    }
+
+
+    public void sendNotificationToStore(String token, String storeId, String message) throws Exception {
+        String username = tokenService.extractUsername(token);
+        try {
+            EventLogger.logEvent(username, "SEND_NOTIFICATION_TO_STORE");
+            notifyService.sendNotificationToStore(token, storeId, message);
+        } catch (Exception e) {
+            EventLogger.logEvent(username, "SEND_NOTIFICATION_TO_STORE_FAILED " + e.getMessage());
             throw new RuntimeException("Invalid token");
         }
     }

@@ -20,6 +20,6 @@ public class SystemManager extends RegisteredUser {
         super(jobs, name);
     }
     public void closeStore(Store store){
-        jobService.closeStore(store,this);
+        //jobService.closeStore(store,this);
     }
 }

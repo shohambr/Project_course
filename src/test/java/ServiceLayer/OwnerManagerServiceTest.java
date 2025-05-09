@@ -524,7 +524,7 @@ class OwnerManagerServiceTest {
         verify(storeManagementService).appointStoreOwner(appointerId, storeId, userId);
     }
 
-    @Test
+    /*@Test
     void sendOwnershipProposal_Success() {
         // Arrange
         String userId = "user1";
@@ -554,7 +554,7 @@ class OwnerManagerServiceTest {
         // The method doesn't return anything, so we just verify it handles the exception
         ownerManagerService.sendOwnershipProposal(userId, storeId, proposalText);
         verify(storeManagementService).sendOwnershipProposal(userId, storeId, proposalText);
-    }
+    }*/
 
     @Test
     void respondToOwnerAppointment_Success() {

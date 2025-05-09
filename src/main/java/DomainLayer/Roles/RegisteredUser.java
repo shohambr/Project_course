@@ -20,6 +20,9 @@ public class RegisteredUser extends User {
         super();
         this.name = username;
     }
+    public RegisteredUser(){
+        super();
+    }
 
     public String getUsername() {
         return this.name;

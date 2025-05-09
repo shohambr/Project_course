@@ -100,3 +100,13 @@
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN_FAILED - EMPTY
 [2025-05-04 14:55:37] User: yaniv | Event: Event | Description: LOGIN_FAILED
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: Successfully payed for cart
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService
+[2025-05-09 13:20:37] User: username | Event: Event | Description: TokenService

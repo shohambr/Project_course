@@ -12,3 +12,11 @@
 [2025-04-30 23:37:18] User: 67c894a9-b0b1-4265-9f80-50ae81d9e135 | Error: Error in shipping | Details: Empty street
 [2025-04-30 23:37:18] User: 620f3e16-4835-4dd4-bc0c-f4f6eabc29a6 | Error: Error in shipping | Details: Invalid home number
 [2025-04-30 23:37:18] User: a41d22e7-56cf-4e33-b766-770b167efbc8 | Error: Error in shipping | Details: Empty city
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Unknown credit card company
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Invalid credit card number
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: For input string: ""
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: Invalid expiration date
+[2025-05-09 13:20:37] User: username | Error: Failed to pay | Details: Exception for payment: For input string: "kfjeowia0"

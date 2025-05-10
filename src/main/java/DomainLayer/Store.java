@@ -162,6 +162,9 @@ public class Store {
         return true;
     }
 
+    public Map<String, Integer> getProducts() {
+        return products;
+    }
 
     public boolean changeProductQuantity(String productId, int newQuantity) {
         if (newQuantity < 0) {

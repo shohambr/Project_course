@@ -60,7 +60,6 @@ public class Product {
     public synchronized void setRating(double rating) { this.rating = rating; }
     public synchronized void setCategory(String category) { this.category = category; }
 
-
     public synchronized boolean addRating(String username, double rating) {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");

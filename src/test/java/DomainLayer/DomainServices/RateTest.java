@@ -3,6 +3,7 @@ package DomainLayer.DomainServices;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import DomainLayer.domainServices.Rate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import DomainLayer.IProductRepository;

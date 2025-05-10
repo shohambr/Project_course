@@ -3,7 +3,7 @@ package UILayer;
 import DomainLayer.Store;
 import ServiceLayer.ProductService;
 import ServiceLayer.StoreService;
-import ch.qos.logback.core.encoder.EchoEncoder;
+import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -21,17 +21,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Route("/store/:storeid")
 public class StorePageUI extends VerticalLayout implements BeforeEnterObserver {
 
-    private final StoreService storeService;
+    private final UserService userService;
     private final ProductService productService;
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public StorePageUI(StoreService configuredStoreService, ProductService configuredProductService, String storeId) {
-        this.storeService = configuredStoreService;
+    public StorePageUI(UserService configuredUserService, ProductService configuredProductService, String storeId) {
+        this.userService = configuredUserService;
         this.productService = configuredProductService;
-        if (storeService.getStoreById(storeId).isEmpty()) {
+        String token = (String) UI.getCurrent().getSession().getAttribute("token");
+        if (!userService.getStoreById(storeId, token).isEmpty()) {
             try {
-                Store store = mapper.readValue(storeService.getStoreById(storeId).get(), Store.class);
+                Store store = mapper.readValue(userService.getStoreById(storeId, token), Store.class);
                 add(new HorizontalLayout(new H1(store.getName()), new Button("search in store", e -> {
                     UI.getCurrent().navigate("/" + "searchproduct" + "/" + storeId);
                 })), new StoreProductListUI(store.getId(), productService));

@@ -2,9 +2,8 @@ package UILayer;
 
 import DomainLayer.Product;
 import DomainLayer.Store;
-import DomainLayer.User;
 import ServiceLayer.ProductService;
-import ServiceLayer.StoreService;
+import ServiceLayer.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
@@ -25,14 +24,14 @@ import java.util.Optional;
 public class SearchProductUI extends VerticalLayout {
 
     private final ProductService productService;
-    private final StoreService storeService;
+    private final UserService userService;
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public SearchProductUI(ProductService configuredProductService, StoreService configuredStoreService) {
+    public SearchProductUI(ProductService configuredProductService, UserService configuredUserService) {
         this.productService = configuredProductService;
-        this.storeService = configuredStoreService;
-
+        this.userService = configuredUserService;
+        String token = (String) UI.getCurrent().getSession().getAttribute("token");
         TextField lowestPrice = new TextField("lowest price");
         TextField highestPrice = new TextField("highest price");
         TextField lowestProductRating = new TextField("lowest product rating");
@@ -44,7 +43,6 @@ public class SearchProductUI extends VerticalLayout {
         TextField productName = new TextField("product name");
         Button searchProduct = new Button("search product by name", e -> {
             try {
-                String token = (String) UI.getCurrent().getSession().getAttribute("token");
                 Optional<Product> items = productService.getProductByName(productName.getValue());
                 List<Product> products = items.stream().map(item -> {
                     try {
@@ -59,7 +57,7 @@ public class SearchProductUI extends VerticalLayout {
                         .filter(item -> category.equals("") ? true : item.getCategory().equals(category.getValue()))
                         .filter(item -> {
                             try {
-                                return lowestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
+                                return lowestStoreRating.equals("") ? true : mapper.readValue(userService.getStoreById(item.getStoreId(), token), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
                             } catch (JsonProcessingException ex) {
                                 Notification.show(ex.getMessage());
                                 return false;
@@ -67,7 +65,7 @@ public class SearchProductUI extends VerticalLayout {
                         })
                         .filter(item -> {
                             try {
-                                return highestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
+                                return highestStoreRating.equals("") ? true : mapper.readValue(userService.getStoreById(item.getStoreId(), token), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
                             } catch (JsonProcessingException ex) {
                                 Notification.show(ex.getMessage());
                                 return false;
@@ -85,7 +83,6 @@ public class SearchProductUI extends VerticalLayout {
         TextField categoryName = new TextField("category name");
         Button searchProductByCategory = new Button("search product by category", e -> {
             try {
-                String token = (String) UI.getCurrent().getSession().getAttribute("token");
                 List<Product> items = productService.getProductByCategory(categoryName.getValue());
                 List<Product> products = items.stream().map(item -> {
                             try {
@@ -100,7 +97,7 @@ public class SearchProductUI extends VerticalLayout {
                         .filter(item -> category.equals("") ? true : item.getCategory().equals(category.getValue()))
                         .filter(item -> {
                             try {
-                                return lowestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
+                                return lowestStoreRating.equals("") ? true : mapper.readValue(userService.getStoreById(item.getStoreId(), token), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
                             } catch (JsonProcessingException ex) {
                                 Notification.show(ex.getMessage());
                                 return false;
@@ -108,7 +105,7 @@ public class SearchProductUI extends VerticalLayout {
                         })
                         .filter(item -> {
                             try {
-                                return highestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
+                                return highestStoreRating.equals("") ? true : mapper.readValue(userService.getStoreById(item.getStoreId(), token), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
                             } catch (JsonProcessingException ex) {
                                 Notification.show(ex.getMessage());
                                 return false;

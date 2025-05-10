@@ -1,7 +1,7 @@
 package DomainLayer;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 public interface IStoreRepository {
     void addStore(String storeId , String storeJson);
@@ -9,4 +9,5 @@ public interface IStoreRepository {
     String getStore(String storeId);
     void updateStore(String storeId, String storeJson);
     Map<String, String> getStores();
+    Collection<String> findAll();
 }

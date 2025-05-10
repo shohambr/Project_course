@@ -1,15 +1,13 @@
 package UILayer;
 
-import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.User;
 import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;
-import ServiceLayer.StoreService;
+import ServiceLayer.UserService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,13 +20,13 @@ public class ShoppingCartUI extends VerticalLayout {
 
     private final RegisteredService registeredService;
     private final ProductService productService;
-    private final StoreService storeService;
+    private final UserService userService;
 
     @Autowired
-    public ShoppingCartUI(RegisteredService configuredRegisteredService, ProductService configuredProductService, StoreService configuredStoreService) {
+    public ShoppingCartUI(RegisteredService configuredRegisteredService, ProductService configuredProductService, UserService configuredUserService) {
         this.registeredService = configuredRegisteredService;
         this.productService = configuredProductService;
-        this.storeService = configuredStoreService;
+        this.userService = configuredUserService;
         Button signOut = new Button("Sign out", e -> {
             try {
                 String token = (String) UI.getCurrent().getSession().getAttribute("token");
@@ -50,7 +48,7 @@ public class ShoppingCartUI extends VerticalLayout {
 
         ShoppingCart shoppingCart = user.getShoppingCart();
 
-        add(new ProductListUI(shoppingCart, productService, storeService));
+        add(new ProductListUI(shoppingCart, productService, userService));
 
         add(new Button("purchase cart", e -> {UI.getCurrent().navigate("/purchasecart");}));
 

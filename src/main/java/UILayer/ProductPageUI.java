@@ -7,6 +7,7 @@ import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;
 import ServiceLayer.StoreService;
 import ServiceLayer.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -24,27 +25,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver {
 
     private ProductService productService;
-    private StoreService storeService;
     private UserService userService;
     private RegisteredService registeredService;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public ProductPageUI(ProductService configuredProductService, StoreService configuredStoreService, UserService configuredUserService, RegisteredService configuredRegisteredService, String productId, String storeId) {
+    public ProductPageUI(ProductService configuredProductService, UserService configuredUserService, RegisteredService configuredRegisteredService, String productId, String storeId) {
         this.productService = configuredProductService;
-        this.storeService = configuredStoreService;
         this.userService = configuredUserService;
         this.registeredService = configuredRegisteredService;
         if (productService.getProductById(productId).isPresent()) {
             Product product = productService.getProductById(productId).get();
+            String token = (String) UI.getCurrent().getSession().getAttribute("token");
             String storeName = null;
             try {
-                storeName = storeService.getStoreName(storeId);
+                String jsonStore = userService.getStoreById(token, storeId);
+                Store store = mapper.readValue(jsonStore, Store.class);
+                storeName = store.getName();
             } catch (Exception e) {
                 Notification.show("store with id: " + storeId + "does not exist");
             }
             Button signOut = new Button("Sign out", e -> {
                 try {
-                    String token = (String) UI.getCurrent().getSession().getAttribute("token");
                     UI.getCurrent().getSession().setAttribute("token", registeredService.logoutRegistered(token));
                     UI.getCurrent().navigate("");
                 } catch (Exception exception) {
@@ -54,7 +56,6 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
             );
 
             Button homePage = new Button("Home page", e -> {
-                String token = (String) UI.getCurrent().getSession().getAttribute("token");
                 UI.getCurrent().navigate("/:token");
             });
 
@@ -64,7 +65,6 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
             add(upwardsPage);
 
             Button addToCart = new Button("add to cart", e -> {
-                String token = (String) UI.getCurrent().getSession().getAttribute("token");
                 Notification.show(userService.addToCart(token, storeId, productId, 1));
             });
 

@@ -1,8 +1,7 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
-import DomainLayer.domainServices.UserCart;
-import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.domainServices.*;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
 import DomainLayer.IProductRepository;
@@ -35,6 +34,7 @@ public class UserService {
     private final PaymentService paymentService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
+    private final Search search;
 
     public UserService(IToken tokenService, 
                        IStoreRepository storeRepository,
@@ -47,7 +47,8 @@ public class UserService {
         this.shippingService = shippingService;
         this.paymentService = paymentService;
         this.userConnectivity = new UserConnectivity(tokenService, userRepository);
-        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);       
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);
+        this.search = new Search(productRepository, storeRepository);
     }
 
 
@@ -119,6 +120,24 @@ public class UserService {
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to purchase cart");
+        }
+    }
+
+    public String searchStoreByName(String token, String storeName) {
+        try {
+            return search.searchStoreByName(storeName);
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "SEARCH_STORE_FAILED");
+            throw new RuntimeException("Failed to search store");
+        }
+    }
+
+    public String getStoreById(String token, String storeId) {
+        try {
+            return search.getStoreById(storeId);
+        } catch (Exception e) {
+            EventLogger.logEvent(tokenService.extractUsername(token), "SEARCH_STORE_FAILED");
+            throw new RuntimeException("Failed to search store");
         }
     }
 

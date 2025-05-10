@@ -18,19 +18,25 @@ public class Store {
     private boolean openNow;
     private double rating = 0;
     private Map<String , Double> raterId = new HashMap<>();
-    private String ownerId;
+
+    // fields for managment control
+    private String founder;
+    private List<String> owners = new ArrayList<>();
+    private Map<String,ManagerPermissions> managers = new HashMap<>();
+    private Map<String,String> ownersToSuperior = new HashMap<>();
+    private Map<String,String> managersToSuperior = new HashMap<>();
+    private Map<String,List<String>> ownerToSubordinates = new HashMap<>();
+
     private String name;
 
 
-    public Store(String ownerId) {
-        this.ownerId = ownerId;
+    public Store(String founderID , String name) {
+        this.name = name;
+        founder = founderID;
         openNow = true;
     }
-
     public Store() {
-        openNow = true;
     }
-
     /**
      * use this function to detect if the store is open now so the logic is not depended on the boolean itself.
      * for example a store that despite being open would like to automatically open and close in certain hours.
@@ -55,8 +61,13 @@ public class Store {
 
     }
 
-    public void setName(String name) {this.name = name;}
-
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public Double getRating(){
         return rating;
     }
@@ -64,11 +75,11 @@ public class Store {
     public void setRating(Double rating){
         this.rating = rating;
     }
-    public String getOwnerId() {
-        return ownerId;
+    public String getFounder() {
+        return founder;
     }
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public boolean isFounder(String founder) {
+        return this.founder.equals(founder);
     }
     public List<String> getUsers() {
         return users;
@@ -115,9 +126,6 @@ public class Store {
     }
 
 
-    
-
-
     public Boolean registerUser(String userId) {
         if(users.contains(userId)) {
             return false;
@@ -125,7 +133,6 @@ public class Store {
         users.add(userId);
         return true;
     }
-
     public boolean increaseProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
@@ -139,8 +146,6 @@ public class Store {
         products.put(productId, Integer.valueOf(currentQuantity + quantity));
         return true;
     }
-
-
     public boolean decreaseProduct(String idProduct, int quantity) {
         if (quantity <= 0) {
             return false;
@@ -161,11 +166,6 @@ public class Store {
 
         return true;
     }
-
-    public Map<String, Integer> getProducts() {
-        return products;
-    }
-
     public boolean changeProductQuantity(String productId, int newQuantity) {
         if (newQuantity < 0) {
             return false;
@@ -183,8 +183,6 @@ public class Store {
 
         return true;
     }
-
-
     public boolean removeProduct(String productId) {
         if (!products.containsKey(productId)) {
             return false;
@@ -193,8 +191,6 @@ public class Store {
         products.remove(productId);
         return true;
     }
-
-
     public boolean addNewProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
@@ -392,11 +388,207 @@ public class Store {
         return sb.toString();
     }
 
-    @JsonIgnore
-    public String getOrderHistory() {
-        //returns an order history
-        return "";
+
+    public boolean userHasPermissions(String userId, String permission ) {
+        return (owners.contains(userId) || managers.get(userId).getPermission(permission));
     }
 
-    public String getName() {return name;}
+    public String addProduct(String productName, String description, double price, int quantity, String category) {
+        throw new UnsupportedOperationException("Not supported yet. - store.addProduct");
+    }
+
+    public boolean updateProductDetails(String productId, String productName, String description, double price, String category) {
+        throw new UnsupportedOperationException("Not supported yet. - store.updateProductDetails");
+    }
+
+    public boolean updateProductQuantity(String productId, int newQuantity) {
+        throw new UnsupportedOperationException("Not supported yet. - store.updateProductQuantity");
+    }
+
+    public void addOwner(String appointerId, String userId) {
+        owners.add(userId);
+        ownersToSuperior.put(userId, appointerId);
+        ownerToSubordinates.put(userId, new ArrayList<>());
+        ownerToSubordinates.get(appointerId).add(userId);
+    }
+
+    public boolean userIsOwner(String userId) {
+        return owners.contains(userId);
+    }
+
+    public boolean userIsManager(String userId) {
+        return managers.containsKey(userId);
+    }
+
+
+    /**
+     * Determines if a user is a superior of another user within a management hierarchy.
+     * This method checks if the user identified by the "superior" parameter directly or
+     * indirectly manages the user identified by the "subordinate" parameter.
+     * Works for both owner and manager hierarchies.
+     *
+     * @param superior the unique identifier of the potential superior user
+     * @param subordinate the unique identifier of the potential subordinate user
+     * @return true, if the "superior" user is directly or indirectly superior to the "subordinate" user,
+     *         otherwise false
+     */
+    public boolean checkIfSuperior(String superior, String subordinate) {
+        if (superior == null || subordinate == null) {
+            return false;
+        }
+        if(!owners.contains(superior))return false;
+        if (!userIsManager(subordinate)&&!userIsOwner(subordinate)) return false;
+        // Prevent checking if someone is their own superior
+        if (superior.equals(subordinate)) {
+            return false;
+        }
+        // Check if subordinate is an owner
+        if (userIsOwner(subordinate)) {
+            // Check if the direct superior matches
+            String directSuperior = ownersToSuperior.get(subordinate);
+            if (superior.equals(directSuperior)) {
+                return true;
+            }
+
+            // If there's a superior, recursively check up the chain
+            if (directSuperior != null) {
+                return checkIfSuperior(superior, directSuperior);
+            }
+        }
+        // Check if subordinate is a manager
+        if (userIsManager(subordinate)) {
+            // Check if the direct superior matches
+            String directSuperior = managersToSuperior.get(subordinate);
+            if (superior.equals(directSuperior)) {
+                return true;
+            }
+
+            // If there's a superior, recursively check up the chain
+            if (directSuperior != null) {
+                return checkIfSuperior(superior, directSuperior);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves a list of all subordinates associated with the specified owner.
+     * This includes direct subordinates as well as their subordinates recursively
+     * within the management hierarchy.
+     *
+     * @param ownerId the unique identifier of the owner whose subordinates are to be retrieved
+     * @return a LinkedList containing the unique identifiers of all subordinates
+     */
+    public LinkedList<String> getAllSubordinates(String ownerId) {
+        LinkedList<String> subordinates = new LinkedList<>();
+
+        // Check if the owner exists and has subordinates
+        List<String> directSubordinates = ownerToSubordinates.get(ownerId);
+        if (directSubordinates == null) {
+            return subordinates;
+        }
+
+        // Add direct subordinates
+        subordinates.addAll(directSubordinates);
+
+        // Recursively add subordinates of subordinates
+        for (String subordinate : directSubordinates) {
+            subordinates.addAll(getAllSubordinates(subordinate));
+        }
+
+        return subordinates;
+    }
+
+    /**
+     * Terminates the ownership of the specified owner by removing their associated
+     * roles and subordinates within a store management hierarchy. This includes
+     * removing all subordinates of the given owner, the owner’s own role as an
+     * owner, and any manager roles they may have.
+     *
+     * @param ownerId the unique identifier of the owner whose ownership should be terminated
+     */
+    public void terminateOwnership(String ownerId) {
+        // First, get all subordinates that will need to be removed
+        LinkedList<String> subordinatesToRemove = getAllSubordinates(ownerId);
+
+        // Remove all subordinates first
+        for (String subordinateId : subordinatesToRemove) {
+            owners.remove(subordinateId);
+            ownerToSubordinates.remove(subordinateId);
+            ownersToSuperior.remove(subordinateId);
+            // Also remove any manager roles they might have
+            if (userIsManager(subordinateId)) {
+                managers.remove(subordinateId);
+                managersToSuperior.remove(subordinateId);
+            }
+        }
+        // Finally remove the owner himself
+        owners.remove(ownerId);
+        ownerToSubordinates.remove(ownerId);
+        ownersToSuperior.remove(ownerId);
+        // Also remove any manager role the owner might have
+        if (userIsManager(ownerId)) {
+            managers.remove(ownerId);
+            managersToSuperior.remove(ownerId);
+        }
+    }
+
+    public void addManager(String appointerId, String userId, boolean[] permissions) {
+        ManagerPermissions mp = new ManagerPermissions(permissions);
+        managers.put(userId, mp);
+        managersToSuperior.put(userId, appointerId);
+    }
+
+    public void changeManagersPermissions(String managerId, boolean[] permissions) {
+        managers.get(managerId).setPermissions(permissions);
+    }
+
+    public void terminateManagment(String managerId) {
+        this.managers.remove(managerId);
+        String appointingOwner = this.managersToSuperior.get(managerId);
+        this.managersToSuperior.remove(managerId);
+        if (appointingOwner != null) {
+            this.ownerToSubordinates.get(appointingOwner).remove(managerId);
+        }
+    }
+
+    public Map<String, Boolean> getPremissions(String managerId) {
+        return managers.get(managerId).getPermissions();
+    }
+
+    private void buildRoleTree(StringBuilder sb, String founderID, String prefix, boolean isLastChild) {
+        // Add current node
+        sb.append(prefix);
+        sb.append(isLastChild ? "└── " : "├── ");
+        sb.append(founderID);
+        sb.append("\n");
+
+        // Prepare prefix for children
+        String childPrefix = prefix + (isLastChild ? "    " : "│   ");
+
+        // Get all subordinates (both owners and managers)
+        List<String> subordinates = new ArrayList<>();
+        List<String> ownerSubordinates = ownerToSubordinates.getOrDefault(founderID, new ArrayList<>());
+        if (ownerSubordinates != null) {
+            subordinates.addAll(ownerSubordinates);
+        }
+
+        // Process each subordinate
+        for (int i = 0; i < subordinates.size(); i++) {
+            String subordinate = subordinates.get(i);
+            buildRoleTree(sb, subordinate, childPrefix, i == subordinates.size() - 1);
+        }
+    }
+    @JsonIgnore
+    public String getRoles() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Store Management Structure:\n");
+        buildRoleTree(sb, founder, "", true);
+        return sb.toString();
+    }
+
+    public boolean closeByAdmin() {
+        //todo: implement
+        return false;
+    }
 }

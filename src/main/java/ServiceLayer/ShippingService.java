@@ -1,10 +1,7 @@
 package ServiceLayer;
 import DomainLayer.*;
 import DomainLayer.DomainServices.ShippingConnectivity;
-import infrastructureLayer.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class ShippingService {

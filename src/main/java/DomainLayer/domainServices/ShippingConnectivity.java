@@ -3,8 +3,8 @@ package DomainLayer.DomainServices;
 import DomainLayer.*;
 import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import infrastructureLayer.StoreRepository;
-import infrastructureLayer.UserRepository;
+import InfrastructureLayer.StoreRepository;
+import InfrastructureLayer.UserRepository;
 import utils.ProductKeyModule;
 
 import java.util.List;

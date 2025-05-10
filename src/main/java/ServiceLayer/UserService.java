@@ -1,17 +1,12 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
-import DomainLayer.IUserRepository;
-import DomainLayer.IOrderRepository;
-import DomainLayer.IPayment;
-import DomainLayer.IProductRepository;
-import DomainLayer.IShipping;
-import DomainLayer.IStoreRepository;
-import DomainLayer.Product;
-import DomainLayer.Roles.Guest;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.DomainServices.UserCart;
 import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.IStoreRepository;
+import DomainLayer.IUserRepository;
+import DomainLayer.IProductRepository;
+import DomainLayer.IOrderRepository;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.ShoppingBag;
@@ -29,9 +24,7 @@ import DomainLayer.User;
 import DomainLayer.DomainServices.UserCart;
 import DomainLayer.DomainServices.UserConnectivity;
 
-import org.mindrot.jbcrypt.BCrypt;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,20 +37,19 @@ public class UserService {
     private final UserCart userCart;
 
     public UserService(IToken tokenService, 
-                        ShippingService shippingService,
-                        PaymentService paymentService,
-                       IUserRepository userRepository,
                        IStoreRepository storeRepository,
+                       IUserRepository userRepository,
                        IProductRepository productRepository,
-                       IPayment paymentSystem,
                        IOrderRepository orderRepository,
-                       IShipping shippingSystem) {
-        this.paymentService = paymentService;
+                       ShippingService shippingService,
+                       PaymentService paymentService){
         this.tokenService = tokenService;
         this.shippingService = shippingService;
+        this.paymentService = paymentService;
         this.userConnectivity = new UserConnectivity(tokenService, userRepository);
-        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, paymentSystem, orderRepository, shippingSystem);
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);       
     }
+
 
 
     public String login(String username, String password) throws JsonProcessingException {
@@ -110,10 +102,10 @@ public class UserService {
         }
     }
 
-    public void purchaseCart(String token , 
-                             String paymentMethod , 
-                             String cardNumber, 
-                             String expirationDate, 
+    public void purchaseCart(String token ,
+                             String paymentMethod ,
+                             String cardNumber,
+                             String expirationDate,
                              String cvv,
                              String state,
                              String city,

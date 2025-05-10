@@ -1,17 +1,13 @@
 package UILayer;
 
+import DomainLayer.DomainServices.*;
 import ServiceLayer.*;
-import infrastructureLayer.*;
+import InfrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SystemConfiguration {
-
-    @Bean
-    public JobRepository JobRepository() {
-        return new JobRepository();
-    };
 
     @Bean
     public OrderRepository OrderRepository() {
@@ -44,13 +40,13 @@ public class SystemConfiguration {
     };
 
     @Bean
-    public JobService JobService() {
-        return new JobService(JobRepository(), StoreService(), StoreRepository(), TokenService(), UserRepository());
+    public NotificationService NotificationService() {
+        return new NotificationService();
     };
 
     @Bean
-    public NotificationService NotificationService() {
-        return new NotificationService();
+    public OrderService OrderService() {
+        return new OrderService(OrderRepository());
     };
 
     @Bean
@@ -77,10 +73,29 @@ public class SystemConfiguration {
     public TokenService TokenService() {
         return new TokenService();
     };
-
+    @Bean
+    public UserCart UserCart() {
+        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), OrderRepository());
+    };
+    @Bean
+    public UserConnectivity UserConnectivity() {
+        return new UserConnectivity(TokenService(), UserRepository());
+    };
+    @Bean
+    public PaymentService paymentService() {
+        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
+        return null;
+    };
     @Bean
     public UserService UserService() {
-        return new UserService(TokenService(), ShippingService(), PaymentService(), UserRepository(), StoreRepository(), ProductRepository(), ProxyPayment(), OrderRepository(), ProxyShipping());
+        return new UserService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), ShippingService(), PaymentService());
     };
+
+    @Bean
+    public OwnerManagerService ownerManagerService(){
+        return new OwnerManagerService(UserRepository(),StoreRepository());
+    };
+
+
 
 }

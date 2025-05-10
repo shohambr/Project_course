@@ -46,7 +46,7 @@ class UserCartTest {
         mocks = MockitoAnnotations.openMocks(this);
 
         // Base user with empty cart
-        baseUser = new RegisteredUser();
+        baseUser = new RegisteredUser("username");
         baseUser.setName(USER);
         String userJson = mapper.writeValueAsString(baseUser);
 
@@ -163,7 +163,7 @@ class UserCartTest {
         when(userRepository.getUser(USER))
             .thenReturn(mapper.writeValueAsString(baseUser));
 
-        Store store = new Store("store1");
+        Store store = new Store("store1"  , "");
 
         // stub product
         Product product = new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1");
@@ -190,7 +190,7 @@ class UserCartTest {
     void purchaseCart_notInInventory_throwsIAE() throws Exception {
         baseUser.addProduct("store1", "p1", 2);
         baseUser.setCartReserved(true);
-        Store store = new Store("store1");
+        Store store = new Store("store1" , "");
         store.addNewProduct("p1", 1);
         when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
         when(userRepository.getUser(USER))

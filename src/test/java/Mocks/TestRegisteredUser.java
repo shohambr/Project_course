@@ -1,6 +1,5 @@
 package Mocks;
 
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
 
 import java.util.LinkedList;
@@ -21,12 +20,10 @@ import java.util.List;
  */
 public class TestRegisteredUser extends RegisteredUser {
     private String testId;
-    private List<Job> testJobs;
 
     public TestRegisteredUser(String id) {
-        super(new LinkedList<>(), "TestUser");
+        super("TestUser");
         this.testId = id;
-        this.testJobs = new LinkedList<>();
     }
 
     @Override
@@ -34,12 +31,4 @@ public class TestRegisteredUser extends RegisteredUser {
         return testId;
     }
 
-    @Override
-    public List<Job> getJobs() {
-        return testJobs;
-    }
-
-    public void setTestJobs(List<Job> jobs) {
-        this.testJobs = jobs;
-    }
 }

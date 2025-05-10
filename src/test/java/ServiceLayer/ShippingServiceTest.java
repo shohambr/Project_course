@@ -1,15 +1,10 @@
  package ServiceLayer;
 
 import DomainLayer.*;
-import DomainLayer.Roles.Guest;
-import DomainLayer.Roles.Jobs.Job;
 import DomainLayer.Roles.RegisteredUser;
-import Mocks.MockPayment;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import infrastructureLayer.ProxyShipping;
 import Mocks.MockShipping;
-import infrastructureLayer.StoreRepository;
-import infrastructureLayer.UserRepository;
+import InfrastructureLayer.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,12 +24,12 @@ import java.util.ArrayList;
 
     @BeforeEach
     void setUp() {
-        store = new Store();
+        store = new Store("founderID" , "storeName");
         Product product = new Product("1", store.getId(), "bgdfbf", "bdfgbfgds", 321, 3, 1.0, "1223r");
         store.addNewProduct(product.getId(), 3);
         tokenService = new TokenService();
         userRepository = new UserRepository();
-        user = new RegisteredUser(new ArrayList<Job>(), "username");
+        user = new RegisteredUser("username");
         user.addProduct(store.getId(), product.getId(), 3);
         try {
             userRepository.addUser("username", "fsdfd", mapper.writeValueAsString(user));

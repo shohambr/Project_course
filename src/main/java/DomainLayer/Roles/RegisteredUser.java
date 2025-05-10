@@ -1,9 +1,6 @@
 package DomainLayer.Roles;
 
 import java.util.*;
-import DomainLayer.Roles.Jobs.Job;
-import DomainLayer.Roles.Jobs.Managing;
-import DomainLayer.Roles.Jobs.Ownership;
 import DomainLayer.ShoppingCart;
 import DomainLayer.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,34 +9,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RegisteredUser extends User {
 
     ObjectMapper mapper = new ObjectMapper();
-    private List<Job> jobs;
     private Map<String, String> answers = new HashMap<>();
     private String name;
-
-    public RegisteredUser(String json) {
-        try {
-            RegisteredUser temp = mapper.readValue(json , RegisteredUser.class);
-            this.jobs = temp.jobs;
-            this.id = temp.id;
-            this.name = temp.name;
-            this.shoppingCart = temp.shoppingCart;
-            this.answers = temp.answers;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private LinkedList<String> ownedStores = new LinkedList<String>();
+    private LinkedList<String> managedStores = new LinkedList<String>();
 
 
-    public RegisteredUser(List<Job> jobs , String name) {
+
+    public RegisteredUser(String username) {
         super();
-         //needed for Jackson
-        this.jobs = jobs;
-        this.name = name;
+        this.name = username;
     }
-    public RegisteredUser() {
+    public RegisteredUser(){
         super();
-        this.jobs = new ArrayList<>();
-        this.name = "";
     }
 
     public String getUsername() {
@@ -51,8 +33,9 @@ public class RegisteredUser extends User {
         return shoppingCart;
     }
 
-    public List<Job> getJobs() {
-        return jobs;
+
+    public RegisteredUser register(String u , String p){
+        throw new UnsupportedOperationException("allready registered.");
     }
     public String getName() {
         return this.name;
@@ -62,22 +45,23 @@ public class RegisteredUser extends User {
     }
 
 
-    public boolean receivedOwnershipRequest(String request) {
-        //some logic for how to show the user that he received an ownership request
-        return returnOwnershipRequestAnswer();
+    public void addOwnedStore(String storeId) {
+        ownedStores.add(storeId);
     }
-    public boolean returnOwnershipRequestAnswer() {
-        return false;
+    public void addManagedStore(String storeId) {
+        managedStores.add(storeId);
     }
-
-    public boolean receivedManagingRequest(String request) {
-        //some logic for how to show the user that he received a managing request
-        return returnManagingRequestAnswer();
+    public LinkedList<String> getOwnedStores() {
+        return ownedStores;
     }
-    private boolean returnManagingRequestAnswer() {
-        return false;
+    public LinkedList<String> getManagedStores() {
+        return managedStores;
     }
 
+    public void removeStore(String storeId) {
+        this.ownedStores.remove(storeId);
+        this.managedStores.remove(storeId);
+    }
     public void acceptQueryResponse(String s) {
 
     }

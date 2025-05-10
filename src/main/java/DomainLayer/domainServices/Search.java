@@ -40,11 +40,15 @@ public class Search {
     }
 
     public String getProductsByStore(String storeId) throws JsonProcessingException {
-        Store store = storeRepository.getStore(storeId);
-        if (store == null) {
+        String storeJson = storeRepository.getStore(storeId);
+        if (storeJson == null) {
             EventLogger.logEvent("SEARCH_BY_STORE", "Store=" + storeId + " NOT_FOUND");
             throw new IllegalArgumentException("Store not found");
         }
+
+        // ✅ Deserialize JSON to Store object
+        ObjectMapper mapper = new ObjectMapper();
+        Store store = mapper.readValue(storeJson, Store.class);
 
         List<Product> result = new ArrayList<>();
         for (String productId : store.getProducts().keySet()) {
@@ -54,7 +58,7 @@ public class Search {
             }
         }
 
-        EventLogger.logEvent("SEARCH_BY_STORE", "Store=" + storeId + " Matches=" + result.size());
         return mapper.writeValueAsString(result);
     }
+
 }

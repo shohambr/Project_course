@@ -3,7 +3,7 @@ package ServiceLayer;
 import DomainLayer.ICustomerInquiryRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
-import DomainLayer.DomainServices.*;
+import DomainLayer.domainServices.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -4,8 +4,8 @@ package ServiceLayer;
 import DomainLayer.ICustomerInquiryRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
-import DomainLayer.DomainServices.*;
-import InfrastructureLayer.CustomerInquiryRepository;
+import DomainLayer.domainServices.*;
+import infrastructureLayer.CustomerInquiryRepository;
 
 import java.util.List;
 import java.util.Map;

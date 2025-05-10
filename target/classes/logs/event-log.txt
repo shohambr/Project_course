@@ -1,0 +1,28 @@
+[2025-05-08 12:34:16] User: testUser | Event: Event | Description: User logged in
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: Successfully payed for cart
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: TokenService
+[2025-05-08 12:34:16] User: username | Event: Event | Description: Shipping successful
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: Successfully payed for cart
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService
+[2025-05-09 14:42:10] User: username | Event: Event | Description: TokenService

@@ -1,8 +1,8 @@
-package DomainLayer.DomainServices;
+package DomainLayer.domainServices;
 
 import DomainLayer.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import InfrastructureLayer.ProxyPayment;
+import infrastructureLayer.ProxyPayment;
 import utils.ProductKeyModule;
 
 import java.util.HashMap;

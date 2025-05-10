@@ -354,7 +354,7 @@ class Discount {
                     Product product = entry.getKey();
                     float value = entry.getValue();
 
-                    if (product.getCategory().equals(this.discounted)) {
+                    if (product.getCategory().toString().equals(this.discounted)) {
                         float discountedValue =  value * (1 - percentDiscount);
                         productDiscounts.put(product, discountedValue);
                     }
@@ -504,7 +504,7 @@ class Discount {
     private float calculateOriginalPriceC(Map<Product, Float> productDiscounts) {
         float total = 0;
         for (Map.Entry<Product, Float> entry : productDiscounts.entrySet()) {
-            if(entry.getKey().getCategory().equals(this.discounted))
+            if(entry.getKey().getCategory().toString().equals(this.discounted))
                 total += (float) entry.getKey().getPrice();
         }
         return total;

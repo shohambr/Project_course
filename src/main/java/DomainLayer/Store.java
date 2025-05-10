@@ -19,6 +19,7 @@ public class Store {
     private double rating = 0;
     private Map<String , Double> raterId = new HashMap<>();
     private String ownerId;
+    private String name;
 
 
     public Store(String ownerId) {
@@ -53,7 +54,9 @@ public class Store {
         this.id = id;
 
     }
-    
+
+    public void setName(String name) {this.name = name;}
+
     public Double getRating(){
         return rating;
     }
@@ -391,4 +394,6 @@ public class Store {
         //returns an order history
         return "";
     }
+
+    public String getName() {return name;}
 }

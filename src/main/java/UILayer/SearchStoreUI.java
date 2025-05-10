@@ -21,6 +21,7 @@ import java.util.Optional;
 public class SearchStoreUI extends VerticalLayout {
 
     private final StoreService storeService;
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     public SearchStoreUI(StoreService configuredStoreService) {
@@ -31,10 +32,10 @@ public class SearchStoreUI extends VerticalLayout {
         Button searchStore = new Button("search store", e -> {
             try {
                 User user = (User) UI.getCurrent().getSession().getAttribute("user");
-                Optional<Store> items = storeService.getStoreByName(storeName.getValue());
+                Optional<String> items = storeService.getStoreByName(storeName.getValue());
                 List<Store> stores = items.stream().map(item -> {
                     try {
-                        return item;
+                        return mapper.readValue(item, Store.class);
                     } catch (Exception exception) {
                         return null;
                     }

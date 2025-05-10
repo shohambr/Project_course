@@ -8,9 +8,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-
+import org.springframework.stereotype.Repository;
 import utils.Notifications;
 
+@Repository
 public class NotificationRepository implements DomainLayer.INotificationRepository {
     private Map<String, List<Notifications>> notifications = new HashMap<>();
     private ObjectMapper mapper = new ObjectMapper();

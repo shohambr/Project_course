@@ -36,7 +36,12 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
         this.registeredService = configuredRegisteredService;
         if (productService.getProductById(productId).isPresent()) {
             Product product = productService.getProductById(productId).get();
-            String storeName = storeService.getStoreName(storeId);
+            String storeName = null;
+            try {
+                storeName = storeService.getStoreName(storeId);
+            } catch (Exception e) {
+                Notification.show("store with id: " + storeId + "does not exist");
+            }
             Button signOut = new Button("Sign out", e -> {
                 try {
                     String token = (String) UI.getCurrent().getSession().getAttribute("token");

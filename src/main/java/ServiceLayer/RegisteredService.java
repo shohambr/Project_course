@@ -14,9 +14,11 @@ import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.DomainServices.History;
 import DomainLayer.DomainServices.Rate;
 import DomainLayer.DomainServices.UserConnectivity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RegisteredService {
     private final IToken tokenService;
     private final IUserRepository userRepo;

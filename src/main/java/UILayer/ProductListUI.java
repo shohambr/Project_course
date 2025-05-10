@@ -6,6 +6,7 @@ import DomainLayer.ShoppingCart;
 import ServiceLayer.ProductService;
 import ServiceLayer.StoreService;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,11 @@ public class ProductListUI extends HorizontalLayout {
         double totalPayment = 0;
         for (ShoppingBag shoppingBag: shoppingCart.getShoppingBags()) {
             VerticalLayout productList = new VerticalLayout();
-            productList.add(new Span(storeService.getStoreName(shoppingBag.getStoreId())));
+            try {
+                productList.add(new Span(storeService.getStoreName(shoppingBag.getStoreId())));
+            } catch (Exception e) {
+                Notification.show("store with id: " + shoppingBag.getStoreId() + "does not exist");
+            }
             for (Map.Entry<String, Integer> product : shoppingBag.getProducts().entrySet()) {
                 productList.add(new Span(productService.getProductById(product.getKey()).get().getName() + "\n" + product.getValue() + "\n" +productService.getProductById(product.getKey()).get().getPrice()));
                 totalPayment = totalPayment + product.getValue()  * productService.getProductById(product.getKey()).get().getPrice();

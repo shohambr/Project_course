@@ -5,6 +5,7 @@ import DomainLayer.Store;
 import DomainLayer.User;
 import ServiceLayer.ProductService;
 import ServiceLayer.StoreService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -25,6 +26,8 @@ public class SearchProductUI extends VerticalLayout {
 
     private final ProductService productService;
     private final StoreService storeService;
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
     public SearchProductUI(ProductService configuredProductService, StoreService configuredStoreService) {
         this.productService = configuredProductService;
@@ -54,8 +57,22 @@ public class SearchProductUI extends VerticalLayout {
                         .filter(item -> lowestProductRating.equals("") ? true : item.getRating() >= Integer.valueOf(lowestProductRating.getValue()))
                         .filter(item -> highestProductRating.equals("") ? true : item.getRating() <= Integer.valueOf(highestProductRating.getValue()))
                         .filter(item -> category.equals("") ? true : item.getCategory().equals(category.getValue()))
-                        .filter(item -> lowestStoreRating.equals("") ? true : storeService.getStoreById(item.getStoreId()).get().getRating() >= Integer.valueOf(lowestStoreRating.getValue()))
-                        .filter(item -> highestStoreRating.equals("") ? true : storeService.getStoreById(item.getStoreId()).get().getRating() <= Integer.valueOf(highestStoreRating.getValue()))
+                        .filter(item -> {
+                            try {
+                                return lowestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
+                            } catch (JsonProcessingException ex) {
+                                Notification.show(ex.getMessage());
+                                return false;
+                            }
+                        })
+                        .filter(item -> {
+                            try {
+                                return highestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
+                            } catch (JsonProcessingException ex) {
+                                Notification.show(ex.getMessage());
+                                return false;
+                            }
+                        })
                         .toList();
                 for (Product product : products) {
                     add(new Button(product.getName() + "\n" + product.getPrice(), choose -> {UI.getCurrent().navigate("/product/" + product.getId() + "/" + product.getStoreId());}));
@@ -81,8 +98,22 @@ public class SearchProductUI extends VerticalLayout {
                         .filter(item -> lowestProductRating.equals("") ? true : item.getRating() >= Integer.valueOf(lowestProductRating.getValue()))
                         .filter(item -> highestProductRating.equals("") ? true : item.getRating() <= Integer.valueOf(highestProductRating.getValue()))
                         .filter(item -> category.equals("") ? true : item.getCategory().equals(category.getValue()))
-                        .filter(item -> lowestStoreRating.equals("") ? true : storeService.getStoreById(item.getStoreId()).get().getRating() >= Integer.valueOf(lowestStoreRating.getValue()))
-                        .filter(item -> highestStoreRating.equals("") ? true : storeService.getStoreById(item.getStoreId()).get().getRating() <= Integer.valueOf(highestStoreRating.getValue()))
+                        .filter(item -> {
+                            try {
+                                return lowestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() >= Integer.valueOf(lowestStoreRating.getValue());
+                            } catch (JsonProcessingException ex) {
+                                Notification.show(ex.getMessage());
+                                return false;
+                            }
+                        })
+                        .filter(item -> {
+                            try {
+                                return highestStoreRating.equals("") ? true : mapper.readValue(storeService.getStoreById(item.getStoreId()).get(), Store.class).getRating() <= Integer.valueOf(highestStoreRating.getValue());
+                            } catch (JsonProcessingException ex) {
+                                Notification.show(ex.getMessage());
+                                return false;
+                            }
+                        })
                         .toList();
                 for (Product product : products) {
                     add(new Button(product.getName() + "\n" + product.getPrice(), choose -> {UI.getCurrent().navigate("/product/" + product.getId() + "/" + product.getStoreId());}));

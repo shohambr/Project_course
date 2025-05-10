@@ -8,5 +8,5 @@ public interface IStoreRepository {
     void removeStore(String store);
     String getStore(String storeId);
     void updateStore(String storeId, String storeJson);
-    Map<Store, String> getStores();
+    Map<String, String> getStores();
 }

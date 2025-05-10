@@ -45,14 +45,18 @@ public class UserService {
 
     public UserService(IToken tokenService, 
                         ShippingService shippingService,
-                        UserConnectivity userConnectivity,
-                        UserCart userCart, 
-                        PaymentService paymentService) {
+                        PaymentService paymentService,
+                       IUserRepository userRepository,
+                       IStoreRepository storeRepository,
+                       IProductRepository productRepository,
+                       IPayment paymentSystem,
+                       IOrderRepository orderRepository,
+                       IShipping shippingSystem) {
         this.paymentService = paymentService;
         this.tokenService = tokenService;
         this.shippingService = shippingService;
-        this.userConnectivity = userConnectivity;
-        this.userCart = userCart;
+        this.userConnectivity = new UserConnectivity(tokenService, userRepository);
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, paymentSystem, orderRepository, shippingSystem);
     }
 
 

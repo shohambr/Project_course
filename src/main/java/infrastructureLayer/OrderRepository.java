@@ -12,7 +12,7 @@ public class OrderRepository implements IOrderRepository {
     private Map<String, List<String>> Orders = new HashMap<>();
     private static OrderRepository instance;
 
-    private OrderRepository() {}
+    public OrderRepository() {}
 
     // Public method to provide access to the singleton instance
     public static synchronized OrderRepository getInstance() {
@@ -73,6 +73,14 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public List<String> getOrderByUserId(String userId) {
+        List<String> lst = this.Orders.get(userId);
+        List<String> clone = new ArrayList<>();
+        clone.addAll(lst);
+        return clone;
+    }
+
+    @Override
+    public List<String> getOrderHistory(String userId) {
         List<String> lst = this.Orders.get(userId);
         List<String> clone = new ArrayList<>();
         clone.addAll(lst);

@@ -216,5 +216,4 @@ public class UserCart {
         user.getShoppingCart().getShoppingBags().clear();
         userRepository.update(username, mapper.writeValueAsString(user));
     }
-
 }  

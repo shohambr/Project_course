@@ -12,7 +12,7 @@ public class StoreRepository implements IStoreRepository {
     private static StoreRepository instance;
     //entry in the hashmap is of the form <StoreID , (pass;json)>
     private Map<String, String> repo = new HashMap<>();
-    private StoreRepository() {}
+    public StoreRepository() {}
 
     @Override
     public void addStore(String storeId, String storeJson) {

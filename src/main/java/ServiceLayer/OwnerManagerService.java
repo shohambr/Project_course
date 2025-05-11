@@ -15,8 +15,6 @@ import java.util.Map;
  * This class implements the requirements for store owners and managers
  */
 public class OwnerManagerService {
-    // Add new microservice
-    private final AdminOperationsMicroservice adminService;
 
     // Microservices that will be used
     private final InventoryManagementMicroservice inventoryService;
@@ -24,7 +22,7 @@ public class OwnerManagerService {
     private final DiscountPolicyMicroservice discountPolicyService;
     private final StoreManagementMicroservice storeManagementService;
     private final QueryMicroservice notificationService;
-    private final PurchaseHistoryMicroservice purchaseHistoryService;
+    private final DomainLayer.domainServices.PurchaseHistoryMicroservice purchaseHistoryService;
 
     public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository) {
         // Initialize repositories
@@ -33,12 +31,10 @@ public class OwnerManagerService {
         // Initialize existing microservices
         this.inventoryService = new InventoryManagementMicroservice(storeRepository);
         this.purchasePolicyService = new PurchasePolicyMicroservice();
-        this.discountPolicyService = new DiscountPolicyMicroservice();
+        this.discountPolicyService = new DiscountPolicyMicroservice(storeRepository,userRepository);
         this.storeManagementService = new StoreManagementMicroservice(storeRepository, userRepository);
         this.notificationService = new QueryMicroservice(inquiryRepository);
         this.purchaseHistoryService = new PurchaseHistoryMicroservice();
-        // Initialize new admin microservice
-        this.adminService = new AdminOperationsMicroservice(userRepository, storeRepository);
     }
 
     // ==================== 1. Inventory Management Functions ====================
@@ -688,51 +684,4 @@ public class OwnerManagerService {
         }
     }
 
-    // Add new admin operations section
-    // ==================== 14. System Administrator Functions ====================
-
-    /**
-     * System administrator function to close a store
-     * This will notify all store owners and managers and revoke their appointments
-     * 
-     * @param adminId ID of the system administrator
-     * @param storeId ID of the store to close
-     * @return true if successful, false otherwise
-     */
-    public boolean adminCloseStore(String adminId, String storeId) {
-        try {
-            EventLogger.logEvent(adminId, "ADMIN_CLOSE_STORE_START");
-            boolean result = adminService.adminCloseStore(adminId, storeId);
-            EventLogger.logEvent(adminId, "ADMIN_CLOSE_STORE_SUCCESS");
-            return result;
-        } catch (Exception e) {
-            ErrorLogger.logError(adminId, "ADMIN_CLOSE_STORE_FAILED", e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * System administrator function to remove a marketplace member
-     * This will revoke all their roles across all stores
-     * 
-     * @param adminId ID of the system administrator
-     * @param userId ID of the user to remove
-     * @return true if successful, false otherwise
-     */
-    public boolean adminRemoveMember(String adminId, String userId) {
-        try {
-            EventLogger.logEvent(adminId, "ADMIN_REMOVE_MEMBER_START");
-            boolean result = adminService.removeMember(adminId, userId);
-            if (result) {
-                //todo revoke his token and roles
-                EventLogger.logEvent(adminId, "ADMIN_REMOVE_MEMBER_SUCCESS");
-                return true;
-            }
-            ErrorLogger.logError(adminId, "ADMIN_REMOVE_MEMBER_FAILED", "Failed to remove member");
-            return false;
-        } catch (Exception e) {
-            ErrorLogger.logError(adminId, "ADMIN_REMOVE_MEMBER_FAILED", e.getMessage());
-            return false;
-        }
-    }
 }

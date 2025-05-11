@@ -15,7 +15,6 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\R
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\InfrastructureLayer\NotificationRepository.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\DiscountPolicy.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\DomainServices\OpenStore.java
-C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\StoreService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\IOrderRepository.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\InfrastructureLayer\OrderRepository.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\UILayer\StartingFile.java
@@ -49,7 +48,6 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\D
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\DomainServices\AdminOperationsMicroservice.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\UILayer\Login.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\DomainServices\Rate.java
-C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\OrderService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\ServiceLayer\PaymentService.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\PurchasePolicy.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\main\java\DomainLayer\DomainServices\InventoryManagementMicroservice.java

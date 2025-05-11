@@ -6,7 +6,6 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\ServiceLayer\
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\Mocks\MockShipping.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\Mocks\MockPayment.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\DomainServices\UserCartTest.java
-C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\ServiceLayer\OrderServiceTest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\DomainServices\RateTest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\ShoppingCartTest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\ServiceLayer\ErrorLoggerTest.java
@@ -17,4 +16,3 @@ C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\D
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\DiscountPolicyTest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\DomainLayer\DomainServices\OpenStoreTest.java
 C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\ServiceLayer\ShippingServiceTest.java
-C:\Users\Moraz\OneDrive\מסמכים\GitHub\Project_course\src\test\java\ServiceLayer\StoreServiceTest.java

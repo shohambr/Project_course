@@ -98,5 +98,4 @@ public class UserService {
             throw new RuntimeException("Failed to purchase cart");
         }
     }
-
 }

@@ -9,8 +9,6 @@ import java.util.List;
 @Service
 public class PaymentService {
 
-    private IUserRepository userRepository;
-    private IProductRepository productRepository;
     private PaymentConnectivity paymentConnectivity;
     private IToken tokenService;
 

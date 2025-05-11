@@ -47,7 +47,7 @@ public class Store {
     public void openTheStore() {
         openNow = true;
     }
-    public void closeTheStore() {
+    public synchronized void closeTheStore() {
         openNow = false;
     }
 
@@ -55,7 +55,7 @@ public class Store {
         return id;
     }
 
-    public void setId(String id) {
+    public synchronized void setId(String id) {
         this.id = id;
 
     }
@@ -64,7 +64,7 @@ public class Store {
         return rating;
     }
 
-    public void setRating(Double rating){
+    public synchronized void setRating(Double rating){
         this.rating = rating;
     }
     public String getFounder() {
@@ -76,28 +76,28 @@ public class Store {
     public List<String> getUsers() {
         return users;
     }
-    public void setUsers(List<String> users) {
+    public synchronized void setUsers(List<String> users) {
         this.users = users;
     }
     public Map<String, Integer> getProducts() {
         return products;
     }
-    public void setProducts(Map<String, Integer> products) {
+    public synchronized void setProducts(Map<String, Integer> products) {
         this.products = products;
     }
     public Map<String, Integer> getReservedProducts() {
         return reservedProducts;
     }
-    public void setReservedProducts(Map<String, Integer> reservedProducts) {
+    public synchronized void setReservedProducts(Map<String, Integer> reservedProducts) {
         this.reservedProducts = reservedProducts;
     }
     public boolean isOpen() {
         return openNow;
     }
-    public void setOpen(boolean open) {
+    public synchronized void setOpen(boolean open) {
         this.openNow = open;
     }
-    public void setId(UUID id) {
+    public synchronized void setId(UUID id) {
         this.id = id.toString();
     }
     @JsonIgnore
@@ -105,7 +105,7 @@ public class Store {
         return purchasePolicy;
     }
     @JsonIgnore
-    public void setPurchasePolicy(PurchasePolicy purchasePolicy) {
+    public synchronized void setPurchasePolicy(PurchasePolicy purchasePolicy) {
         this.purchasePolicy = purchasePolicy;
     }
     @JsonIgnore
@@ -113,7 +113,7 @@ public class Store {
         return discountPolicy;
     }
     @JsonIgnore
-    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+    public synchronized void setDiscountPolicy(DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
 
@@ -489,6 +489,30 @@ public class Store {
         }
 
         return subordinates;
+    }
+
+
+
+    public boolean removeDiscount(String discountId){
+        return discountPolicy.removeDiscount(discountId);
+    }
+
+
+
+    public boolean addDiscount(
+            String Id,
+            float level,
+            float logicComposition,
+            float numericalComposition,
+            List<String> discounts,
+            float percentDiscount,
+            String discounted,
+            float conditional,
+            float limiter,
+            String conditionalDiscounted
+    ){
+        discountPolicy.addDiscount(Id, level, logicComposition, numericalComposition, discounts, percentDiscount, discounted, conditional, limiter, conditionalDiscounted);
+        return true;
     }
 
     /**

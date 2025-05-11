@@ -211,7 +211,7 @@ public class UserCart {
             }
         }
         // create an order
-        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
+//        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
         user.setCartReserved(false);
         user.getShoppingCart().getShoppingBags().clear();
         userRepository.update(username, mapper.writeValueAsString(user));

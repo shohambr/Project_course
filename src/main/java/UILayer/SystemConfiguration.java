@@ -83,7 +83,7 @@ public class SystemConfiguration {
 
     @Bean
     public OwnerManagerService ownerManagerService(){
-        return new OwnerManagerService(UserRepository(),StoreRepository());
+        return new OwnerManagerService(UserRepository(),StoreRepository(),ProductRepository());
     };
 
 

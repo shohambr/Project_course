@@ -1,8 +1,6 @@
 package ServiceLayer;
 
-import DomainLayer.ICustomerInquiryRepository;
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
+import DomainLayer.*;
 import DomainLayer.DomainServices.*;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +25,10 @@ class OwnerManagerServiceTest {
     private IStoreRepository storeRepository;
     @Mock
     private ICustomerInquiryRepository inquiryRepository;
+    @Mock
+    private IProductRepository productRepository;
+    @Mock
+    private IOrderRepository orderRepository;
 
     // Mocked microservices
     @Mock
@@ -52,7 +54,7 @@ class OwnerManagerServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Create a test instance with constructor injection
-        ownerManagerService = new OwnerManagerService(userRepository, storeRepository);
+        ownerManagerService = new OwnerManagerService(userRepository, storeRepository,productRepository);
 
         // Replace the microservices with mocks using reflection
         try {

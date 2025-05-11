@@ -7,4 +7,6 @@ public interface IOrderRepository {
     void removeOrder(String order, String storeId, String userId);
     List<String> getOrderByStoreId(String storeId);
     List<String> getOrderByUserId(String userId);
+    List<String> getOrderHistory(String username);
+
 }

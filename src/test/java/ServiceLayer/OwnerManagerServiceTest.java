@@ -32,8 +32,6 @@ class OwnerManagerServiceTest {
 
     // Mocked microservices
     @Mock
-    private AdminOperationsMicroservice adminService;
-    @Mock
     private InventoryManagementMicroservice inventoryService;
     @Mock
     private PurchasePolicyMicroservice purchasePolicyService;
@@ -58,10 +56,6 @@ class OwnerManagerServiceTest {
 
         // Replace the microservices with mocks using reflection
         try {
-            java.lang.reflect.Field adminServiceField = OwnerManagerService.class.getDeclaredField("adminService");
-            adminServiceField.setAccessible(true);
-            adminServiceField.set(ownerManagerService, adminService);
-
             java.lang.reflect.Field inventoryServiceField = OwnerManagerService.class.getDeclaredField("inventoryService");
             inventoryServiceField.setAccessible(true);
             inventoryServiceField.set(ownerManagerService, inventoryService);

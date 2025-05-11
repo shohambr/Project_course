@@ -8,7 +8,7 @@ public class Order {
     private String userId;
     private Date date;
 
-    // the date here is in orgument for the tests if we would want to change it
+    // the date here is in argument for the tests if we would want to change it
     public Order(String info, String storeId, String userId, String id, Date date) {
         this.storeId = storeId;
         this.userId = userId;

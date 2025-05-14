@@ -94,12 +94,11 @@ public class AdminOperationsMicroservice {
      * @param userId ID of the user to remove
      * @return true if successful, false otherwise
      */
-    public boolean removeMember(String adminId, String userId) {
+    public boolean suspendMember(String adminId, String userId) {
         // Verify admin permissions
         if (!isSystemAdmin(adminId)) {
             return false;
         }
-
         try {
             // Get all stores where user has roles
             RegisteredUser user = mapper.readValue(userRepository.getUser(userId), RegisteredUser.class);
@@ -118,6 +117,12 @@ public class AdminOperationsMicroservice {
         } catch (Exception e) {
             return false;
         }
+    }
+    public boolean unSuspendMember(String adminId, String userId) {
+        if (!isSystemAdmin(adminId)) {
+            return false;
+        }
+        return true;
     }
 
     /**

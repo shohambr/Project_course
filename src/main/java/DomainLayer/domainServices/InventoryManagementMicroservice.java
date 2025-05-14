@@ -1,9 +1,6 @@
 package DomainLayer.DomainServices;
 
-import DomainLayer.ManagerPermissions;
-import DomainLayer.Store;
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
+import DomainLayer.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static DomainLayer.ManagerPermissions.*;
@@ -11,13 +8,14 @@ import static utils.JsonUtils.mapper;
 
 public class InventoryManagementMicroservice {
     private IStoreRepository storeRepository;
+    private IProductRepository productRepository;
     private ObjectMapper mapper = new ObjectMapper();
     // Standard permission strings
 
 
-    public InventoryManagementMicroservice(IStoreRepository storeRepository) {
+    public InventoryManagementMicroservice(IStoreRepository storeRepository, IProductRepository productRepository) {
         this.storeRepository = storeRepository;
-
+        this.productRepository = productRepository;
     }
 
 
@@ -100,6 +98,7 @@ public class InventoryManagementMicroservice {
         }
 
         return store.addProduct(productName, description, price, quantity, category);
+
     }
 
     /**

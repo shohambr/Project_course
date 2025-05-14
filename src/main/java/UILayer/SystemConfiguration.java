@@ -45,11 +45,6 @@ public class SystemConfiguration {
     };
 
     @Bean
-    public OrderService OrderService() {
-        return new OrderService(OrderRepository());
-    };
-
-    @Bean
     public PaymentService PaymentService() {
         return new PaymentService(UserRepository(), ProductRepository(), ProxyPayment(), TokenService());
     };
@@ -62,11 +57,6 @@ public class SystemConfiguration {
     @Bean
     public ShippingService ShippingService() {
         return new ShippingService(ProxyShipping(), TokenService(), UserRepository());
-    };
-
-    @Bean
-    public StoreService StoreService() {
-        return new StoreService(StoreRepository(), ProductService());
     };
 
     @Bean
@@ -93,7 +83,7 @@ public class SystemConfiguration {
 
     @Bean
     public OwnerManagerService ownerManagerService(){
-        return new OwnerManagerService(UserRepository(),StoreRepository());
+        return new OwnerManagerService(UserRepository(),StoreRepository(),ProductRepository());
     };
 
 

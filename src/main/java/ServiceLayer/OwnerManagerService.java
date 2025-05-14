@@ -2,11 +2,13 @@ package ServiceLayer;
 
 
 import DomainLayer.ICustomerInquiryRepository;
+import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
 import DomainLayer.DomainServices.*;
 import InfrastructureLayer.CustomerInquiryRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +17,6 @@ import java.util.Map;
  * This class implements the requirements for store owners and managers
  */
 public class OwnerManagerService {
-    // Add new microservice
-    private final AdminOperationsMicroservice adminService;
 
     // Microservices that will be used
     private final InventoryManagementMicroservice inventoryService;
@@ -24,21 +24,19 @@ public class OwnerManagerService {
     private final DiscountPolicyMicroservice discountPolicyService;
     private final StoreManagementMicroservice storeManagementService;
     private final QueryMicroservice notificationService;
-    private final PurchaseHistoryMicroservice purchaseHistoryService;
+    private final DomainLayer.DomainServices.PurchaseHistoryMicroservice purchaseHistoryService;
 
-    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository) {
+    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository, IProductRepository productRepository) {
         // Initialize repositories
         ICustomerInquiryRepository inquiryRepository = new CustomerInquiryRepository();
 
         // Initialize existing microservices
-        this.inventoryService = new InventoryManagementMicroservice(storeRepository);
+        this.inventoryService = new InventoryManagementMicroservice(storeRepository, productRepository);
         this.purchasePolicyService = new PurchasePolicyMicroservice();
-        this.discountPolicyService = new DiscountPolicyMicroservice();
+        this.discountPolicyService = new DiscountPolicyMicroservice(storeRepository,userRepository);
         this.storeManagementService = new StoreManagementMicroservice(storeRepository, userRepository);
         this.notificationService = new QueryMicroservice(inquiryRepository);
         this.purchaseHistoryService = new PurchaseHistoryMicroservice();
-        // Initialize new admin microservice
-        this.adminService = new AdminOperationsMicroservice(userRepository, storeRepository);
     }
 
     // ==================== 1. Inventory Management Functions ====================
@@ -189,38 +187,43 @@ public class OwnerManagerService {
         }
     }
 
-    /**
-     * Define a new discount policy
-     * @param ownerId ID of the store owner
-     * @param storeId ID of the store
-     * @param discountType Type of discount (e.g., "Percentage", "Fixed")
-     * @param discountParams Parameters for the discount
-     * @return Discount ID if successful, null otherwise
-     */
-    public String defineDiscountPolicy(String ownerId, String storeId, String discountType, Map<String, Object> discountParams) {
+    public boolean defineDiscountPolicy(String ownerId, String storeId, String discountId,
+                                        String Id,
+                                        float level,
+                                        float logicComposition,
+                                        float numericalComposition,
+                                        List<String> discountsId,
+                                        float percentDiscount,
+                                        String discounted,
+                                        float conditional,
+                                        float limiter,
+                                        String conditionalDiscounted) {
         try {
             EventLogger.logEvent(ownerId, "DEFINE_DISCOUNT_POLICY_START");
-            String result = discountPolicyService.defineDiscountPolicy(ownerId, storeId, discountType, discountParams);
+            boolean result = discountPolicyService.addDiscountToDiscountPolicy(ownerId,storeId,discountId,
+                                                                                Id,
+                                                                                level,
+                                                                                logicComposition,
+                                                                                numericalComposition,
+                                                                                discountsId,
+                                                                                percentDiscount,
+                                                                                discounted,
+                                                                                conditional,
+                                                                                limiter,
+                                                                                conditionalDiscounted);
             EventLogger.logEvent(ownerId, "DEFINE_DISCOUNT_POLICY_SUCCESS");
             return result;
         } catch (Exception e) {
             ErrorLogger.logError(ownerId, "DEFINE_DISCOUNT_POLICY_FAILED", e.getMessage());
-            return null;
+            return false;
         }
     }
 
-    /**
-     * Update an existing discount policy
-     * @param ownerId ID of the store owner
-     * @param storeId ID of the store
-     * @param discountId ID of the discount to update
-     * @param discountParams New parameters for the discount
-     * @return true if successful, false otherwise
-     */
-    public boolean updateDiscountPolicy(String ownerId, String storeId, String discountId, Map<String, Object> discountParams) {
+
+    public boolean removeDiscountFromDiscountPolicy(String ownerId, String storeId, String discountId) {
         try {
             EventLogger.logEvent(ownerId, "UPDATE_DISCOUNT_POLICY_START");
-            boolean result = discountPolicyService.updateDiscountPolicy(ownerId, storeId, discountId, discountParams);
+            boolean result = discountPolicyService.removeDiscountFromDiscountPolicy(ownerId, storeId, discountId);
             EventLogger.logEvent(ownerId, "UPDATE_DISCOUNT_POLICY_SUCCESS");
             return result;
         } catch (Exception e) {
@@ -233,13 +236,12 @@ public class OwnerManagerService {
      * Remove a discount policy
      * @param ownerId ID of the store owner
      * @param storeId ID of the store
-     * @param discountId ID of the discount to remove
      * @return true if successful, false otherwise
      */
-    public boolean removeDiscountPolicy(String ownerId, String storeId, String discountId) {
+    public boolean removeDiscountPolicy(String ownerId, String storeId) {
         try {
             EventLogger.logEvent(ownerId, "REMOVE_DISCOUNT_POLICY_START");
-            boolean result = discountPolicyService.removeDiscountPolicy(ownerId, storeId, discountId);
+            boolean result = discountPolicyService.removeDiscountPolicy(ownerId, storeId);
             EventLogger.logEvent(ownerId, "REMOVE_DISCOUNT_POLICY_SUCCESS");
             return result;
         } catch (Exception e) {
@@ -589,10 +591,10 @@ public class OwnerManagerService {
      * @param endDate End date for the history (null for current date)
      * @return List of purchase records if successful, null otherwise
      */
-    public List<Map<String, Object>> getStorePurchaseHistory(String ownerId, String storeId, String startDate, String endDate) {
+    public List<String> getStorePurchaseHistory(String ownerId, String storeId, Date startDate, Date endDate) {
         try {
             EventLogger.logEvent(ownerId, "GET_STORE_PURCHASE_HISTORY_START");
-            List<Map<String, Object>> result = purchaseHistoryService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
+            List<String> result = purchaseHistoryService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
             EventLogger.logEvent(ownerId, "GET_STORE_PURCHASE_HISTORY_SUCCESS");
             return result;
         } catch (Exception e) {
@@ -688,51 +690,4 @@ public class OwnerManagerService {
         }
     }
 
-    // Add new admin operations section
-    // ==================== 14. System Administrator Functions ====================
-
-    /**
-     * System administrator function to close a store
-     * This will notify all store owners and managers and revoke their appointments
-     * 
-     * @param adminId ID of the system administrator
-     * @param storeId ID of the store to close
-     * @return true if successful, false otherwise
-     */
-    public boolean adminCloseStore(String adminId, String storeId) {
-        try {
-            EventLogger.logEvent(adminId, "ADMIN_CLOSE_STORE_START");
-            boolean result = adminService.adminCloseStore(adminId, storeId);
-            EventLogger.logEvent(adminId, "ADMIN_CLOSE_STORE_SUCCESS");
-            return result;
-        } catch (Exception e) {
-            ErrorLogger.logError(adminId, "ADMIN_CLOSE_STORE_FAILED", e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * System administrator function to remove a marketplace member
-     * This will revoke all their roles across all stores
-     * 
-     * @param adminId ID of the system administrator
-     * @param userId ID of the user to remove
-     * @return true if successful, false otherwise
-     */
-    public boolean adminRemoveMember(String adminId, String userId) {
-        try {
-            EventLogger.logEvent(adminId, "ADMIN_REMOVE_MEMBER_START");
-            boolean result = adminService.removeMember(adminId, userId);
-            if (result) {
-                //todo revoke his token and roles
-                EventLogger.logEvent(adminId, "ADMIN_REMOVE_MEMBER_SUCCESS");
-                return true;
-            }
-            ErrorLogger.logError(adminId, "ADMIN_REMOVE_MEMBER_FAILED", "Failed to remove member");
-            return false;
-        } catch (Exception e) {
-            ErrorLogger.logError(adminId, "ADMIN_REMOVE_MEMBER_FAILED", e.getMessage());
-            return false;
-        }
-    }
 }

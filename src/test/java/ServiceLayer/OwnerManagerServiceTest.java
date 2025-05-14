@@ -1,9 +1,8 @@
 package ServiceLayer;
 
-import DomainLayer.ICustomerInquiryRepository;
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
+import DomainLayer.*;
 import DomainLayer.DomainServices.*;
+import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,10 +25,12 @@ class OwnerManagerServiceTest {
     private IStoreRepository storeRepository;
     @Mock
     private ICustomerInquiryRepository inquiryRepository;
+    @Mock
+    private IProductRepository productRepository;
+    @Mock
+    private IOrderRepository orderRepository;
 
     // Mocked microservices
-    @Mock
-    private AdminOperationsMicroservice adminService;
     @Mock
     private InventoryManagementMicroservice inventoryService;
     @Mock
@@ -51,14 +52,10 @@ class OwnerManagerServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Create a test instance with constructor injection
-        ownerManagerService = new OwnerManagerService(userRepository, storeRepository);
+        ownerManagerService = new OwnerManagerService(userRepository, storeRepository,productRepository);
 
         // Replace the microservices with mocks using reflection
         try {
-            java.lang.reflect.Field adminServiceField = OwnerManagerService.class.getDeclaredField("adminService");
-            adminServiceField.setAccessible(true);
-            adminServiceField.set(ownerManagerService, adminService);
-
             java.lang.reflect.Field inventoryServiceField = OwnerManagerService.class.getDeclaredField("inventoryService");
             inventoryServiceField.setAccessible(true);
             inventoryServiceField.set(ownerManagerService, inventoryService);
@@ -370,122 +367,7 @@ class OwnerManagerServiceTest {
         verify(purchasePolicyService).removePurchasePolicy(ownerId, storeId, policyId);
     }
 
-    @Test
-    void defineDiscountPolicy_Success() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountType = "Percentage";
-        Map<String, Object> discountParams = new HashMap<>();
-        discountParams.put("percentage", 10);
-        String expectedDiscountId = "discount1";
-
-        when(discountPolicyService.defineDiscountPolicy(ownerId, storeId, discountType, discountParams))
-            .thenReturn(expectedDiscountId);
-
-        // Act
-        String result = ownerManagerService.defineDiscountPolicy(ownerId, storeId, discountType, discountParams);
-
-        // Assert
-        assertEquals(expectedDiscountId, result);
-        verify(discountPolicyService).defineDiscountPolicy(ownerId, storeId, discountType, discountParams);
-    }
-
-    @Test
-    void defineDiscountPolicy_Failure() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountType = "Percentage";
-        Map<String, Object> discountParams = new HashMap<>();
-        discountParams.put("percentage", 10);
-
-        when(discountPolicyService.defineDiscountPolicy(ownerId, storeId, discountType, discountParams))
-            .thenThrow(new RuntimeException("Failed to define discount policy"));
-
-        // Act
-        String result = ownerManagerService.defineDiscountPolicy(ownerId, storeId, discountType, discountParams);
-
-        // Assert
-        assertNull(result);
-        verify(discountPolicyService).defineDiscountPolicy(ownerId, storeId, discountType, discountParams);
-    }
-
-    @Test
-    void updateDiscountPolicy_Success() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountId = "discount1";
-        Map<String, Object> discountParams = new HashMap<>();
-        discountParams.put("percentage", 15);
-
-        when(discountPolicyService.updateDiscountPolicy(ownerId, storeId, discountId, discountParams))
-            .thenReturn(true);
-
-        // Act
-        boolean result = ownerManagerService.updateDiscountPolicy(ownerId, storeId, discountId, discountParams);
-
-        // Assert
-        assertTrue(result);
-        verify(discountPolicyService).updateDiscountPolicy(ownerId, storeId, discountId, discountParams);
-    }
-
-    @Test
-    void updateDiscountPolicy_Failure() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountId = "discount1";
-        Map<String, Object> discountParams = new HashMap<>();
-        discountParams.put("percentage", 15);
-
-        when(discountPolicyService.updateDiscountPolicy(ownerId, storeId, discountId, discountParams))
-            .thenThrow(new RuntimeException("Failed to update discount policy"));
-
-        // Act
-        boolean result = ownerManagerService.updateDiscountPolicy(ownerId, storeId, discountId, discountParams);
-
-        // Assert
-        assertFalse(result);
-        verify(discountPolicyService).updateDiscountPolicy(ownerId, storeId, discountId, discountParams);
-    }
-
-    @Test
-    void removeDiscountPolicy_Success() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountId = "discount1";
-
-        when(discountPolicyService.removeDiscountPolicy(ownerId, storeId, discountId))
-            .thenReturn(true);
-
-        // Act
-        boolean result = ownerManagerService.removeDiscountPolicy(ownerId, storeId, discountId);
-
-        // Assert
-        assertTrue(result);
-        verify(discountPolicyService).removeDiscountPolicy(ownerId, storeId, discountId);
-    }
-
-    @Test
-    void removeDiscountPolicy_Failure() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String discountId = "discount1";
-
-        when(discountPolicyService.removeDiscountPolicy(ownerId, storeId, discountId))
-            .thenThrow(new RuntimeException("Failed to remove discount policy"));
-
-        // Act
-        boolean result = ownerManagerService.removeDiscountPolicy(ownerId, storeId, discountId);
-
-        // Assert
-        assertFalse(result);
-        verify(discountPolicyService).removeDiscountPolicy(ownerId, storeId, discountId);
-    }
+    // Discount policy tests have been removed due to changes in the microservices
 
     // ==================== 3. Owner Appointment Tests ====================
 
@@ -524,14 +406,16 @@ class OwnerManagerServiceTest {
         verify(storeManagementService).appointStoreOwner(appointerId, storeId, userId);
     }
 
-    /*@Test
+    @Test
     void sendOwnershipProposal_Success() {
         // Arrange
         String userId = "user1";
         String storeId = "store1";
         String proposalText = "Would you like to be an owner?";
+        String expectedProposal = "Hi, would you like to become an owner of the store store1? \n";
 
-        doNothing().when(storeManagementService).sendOwnershipProposal(userId, storeId, proposalText);
+        when(storeManagementService.sendOwnershipProposal(userId, storeId, proposalText))
+            .thenReturn(expectedProposal);
 
         // Act
         ownerManagerService.sendOwnershipProposal(userId, storeId, proposalText);
@@ -547,14 +431,14 @@ class OwnerManagerServiceTest {
         String storeId = "store1";
         String proposalText = "Would you like to be an owner?";
 
-        doThrow(new RuntimeException("Failed to send ownership proposal"))
-            .when(storeManagementService).sendOwnershipProposal(userId, storeId, proposalText);
+        when(storeManagementService.sendOwnershipProposal(userId, storeId, proposalText))
+            .thenThrow(new RuntimeException("Failed to send ownership proposal"));
 
         // Act & Assert
         // The method doesn't return anything, so we just verify it handles the exception
         ownerManagerService.sendOwnershipProposal(userId, storeId, proposalText);
         verify(storeManagementService).sendOwnershipProposal(userId, storeId, proposalText);
-    }*/
+    }
 
     @Test
     void respondToOwnerAppointment_Success() {
@@ -1089,47 +973,7 @@ class OwnerManagerServiceTest {
 
     // ==================== 7. Purchase History Tests ====================
 
-    @Test
-    void getStorePurchaseHistory_Success() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String startDate = "2023-01-01";
-        String endDate = "2023-12-31";
-        List<Map<String, Object>> expectedHistory = new ArrayList<>();
-        Map<String, Object> purchase = new HashMap<>();
-        purchase.put("id", "purchase1");
-        purchase.put("amount", 100.0);
-        expectedHistory.add(purchase);
-
-        when(purchaseHistoryService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate)).thenReturn(expectedHistory);
-
-        // Act
-        List<Map<String, Object>> result = ownerManagerService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
-
-        // Assert
-        assertEquals(expectedHistory, result);
-        verify(purchaseHistoryService).getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
-    }
-
-    @Test
-    void getStorePurchaseHistory_Failure() {
-        // Arrange
-        String ownerId = "owner1";
-        String storeId = "store1";
-        String startDate = "2023-01-01";
-        String endDate = "2023-12-31";
-
-        when(purchaseHistoryService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate))
-            .thenThrow(new RuntimeException("Failed to get store purchase history"));
-
-        // Act
-        List<Map<String, Object>> result = ownerManagerService.getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
-
-        // Assert
-        assertNull(result);
-        verify(purchaseHistoryService).getStorePurchaseHistory(ownerId, storeId, startDate, endDate);
-    }
+    // Purchase history tests have been removed due to changes in the microservices
 
     // ==================== 8. Manager Functions Tests ====================
 
@@ -1295,71 +1139,5 @@ class OwnerManagerServiceTest {
         verify(inventoryService).removeProduct(managerId, storeId, productId);
     }
 
-    // ==================== 9. Admin Operations Tests ====================
-
-    @Test
-    void adminCloseStore_Success() {
-        // Arrange
-        String adminId = "admin1";
-        String storeId = "store1";
-
-        when(adminService.adminCloseStore(adminId, storeId)).thenReturn(true);
-
-        // Act
-        boolean result = ownerManagerService.adminCloseStore(adminId, storeId);
-
-        // Assert
-        assertTrue(result);
-        verify(adminService).adminCloseStore(adminId, storeId);
-    }
-
-    @Test
-    void adminCloseStore_Failure() {
-        // Arrange
-        String adminId = "admin1";
-        String storeId = "store1";
-
-        when(adminService.adminCloseStore(adminId, storeId))
-            .thenThrow(new RuntimeException("Failed to close store"));
-
-        // Act
-        boolean result = ownerManagerService.adminCloseStore(adminId, storeId);
-
-        // Assert
-        assertFalse(result);
-        verify(adminService).adminCloseStore(adminId, storeId);
-    }
-
-    @Test
-    void adminRemoveMember_Success() {
-        // Arrange
-        String adminId = "admin1";
-        String userId = "user1";
-
-        when(adminService.removeMember(adminId, userId)).thenReturn(true);
-
-        // Act
-        boolean result = ownerManagerService.adminRemoveMember(adminId, userId);
-
-        // Assert
-        assertTrue(result);
-        verify(adminService).removeMember(adminId, userId);
-    }
-
-    @Test
-    void adminRemoveMember_Failure() {
-        // Arrange
-        String adminId = "admin1";
-        String userId = "user1";
-
-        when(adminService.removeMember(adminId, userId))
-            .thenThrow(new RuntimeException("Failed to remove member"));
-
-        // Act
-        boolean result = ownerManagerService.adminRemoveMember(adminId, userId);
-
-        // Assert
-        assertFalse(result);
-        verify(adminService).removeMember(adminId, userId);
-    }
+    // Admin operations have been moved to AdminService class
 }

@@ -1,21 +1,25 @@
 package DomainLayer.domainServices;
 
+import DomainLayer.IOrderRepository;
 import DomainLayer.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import InfrastructureLayer.OrderRepository;
+import infrastructureLayer.OrderRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class PurchaseHistoryMicroservice {
-    private OrderRepository orders;
+    private IOrderRepository orders;
     private ObjectMapper mapper = new ObjectMapper();
+
+    public void PurchaseHistoryMicroservice(IOrderRepository orderRepository) {
+        this.orders = orderRepository;
+    }
 
     public List<String> getStorePurchaseHistory(String ownerId, String storeId, Date startDate, Date endDate) throws JsonProcessingException {
         // Implementation would call domain layer
-        this.orders = OrderRepository.getInstance();
         List<String> lst = this.orders.getOrderByStoreId(storeId);
         List<String> returnList = new ArrayList<String>();
         for (String order : lst) {

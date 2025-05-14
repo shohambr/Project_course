@@ -1,6 +1,7 @@
 package DomainLayer.DomainServices;
 
 import DomainLayer.*;
+import DomainLayer.domainServices.Search;
 import ServiceLayer.EventLogger;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

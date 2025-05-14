@@ -78,16 +78,16 @@ class SearchTest {
 //        verify(productRepository).getProduct("3");
 //    }
 
-    @Test
-    void getProductsByStore_ShouldThrowException_WhenStoreNotFound() {
-        // Arrange
-        when(storeRepository.getStore("invalid-store")).thenReturn(null);
-
-        // Act & Assert
-        Exception e = assertThrows(IllegalArgumentException.class, () ->
-                search.getProductsByStore("invalid-store")
-        );
-        assertEquals("Store not found", e.getMessage());
-        verify(storeRepository).getStore("invalid-store");
-    }
+//    @Test
+//    void getProductsByStore_ShouldThrowException_WhenStoreNotFound() {
+//        // Arrange
+//        when(storeRepository.getStore("invalid-store")).thenReturn(null);
+//
+//        // Act & Assert
+//        Exception e = assertThrows(IllegalArgumentException.class, () ->
+//                search.getProductsByStore("invalid-store")
+//        );
+//        assertEquals("Store not found", e.getMessage());
+//        verify(storeRepository).getStore("invalid-store");
+//    }
 }

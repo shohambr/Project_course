@@ -5,7 +5,6 @@ import DomainLayer.ShoppingBag;
 import DomainLayer.ShoppingCart;
 import DomainLayer.Store;
 import ServiceLayer.ProductService;
-import ServiceLayer.StoreService;
 import ServiceLayer.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;

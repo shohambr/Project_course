@@ -1,7 +1,7 @@
 package ServiceLayer;
 
-import DomainLayer.DomainServices.AdminOperationsMicroservice;
-import DomainLayer.DomainServices.QueryMicroservice;
+import DomainLayer.domainServices.AdminOperationsMicroservice;
+import DomainLayer.domainServices.QueryMicroservice;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
 

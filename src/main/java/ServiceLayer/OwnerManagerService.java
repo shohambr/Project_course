@@ -1,10 +1,7 @@
 package ServiceLayer;
 
 
-import DomainLayer.ICustomerInquiryRepository;
-import DomainLayer.IProductRepository;
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
+import DomainLayer.*;
 import DomainLayer.domainServices.*;
 import infrastructureLayer.CustomerInquiryRepository;
 import org.springframework.stereotype.Service;
@@ -26,9 +23,9 @@ public class OwnerManagerService {
     private final DiscountPolicyMicroservice discountPolicyService;
     private final StoreManagementMicroservice storeManagementService;
     private final QueryMicroservice notificationService;
-    private final DomainLayer.DomainServices.PurchaseHistoryMicroservice purchaseHistoryService;
+    private final DomainLayer.domainServices.PurchaseHistoryMicroservice purchaseHistoryService;
 
-    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository, IProductRepository productRepository) {
+    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository, IProductRepository productRepository, IOrderRepository orderRepository) {
         // Initialize repositories
         ICustomerInquiryRepository inquiryRepository = new CustomerInquiryRepository();
 

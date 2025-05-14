@@ -1,13 +1,14 @@
 package UILayer;
 
-import DomainLayer.DomainServices.*;
+import DomainLayer.IStoreRepository;
 import ServiceLayer.*;
-import InfrastructureLayer.*;
+import infrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SystemConfiguration {
+
 
     @Bean
     public OrderRepository OrderRepository() {
@@ -17,6 +18,11 @@ public class SystemConfiguration {
     @Bean
     public ProductRepository ProductRepository() {
         return new ProductRepository();
+    };
+
+    @Bean
+    public NotificationRepository NotificationRepository() {
+        return new NotificationRepository();
     };
 
     @Bean
@@ -30,7 +36,7 @@ public class SystemConfiguration {
     };
 
     @Bean
-    public StoreRepository StoreRepository() {
+    public IStoreRepository StoreRepository() {
         return new StoreRepository();
     };
 
@@ -40,8 +46,28 @@ public class SystemConfiguration {
     };
 
     @Bean
+    public RegisteredService RegisteredService() {
+        return new RegisteredService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), NotificationRepository());
+    };
+
+    @Bean
+    public CustomerInquiryRepository CustomerInquiryRepository() {
+        return new CustomerInquiryRepository();
+    }
+
+    @Bean
     public NotificationService NotificationService() {
         return new NotificationService();
+    };
+
+    @Bean
+    public OrderService OrderService() {
+        return new OrderService(OrderRepository());
+    };
+
+    @Bean
+    public OwnerManagerService OwnerManagerService() {
+        return new OwnerManagerService(UserRepository(), StoreRepository(), ProductRepository(), OrderRepository());
     };
 
     @Bean
@@ -63,28 +89,22 @@ public class SystemConfiguration {
     public TokenService TokenService() {
         return new TokenService();
     };
-    @Bean
-    public UserCart UserCart() {
-        return new UserCart(TokenService(), UserRepository(), StoreRepository(), ProductRepository(), OrderRepository());
-    };
-    @Bean
-    public UserConnectivity UserConnectivity() {
-        return new UserConnectivity(TokenService(), UserRepository());
-    };
-    @Bean
-    public PaymentService paymentService() {
-        //return new PaymentService(StoreRepository(), ProductRepository(), ProxyPayment());
-        return null;
-    };
+
+
     @Bean
     public UserService UserService() {
         return new UserService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), ShippingService(), PaymentService());
     };
 
     @Bean
-    public OwnerManagerService ownerManagerService(){
-        return new OwnerManagerService(UserRepository(),StoreRepository(),ProductRepository());
+    public NotificationClientRepository NotificationClientRepository() {
+        return new NotificationClientRepository();
     };
+
+//    @Bean
+//    public NotificationServerRepository NotificationServerRepository() {
+//        return new NotificationServerRepository();
+//    };
 
 
 

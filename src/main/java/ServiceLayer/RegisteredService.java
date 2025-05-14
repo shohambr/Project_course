@@ -51,7 +51,7 @@ public class RegisteredService {
             userConnectivity.logout(username, token);
             EventLogger.logEvent(username, "LOGOUT");
             return tokenService.generateToken("Guest");
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGOUT_FAILED" );
             throw new RuntimeException("Invalid token");
         }

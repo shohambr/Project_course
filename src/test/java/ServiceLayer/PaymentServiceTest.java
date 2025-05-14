@@ -22,12 +22,12 @@ class PaymentServiceTest {
     private PaymentService paymentService;
     private User user;
     private Store store;
-    private StoreRepository storeRepository;
     private ProductRepository productRepository;
     private IToken tokenService;
     private String token;
     private UserRepository userRepository;
     private final ObjectMapper mapper = new ObjectMapper();
+    private StoreRepository storeRepository;
 
     @BeforeEach
     void setUp() throws Exception {

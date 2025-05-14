@@ -1,10 +1,12 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
+import DomainLayer.DomainServices.Search;
 import DomainLayer.DomainServices.UserCart;
 import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
+import DomainLayer.Product;
 import DomainLayer.IProductRepository;
 import DomainLayer.IOrderRepository;
 import DomainLayer.Roles.RegisteredUser;
@@ -31,10 +33,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final IToken tokenService;
+    private final IProductRepository productRepository;
+    private final IStoreRepository storeRepository;
     private final ShippingService shippingService;
     private final PaymentService paymentService;
     private final UserConnectivity userConnectivity;
     private final UserCart userCart;
+    private final Search search;
 
     public UserService(IToken tokenService, 
                        IStoreRepository storeRepository,
@@ -43,11 +48,14 @@ public class UserService {
                        IOrderRepository orderRepository,
                        ShippingService shippingService,
                        PaymentService paymentService){
+        this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
         this.tokenService = tokenService;
         this.shippingService = shippingService;
         this.paymentService = paymentService;
         this.userConnectivity = new UserConnectivity(tokenService, userRepository);
-        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);       
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);    
+        this.search = new Search(productRepository, storeRepository);   
     }
 
 
@@ -119,6 +127,37 @@ public class UserService {
         } catch (Exception e) {
             EventLogger.logEvent(tokenService.extractUsername(token), "PURCHASE_CART_FAILED " + e.getMessage());
             throw new RuntimeException("Failed to purchase cart");
+        }
+    }
+
+    public List<String> findProduct(String token, String name , String category){
+        try {
+            tokenService.validateToken(token);
+            return search.findProduct(name, category);
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+
+    public List<Product> getAllProducts(String token) {
+        try {
+            tokenService.validateToken(token);
+            return productRepository.findAll();
+        } catch (Exception e) {
+            System.out.println("ERROR getting all products: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<String> getStoreByName(String token , String name) {
+        try {
+            tokenService.validateToken(token);
+            return search.getStoreByName(name);
+        } catch (Exception e) {
+            System.out.println("ERROR finding store by Name:" + e.getMessage());
+            return Collections.emptyList();
         }
     }
 }

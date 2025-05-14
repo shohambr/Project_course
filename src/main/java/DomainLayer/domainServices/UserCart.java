@@ -143,9 +143,6 @@ public class UserCart {
             }
         }
 
-        // if (totalPrice <= 0) {
-        //     throw new IllegalArgumentException("Total price must be greater than 0");
-        // }
         user.setCartReserved(true);
         userRepository.update(username, mapper.writeValueAsString(user));
         return totalPrice;

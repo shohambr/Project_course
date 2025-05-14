@@ -4,6 +4,7 @@ import DomainLayer.Product;
 import DomainLayer.Store;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StoreRepository implements IStoreRepository {
@@ -62,6 +63,19 @@ public class StoreRepository implements IStoreRepository {
 
     public Store getStoreById(String storeId) {
         return stores.get(storeId);
+    }
+
+    public List<String> getStoreByName(String storeName) {
+        return stores.entrySet().stream()
+                .filter(entry -> entry.getValue().contains(storeName))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    public List<String> findAll() {
+        return stores.values().stream()
+                .map(entry -> entry)
+                .toList();
     }
 
 }

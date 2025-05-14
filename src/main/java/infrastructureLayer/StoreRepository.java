@@ -66,7 +66,7 @@ public class StoreRepository implements IStoreRepository {
     }
 
     public List<String> getStoreByName(String storeName) {
-        return stores.entrySet().stream()
+        return repo.entrySet().stream()
                 .filter(entry -> entry.getValue().contains(storeName))
                 .map(Map.Entry::getKey)
                 .toList();
@@ -74,7 +74,7 @@ public class StoreRepository implements IStoreRepository {
 
     public List<String> findAll() {
         return stores.values().stream()
-                .map(entry -> entry)
+                .map(Store::toString)
                 .toList();
     }
 

@@ -2,17 +2,16 @@ package DomainLayer;
 import java.util.*;
 
 public class Order {
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private final String info;
     private String storeId;
     private String userId;
     private Date date;
 
     // the date here is in argument for the tests if we would want to change it
-    public Order(String info, String storeId, String userId, String id, Date date) {
+    public Order(String info, String storeId, String userId, Date date) {
         this.storeId = storeId;
         this.userId = userId;
-        this.id = id;
         this.info = info;
         this.date = date;
     }

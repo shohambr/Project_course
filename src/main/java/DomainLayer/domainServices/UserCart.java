@@ -16,6 +16,7 @@ import DomainLayer.Roles.RegisteredUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.util.Date;
 import java.util.HashMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -201,6 +202,8 @@ public class UserCart {
                     throw new IllegalArgumentException("Product not found");
                 }
                 store.sellProduct(productId, quantity);
+                Order order = new Order(mapper.writeValueAsString(cart), storeId, username, new Date());
+                orderRepository.addOrder(mapper.writeValueAsString(order) , storeId, username);
             }
         }
         // create an order

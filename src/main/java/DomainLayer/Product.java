@@ -89,4 +89,8 @@ public class Product {
                 '}';
     }
 
+    public void setName(String name2) {
+        this.name = name2;
+    }
+
 }

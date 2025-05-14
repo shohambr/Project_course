@@ -323,7 +323,7 @@ public class Store {
         return products.containsKey(productId) && products.get(productId) >= quantity;
     }
 
-    public boolean reserveProduct(String productId, int quantity) {
+    public synchronized boolean reserveProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }
@@ -349,7 +349,7 @@ public class Store {
     }
 
 
-    public boolean unreserveProduct(String productId, int quantity) {
+    public synchronized boolean unreserveProduct(String productId, int quantity) {
         if (quantity <= 0) {
             return false;
         }

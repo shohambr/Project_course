@@ -5,6 +5,7 @@ import DomainLayer.Store;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -36,6 +37,19 @@ public class StoreRepository implements IStoreRepository {
 
     public Map<String, String> getStores() {
         return stores;
+    }
+
+    public List<String> getStoreByName(String storeName) {
+        return stores.entrySet().stream()
+                .filter(entry -> entry.getValue().contains(storeName))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    public List<String> findAll() {
+        return stores.values().stream()
+                .map(entry -> entry)
+                .toList();
     }
 
 }

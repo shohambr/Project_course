@@ -1,12 +1,10 @@
 package ServiceLayer;
 
 
-import DomainLayer.ICustomerInquiryRepository;
-import DomainLayer.IProductRepository;
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
-import DomainLayer.DomainServices.*;
-import InfrastructureLayer.CustomerInquiryRepository;
+import DomainLayer.*;
+import DomainLayer.domainServices.*;
+import infrastructureLayer.CustomerInquiryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +14,7 @@ import java.util.Map;
  * Service layer for owner and manager operations
  * This class implements the requirements for store owners and managers
  */
+@Service
 public class OwnerManagerService {
 
     // Microservices that will be used
@@ -24,9 +23,9 @@ public class OwnerManagerService {
     private final DiscountPolicyMicroservice discountPolicyService;
     private final StoreManagementMicroservice storeManagementService;
     private final QueryMicroservice notificationService;
-    private final DomainLayer.DomainServices.PurchaseHistoryMicroservice purchaseHistoryService;
+    private final DomainLayer.domainServices.PurchaseHistoryMicroservice purchaseHistoryService;
 
-    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository, IProductRepository productRepository) {
+    public OwnerManagerService(IUserRepository userRepository, IStoreRepository storeRepository, IProductRepository productRepository, IOrderRepository orderRepository) {
         // Initialize repositories
         ICustomerInquiryRepository inquiryRepository = new CustomerInquiryRepository();
 

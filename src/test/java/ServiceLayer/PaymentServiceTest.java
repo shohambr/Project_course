@@ -6,10 +6,10 @@ import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import DomainLayer.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import InfrastructureLayer.ProductRepository;
+import infrastructureLayer.ProductRepository;
 import Mocks.MockPayment;
-import InfrastructureLayer.StoreRepository;
-import InfrastructureLayer.UserRepository;
+import infrastructureLayer.StoreRepository;
+import infrastructureLayer.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +22,12 @@ class PaymentServiceTest {
     private PaymentService paymentService;
     private User user;
     private Store store;
-    private StoreRepository storeRepository;
     private ProductRepository productRepository;
     private IToken tokenService;
     private String token;
     private UserRepository userRepository;
     private final ObjectMapper mapper = new ObjectMapper();
+    private StoreRepository storeRepository;
 
     @BeforeEach
     void setUp() throws Exception {

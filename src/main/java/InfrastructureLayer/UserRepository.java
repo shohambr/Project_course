@@ -1,4 +1,4 @@
-package InfrastructureLayer;
+package infrastructureLayer;
 import DomainLayer.IUserRepository;
 import DomainLayer.Store;
 import DomainLayer.User;
@@ -7,11 +7,12 @@ import io.micrometer.observation.Observation.Event;
 import ServiceLayer.EventLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
 
-
+@Repository
 public class UserRepository implements IUserRepository {
     //entry in the hashmap is of the form <username , (pass;json)>
     HashMap<String , String> rep = new HashMap<String ,String>();

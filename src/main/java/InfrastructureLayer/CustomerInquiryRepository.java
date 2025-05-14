@@ -1,6 +1,7 @@
-package InfrastructureLayer;
+package infrastructureLayer;
 
 import DomainLayer.ICustomerInquiryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * This class implements the ICustomerInquiryRepository interface and provides
  * methods for storing and retrieving customer inquiries
  */
+@Repository
 public class CustomerInquiryRepository implements ICustomerInquiryRepository {
     // Map of storeId -> List of inquiries
     private final Map<String, List<Map<String, Object>>> inquiriesByStore;

@@ -7,14 +7,14 @@ import DomainLayer.IProductRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.User;
-import DomainLayer.DomainServices.History;
-import DomainLayer.DomainServices.toNotify;
-import DomainLayer.DomainServices.OpenStore;
-import DomainLayer.DomainServices.Rate;
-import DomainLayer.DomainServices.UserConnectivity;
-import DomainLayer.DomainServices.History;
-import DomainLayer.DomainServices.Rate;
-import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.domainServices.History;
+import DomainLayer.domainServices.toNotify;
+import DomainLayer.domainServices.OpenStore;
+import DomainLayer.domainServices.Rate;
+import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.domainServices.History;
+import DomainLayer.domainServices.Rate;
+import DomainLayer.domainServices.UserConnectivity;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class RegisteredService {
             userConnectivity.logout(username, token);
             EventLogger.logEvent(username, "LOGOUT");
             return tokenService.generateToken("Guest");
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             EventLogger.logEvent(username, "LOGOUT_FAILED" );
             throw new RuntimeException("Invalid token");
         }

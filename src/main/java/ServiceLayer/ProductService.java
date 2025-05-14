@@ -3,6 +3,7 @@ package ServiceLayer;
 import DomainLayer.IProductRepository;
 import DomainLayer.Product;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
@@ -11,7 +12,9 @@ public class ProductService {
     private final IProductRepository productRepo;
 
     public ProductService(IProductRepository productRepo){
+
         this.productRepo = productRepo;
+
     }
 
     public boolean addProduct(Product product) {
@@ -116,4 +119,19 @@ public class ProductService {
         return false;
     }
 
+    public List<Product> getProductByCategory(String category) {
+        List<Product> products = productRepo.findAll();
+        List<Product> producByCategory = new ArrayList<Product>();
+        try {
+            for (Product product : products) {
+                if (product.getCategory().equals(category)) {
+                    producByCategory.add(product);
+                }
+            }
+            return producByCategory;
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return null;
+        }
+    }
 }

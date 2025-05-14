@@ -58,6 +58,5 @@ public class ShoppingCart {
         for (ShoppingBag shoppingBag : shoppingBags) {
             shoppingBag.sold();
         }
-        shoppingBags = new ArrayList<ShoppingBag>();
     }
 }

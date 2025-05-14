@@ -1,8 +1,8 @@
-package DomainLayer.DomainServices;
+package DomainLayer.domainServices;
 
 import DomainLayer.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import InfrastructureLayer.ProxyPayment;
+import infrastructureLayer.ProxyPayment;
 import utils.ProductKeyModule;
 
 import java.util.HashMap;
@@ -28,10 +28,13 @@ public class PaymentConnectivity {
             User user = mapper.readValue(jsonUser, User.class);
             List<ShoppingBag> shoppingBags = user.getShoppingCart().getShoppingBags();
             for (ShoppingBag shoppingBag : shoppingBags) {
+                DiscountPolicy discountPolicy = new DiscountPolicy();
+                Map<Product, Integer> products = new HashMap<Product, Integer>();
                 double payment = 0;
                     for (String product : shoppingBag.getProducts().keySet()) {
-                        payment = payment + productRepository.getProduct(product).getPrice() * shoppingBag.getProducts().get(product);
+                        products.put(productRepository.getProduct(product), shoppingBag.getProducts().get(product));
                     }
+                    payment = discountPolicy.applyDiscounts(products);
                 proxyPayment.processPayment(payment, creditCardNumber, expirationDate, backNumber, shoppingBag.getStoreId(), paymentService);
             }
         } catch (Exception e) {

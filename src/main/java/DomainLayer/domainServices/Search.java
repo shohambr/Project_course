@@ -1,4 +1,4 @@
-package DomainLayer.DomainServices;
+package DomainLayer.domainServices;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Search {
     private final IProductRepository productRepository;
@@ -29,6 +30,28 @@ public class Search {
 
         EventLogger.logEvent("SEARCH_BY_NAME", "Query=" + partialName + " Matches=" + matches.size());
         return mapper.writeValueAsString(matches);
+    }
+
+    public String searchStoreByName(String partialName) throws JsonProcessingException {
+        List<String> matches = storeRepository.findAll().stream()
+                .filter(p -> {try {
+                    if(mapper.readValue(p, Store.class).getName().toLowerCase().contains(partialName.toLowerCase())) {
+                        return true;}} catch (Exception e) {} return false;})
+                .toList();
+
+        EventLogger.logEvent("SEARCH_STORE_BY_NAME", "Query=" + partialName + " Matches=" + matches.size());
+        return mapper.writeValueAsString(matches);
+    }
+
+    public String getStoreById(String Id) throws JsonProcessingException {
+        Map<String, String> stores = storeRepository.getStores();
+        for (String store : stores.keySet()) {
+            if(mapper.readValue(stores.get(store), Store.class).getId().equals(Id)) {
+                return stores.get(store);
+            }
+        }
+        EventLogger.logEvent("GET_STORE_BY_ID", "Query=" + Id);
+        return null;
     }
 
     public String searchByCategory(String category) throws JsonProcessingException {

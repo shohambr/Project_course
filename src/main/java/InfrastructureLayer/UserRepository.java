@@ -19,9 +19,6 @@ public class UserRepository implements IUserRepository {
     HashMap<String , String> pass = new HashMap<String ,String>();
     public final ObjectMapper mapper = new ObjectMapper();
 
-    public static void sendNewOwnershipRequest(int newOwnerId, Store myStore) {
-
-    }
 
     public String getUserPass(String username){
         return pass.get(username);

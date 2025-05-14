@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -63,15 +64,11 @@ public class Search {
     }
 
     public String getProductsByStore(String storeId) throws JsonProcessingException {
-        String storeJson = storeRepository.getStore(storeId);
-        if (storeJson == null) {
+        Store store = mapper.readValue(storeRepository.getStore(storeId), Store.class);
+        if (store == null) {
             EventLogger.logEvent("SEARCH_BY_STORE", "Store=" + storeId + " NOT_FOUND");
             throw new IllegalArgumentException("Store not found");
         }
-
-        // ✅ Deserialize JSON to Store object
-        ObjectMapper mapper = new ObjectMapper();
-        Store store = mapper.readValue(storeJson, Store.class);
 
         List<Product> result = new ArrayList<>();
         for (String productId : store.getProducts().keySet()) {
@@ -81,7 +78,45 @@ public class Search {
             }
         }
 
+        EventLogger.logEvent("SEARCH_BY_STORE", "Store=" + storeId + " Matches=" + result.size());
         return mapper.writeValueAsString(result);
     }
 
+
+
+    public List<String> getStoreByName(String name) {
+        try {
+            List<String> stores = storeRepository.findAll();
+            List<String> result = new ArrayList<>();
+            for (String storeJson : stores) {
+                Store store = mapper.readValue(storeJson, Store.class);
+                if (store.getName().toLowerCase().contains(name.toLowerCase())) {
+                    result.add(storeJson);
+                }
+            }
+            EventLogger.logEvent("SEARCH_BY_STORE_NAME", "Name=" + name + " Matches=" + result.size());
+            return result;
+        } catch (Exception e) {
+            System.out.println("ERROR finding store by Name:" + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<String> findProduct(String name, String category) {
+        try {
+            List<Product> products = productRepository.findAll();
+            List<String> result = new ArrayList<>();
+            for (Product product : products) {
+                if (product.getName().toLowerCase().contains(name.toLowerCase()) &&
+                        (category == null || product.getCategory().equalsIgnoreCase(category))) {
+                    result.add(product.getId());
+                }
+            }
+            EventLogger.logEvent("SEARCH_BY_PRODUCT", "Name=" + name + " Category=" + category + " Matches=" + result.size());
+            return result;
+        } catch (Exception e) {
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
 }

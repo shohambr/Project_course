@@ -1,9 +1,12 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
-import DomainLayer.domainServices.*;
+import DomainLayer.DomainServices.Search;
+import DomainLayer.DomainServices.UserCart;
+import DomainLayer.DomainServices.UserConnectivity;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
+import DomainLayer.Product;
 import DomainLayer.IProductRepository;
 import DomainLayer.IOrderRepository;
 import DomainLayer.Roles.RegisteredUser;
@@ -20,8 +23,8 @@ import utils.ProductKeyModule;
 
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.domainServices.UserCart;
-import DomainLayer.domainServices.UserConnectivity;
+import DomainLayer.DomainServices.UserCart;
+import DomainLayer.DomainServices.UserConnectivity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final IToken tokenService;
+    private final IProductRepository productRepository;
+    private final IStoreRepository storeRepository;
     private final ShippingService shippingService;
     private final PaymentService paymentService;
     private final UserConnectivity userConnectivity;
@@ -43,12 +48,14 @@ public class UserService {
                        IOrderRepository orderRepository,
                        ShippingService shippingService,
                        PaymentService paymentService){
+        this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
         this.tokenService = tokenService;
         this.shippingService = shippingService;
         this.paymentService = paymentService;
         this.userConnectivity = new UserConnectivity(tokenService, userRepository);
-        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);
-        this.search = new Search(productRepository, storeRepository);
+        this.userCart = new UserCart(tokenService, userRepository, storeRepository, productRepository, orderRepository);    
+        this.search = new Search(productRepository, storeRepository);   
     }
 
 
@@ -123,22 +130,34 @@ public class UserService {
         }
     }
 
-    public String searchStoreByName(String token, String storeName) {
+    public List<String> findProduct(String token, String name , String category){
         try {
-            return search.searchStoreByName(storeName);
+            tokenService.validateToken(token);
+            return search.findProduct(name, category);
         } catch (Exception e) {
-            EventLogger.logEvent(tokenService.extractUsername(token), "SEARCH_STORE_FAILED");
-            throw new RuntimeException("Failed to search store");
+            System.out.println("ERROR finding product by Name:" + e.getMessage());
+            return Collections.emptyList();
         }
     }
 
-    public String getStoreById(String token, String storeId) {
+
+    public List<Product> getAllProducts(String token) {
         try {
-            return search.getStoreById(storeId);
+            tokenService.validateToken(token);
+            return productRepository.findAll();
         } catch (Exception e) {
-            EventLogger.logEvent(tokenService.extractUsername(token), "SEARCH_STORE_FAILED");
-            throw new RuntimeException("Failed to search store");
+            System.out.println("ERROR getting all products: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
-
+    
+    public List<String> getStoreByName(String token , String name) {
+        try {
+            tokenService.validateToken(token);
+            return search.getStoreByName(name);
+        } catch (Exception e) {
+            System.out.println("ERROR finding store by Name:" + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
 }

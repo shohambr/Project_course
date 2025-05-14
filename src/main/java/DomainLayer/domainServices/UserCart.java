@@ -16,6 +16,7 @@ import DomainLayer.Roles.RegisteredUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.util.Date;
 import java.util.HashMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -143,9 +144,6 @@ public class UserCart {
             }
         }
 
-        // if (totalPrice <= 0) {
-        //     throw new IllegalArgumentException("Total price must be greater than 0");
-        // }
         user.setCartReserved(true);
         userRepository.update(username, mapper.writeValueAsString(user));
         return totalPrice;
@@ -204,13 +202,14 @@ public class UserCart {
                     throw new IllegalArgumentException("Product not found");
                 }
                 store.sellProduct(productId, quantity);
+                Order order = new Order(mapper.writeValueAsString(cart), storeId, username, new Date());
+                orderRepository.addOrder(mapper.writeValueAsString(order) , storeId, username);
             }
         }
         // create an order
-        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
+//        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
         user.setCartReserved(false);
         user.getShoppingCart().getShoppingBags().clear();
         userRepository.update(username, mapper.writeValueAsString(user));
     }
-
 }  

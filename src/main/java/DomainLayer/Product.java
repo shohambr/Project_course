@@ -7,13 +7,13 @@ public class Product {
     private String storeId;
     private String name;
     private String description;
-    private int price;
+    private float price;
     private int quantity;
     private double rating;
     private HashMap<String , Double> raterId = new HashMap<>();
     private String category;
 
-    public Product(String id, String storeId, String name, String description, int price , int quantity, double rating, String category) {
+    public Product(String id, String storeId, String name, String description, float price , int quantity, double rating, String category) {
         if(quantity > 0) {
             this.storeId = storeId;
             this.name = name;
@@ -43,7 +43,7 @@ public class Product {
     public String getDescription() {
         return description;
     }
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
     public int getQuantity() { return quantity; }
@@ -86,6 +86,10 @@ public class Product {
                 ", rating=" + rating +
                 ", category=" + category +
                 '}';
+    }
+
+    public void setName(String name2) {
+        this.name = name2;
     }
 
 }

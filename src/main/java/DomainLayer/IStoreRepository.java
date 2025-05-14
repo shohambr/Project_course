@@ -1,13 +1,12 @@
 package DomainLayer;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 
 public interface IStoreRepository {
     void addStore(String storeId , String storeJson);
     void removeStore(String store);
     String getStore(String storeId);
+    List<String> getStoreByName(String storeName);
     void updateStore(String storeId, String storeJson);
-    Map<String, String> getStores();
-    Collection<String> findAll();
+    List<String> findAll();
 }

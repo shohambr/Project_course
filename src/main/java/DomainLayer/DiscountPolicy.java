@@ -2,7 +2,7 @@ package DomainLayer;
 
 import java.util.*;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 
 
 public class DiscountPolicy {
@@ -41,11 +41,54 @@ public class DiscountPolicy {
     }
 
 
+
+    public boolean removeDiscount(String discountId) {
+        boolean removed = false;
+
+        // Remove the discount from the top-level list if it exists
+        Iterator<Discount> iterator = discounts.iterator();
+        while (iterator.hasNext()) {
+            Discount d = iterator.next();
+            if (d.getId().equals(discountId)) {
+                iterator.remove();
+                removed = true;
+            }
+        }
+
+        // Process each discount in the current list to remove the discountId from their nested discounts
+        List<Discount> currentDiscounts = new ArrayList<>(discounts); // Create a copy to iterate safely
+        for (Discount d : currentDiscounts) {
+            boolean childRemoved = removeDiscountFromDiscount(d, discountId);
+            removed = removed || childRemoved;
+        }
+
+        return removed;
+    }
+
+    private boolean removeDiscountFromDiscount(Discount parentDiscount, String discountId) {
+        boolean removed = false;
+        Iterator<Discount> iterator = parentDiscount.discounts.iterator();
+        while (iterator.hasNext()) {
+            Discount d = iterator.next();
+            if (d.getId().equals(discountId)) {
+                iterator.remove();
+                removed = true;
+            } else {
+                // Recursively process the nested discounts of the current discount
+                boolean childRemoved = removeDiscountFromDiscount(d, discountId);
+                removed = removed || childRemoved;
+            }
+        }
+        return removed;
+    }
+
+
     public void addDiscount(
+            String Id,
             float level,
             float logicComposition,
             float numericalComposition,
-            List<Discount> discounts,
+            List<String> discountsId,
             float percentDiscount,
             String discounted,
             float conditional,
@@ -53,11 +96,16 @@ public class DiscountPolicy {
             String conditionalDiscounted
     ) {
 
+         List<Discount> discountsWithId = discounts.stream()
+                .filter(discount -> discountsId.contains(discount.getId()))
+                .collect(Collectors.toList());
+
         Discount discount = new Discount(
+                Id,
                 level,
                 logicComposition,
                 numericalComposition,
-                discounts,
+                discountsWithId,     //Should be initialized as all the discounts with the same id as List<String> discounts
                 percentDiscount,
                 discounted,
                 conditional,
@@ -78,7 +126,7 @@ class Discount {
     boolean alreadyUsed = false;
 
     // Unique identifier for the discount instance
-    String Id = UUID.randomUUID().toString();
+    String Id;
 
     // Scope of the discount:
     // 1 = Product-level, 2 = Category-level, 3 = Store-wide
@@ -128,6 +176,7 @@ class Discount {
 
 
     public Discount(
+            String Id,
             float level,
             float logicComposition,
             float numericalComposition,
@@ -138,6 +187,7 @@ class Discount {
             float limiter,
             String conditionalDiscounted
     ) {
+        this.Id = Id;
         this.level = level;
         this.logicComposition = logicComposition;
         this.numericalComposition = numericalComposition;

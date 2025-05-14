@@ -20,6 +20,8 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @Route("/product/:productid/:storeid")
 public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver {
@@ -78,6 +80,8 @@ public class ProductPageUI extends VerticalLayout implements BeforeEnterObserver
         } else {
             add(new Span("No product with id:" + productId));
         }
+        RestTemplate restTemplate = new RestTemplate();
+        //ResponseEntity<ApiResponse<Product>> responseEntity = restTemplate.getForEntity("/product/{productid}", ApiResponse.class, productId);
 
     }
 

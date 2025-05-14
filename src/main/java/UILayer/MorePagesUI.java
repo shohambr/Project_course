@@ -1,5 +1,6 @@
 package UILayer;
 
+import DomainLayer.Product;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
@@ -8,10 +9,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @Route("/pages")
 public class MorePagesUI extends VerticalLayout {
     public MorePagesUI() {
+        RestTemplate restTemplate = new RestTemplate();
         TextField textField = new TextField("vbduis");
         Span label = new Span("a");
         //button puts textfield value in label

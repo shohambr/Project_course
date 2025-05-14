@@ -121,4 +121,13 @@ public class TokenService implements IToken {
         }
         return suspendedList;
     }
+
+    public String getToken(String username) {
+        for(String token : activeTokens.keySet()) {
+            if (activeTokens.get(token).equals(username)) {
+                return token;
+            }
+        }
+        return "";
+    }
 }

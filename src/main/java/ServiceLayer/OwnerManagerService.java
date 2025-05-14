@@ -6,6 +6,7 @@ import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
 import DomainLayer.domainServices.*;
 import infrastructureLayer.CustomerInquiryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Service layer for owner and manager operations
  * This class implements the requirements for store owners and managers
  */
+@Service
 public class OwnerManagerService {
     // Add new microservice
     private final AdminOperationsMicroservice adminService;

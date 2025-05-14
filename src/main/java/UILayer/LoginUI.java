@@ -30,7 +30,8 @@ public class LoginUI extends VerticalLayout {
             try {
                 String token = userService.login(username.getValue(), password.getValue());
                 UI.getCurrent().getSession().setAttribute("token", token);
-                UI.getCurrent().navigate("/" + token);
+                UI.getCurrent().navigate("/notification");
+                //UI.getCurrent().navigate("/" + token);
             } catch (Exception exception) {
                 error.setText(exception.getMessage());
             }

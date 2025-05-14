@@ -20,6 +20,11 @@ public class SystemConfiguration {
     };
 
     @Bean
+    public NotificationRepository NotificationRepository() {
+        return new NotificationRepository();
+    };
+
+    @Bean
     public ProxyPayment ProxyPayment() {
         return new ProxyPayment();
     };
@@ -40,6 +45,11 @@ public class SystemConfiguration {
     };
 
     @Bean
+    public RegisteredService RegisteredService() {
+        return new RegisteredService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), NotificationRepository());
+    };
+
+    @Bean
     public CustomerInquiryRepository CustomerInquiryRepository() {
         return new CustomerInquiryRepository();
     }
@@ -52,6 +62,11 @@ public class SystemConfiguration {
     @Bean
     public OrderService OrderService() {
         return new OrderService(OrderRepository());
+    };
+
+    @Bean
+    public OwnerManagerService OwnerManagerService() {
+        return new OwnerManagerService(UserRepository(), StoreRepository());
     };
 
     @Bean
@@ -83,6 +98,16 @@ public class SystemConfiguration {
     @Bean
     public UserService UserService() {
         return new UserService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), ShippingService(), PaymentService());
+    };
+
+    @Bean
+    public NotificationClientRepository NotificationClientRepository() {
+        return new NotificationClientRepository();
+    };
+
+    @Bean
+    public NotificationServerRepository NotificationServerRepository() {
+        return new NotificationServerRepository();
     };
 
 

@@ -23,6 +23,12 @@ public class LoginUI extends VerticalLayout {
     @Autowired
     public LoginUI(UserService configuredUserService) {
         this.userService = configuredUserService;
+        try {
+            userService.signUp("a", "1");
+            userService.signUp("b", "y");
+
+        } catch (Exception e) {
+        }
         TextField username = new TextField("username");
         PasswordField password = new PasswordField("password");
         Span error = new Span("");

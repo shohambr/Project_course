@@ -5,6 +5,8 @@ import ServiceLayer.*;
 import InfrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 @Configuration
 public class SystemConfiguration {
@@ -101,11 +103,19 @@ public class SystemConfiguration {
         return new NotificationClientRepository();
     };
 
-//    @Bean
-//    public NotificationServerRepository NotificationServerRepository() {
-//        return new NotificationServerRepository();
-//    };
+    @Bean
+    public WebSocketConfigure WebSocketConfigure() {
+        return new WebSocketConfigure();
+    };
 
+    @Bean
+    public WebSocketClient WebSocketClient() {
+        return new StandardWebSocketClient();
+    };
 
+    @Bean
+    public NotificationWebSocketHandler NotificationWebSocketHandler() {
+        return new NotificationWebSocketHandler();
+    };
 
 }

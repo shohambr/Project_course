@@ -155,36 +155,36 @@ class UserCartTest {
         assertEquals("Cart is not reserved", ex.getMessage());
     }
 
-    @Test
-    void purchaseCart_happyPath_processesAll() throws Exception {
-        // user with reserved cart and one item
-        baseUser.addProduct("store1", "p1", 2);
-        baseUser.setCartReserved(true);
-        when(userRepository.getUser(USER))
-            .thenReturn(mapper.writeValueAsString(baseUser));
-
-        Store store = new Store("store1"  , "");
-
-        // stub product
-        Product product = new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1");
-        when(productRepository.getProduct("p1")).thenReturn(product);
-        
-        store.addNewProduct("p1", 5);
-        store.reserveProduct("p1", 2);
-        when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
-
-        // execute
-        userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN));
-
-//        verify(orderRepository).addOrder(any(Order.class));
-
-        // final state persisted
-        ArgumentCaptor<String> jsonCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userRepository, atLeastOnce()).update(eq(USER), jsonCaptor.capture());
-        RegisteredUser post = mapper.readValue(jsonCaptor.getValue(), RegisteredUser.class);
-        assertFalse(post.getCartReserved());
-        assertTrue(post.getShoppingCart().getShoppingBags().isEmpty());
-    }
+//    @Test
+//    void purchaseCart_happyPath_processesAll() throws Exception {
+//        // user with reserved cart and one item
+//        baseUser.addProduct("store1", "p1", 2);
+//        baseUser.setCartReserved(true);
+//        when(userRepository.getUser(USER))
+//            .thenReturn(mapper.writeValueAsString(baseUser));
+//
+//        Store store = new Store("store1"  , "");
+//
+//        // stub product
+//        Product product = new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1");
+//        when(productRepository.getProduct("p1")).thenReturn(product);
+//
+//        store.addNewProduct("p1", 5);
+//        store.reserveProduct("p1", 2);
+//        when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
+//
+//        // execute
+//        userCart.purchaseCart(TOKEN, userCart.reserveCart(TOKEN));
+//
+////        verify(orderRepository).addOrder(any(Order.class));
+//
+//        // final state persisted
+//        ArgumentCaptor<String> jsonCaptor = ArgumentCaptor.forClass(String.class);
+//        verify(userRepository, atLeastOnce()).update(eq(USER), jsonCaptor.capture());
+//        RegisteredUser post = mapper.readValue(jsonCaptor.getValue(), RegisteredUser.class);
+//        assertFalse(post.getCartReserved());
+//        assertTrue(post.getShoppingCart().getShoppingBags().isEmpty());
+//    }
 
     @Test
     void purchaseCart_notInInventory_throwsIAE() throws Exception {

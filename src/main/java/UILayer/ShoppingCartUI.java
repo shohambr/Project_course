@@ -1,10 +1,14 @@
 package UILayer;
 
+import DomainLayer.IToken;
+import DomainLayer.IUserRepository;
+import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
 import DomainLayer.User;
 import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;
 import ServiceLayer.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -21,9 +25,12 @@ public class ShoppingCartUI extends VerticalLayout {
     private final RegisteredService registeredService;
     private final ProductService productService;
     private final UserService userService;
+    private final IToken tokenService;
+    private final IUserRepository userRepository;
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public ShoppingCartUI(RegisteredService configuredRegisteredService, ProductService configuredProductService, UserService configuredUserService) {
+    public ShoppingCartUI(RegisteredService configuredRegisteredService, ProductService configuredProductService, UserService configuredUserService, IToken configuredTokenService, IUserRepository configuredUserRepository) {
         this.registeredService = configuredRegisteredService;
         this.productService = configuredProductService;
         this.userService = configuredUserService;
@@ -44,7 +51,17 @@ public class ShoppingCartUI extends VerticalLayout {
 
         add(new HorizontalLayout(signOut, new H1("Shopping cart"), homePage));
 
-        User user = (User) UI.getCurrent().getSession().getAttribute("user");
+        this.tokenService = configuredTokenService;
+        this.userRepository = configuredUserRepository;
+        String token = (String) UI.getCurrent().getSession().getAttribute("user");
+        String username = tokenService.extractUsername(token);
+        String jsonUser = userRepository.getUser(username);
+        RegisteredUser user = null;
+        try {
+            user = mapper.readValue(jsonUser, RegisteredUser.class);
+        } catch (Exception e) {
+
+        }
 
         ShoppingCart shoppingCart = user.getShoppingCart();
 

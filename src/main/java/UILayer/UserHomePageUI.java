@@ -1,20 +1,39 @@
 package UILayer;
 
+import DomainLayer.IToken;
+import DomainLayer.IUserRepository;
 import DomainLayer.ManagerPermissions;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.*;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("/userhomepage")
 public class UserHomePageUI extends VerticalLayout {
 
-    public UserHomePageUI() {
+    private final IToken tokenService;
+    private final IUserRepository userRepository;
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @Autowired
+    public UserHomePageUI(IToken tokenService, IUserRepository userRepository) {
         // Get current user from session
-        RegisteredUser user = (RegisteredUser) UI.getCurrent().getSession().getAttribute("user");
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        String token = (String) UI.getCurrent().getSession().getAttribute("user");
+        String username = tokenService.extractUsername(token);
+        String jsonUser = userRepository.getUser(username);
+        RegisteredUser user = null;
+        try {
+            user = mapper.readValue(jsonUser, RegisteredUser.class);
+        } catch (Exception e) {
+
+        }
         if (user == null) {
             UI.getCurrent().navigate("");
             return;

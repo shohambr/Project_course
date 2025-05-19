@@ -1,9 +1,11 @@
 package UILayer;
 
 import DomainLayer.*;
+import DomainLayer.Roles.RegisteredUser;
 import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;
 import ServiceLayer.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -25,17 +27,29 @@ public class PurchaseCartUI extends VerticalLayout {
     private final ProductService productService;
     private final RegisteredService registeredService;
     private final IProductRepository productRepository;
+    private final IToken tokenService;
+    private final IUserRepository userRepository;
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public PurchaseCartUI(ProductService productService, RegisteredService registeredService, IProductRepository productRepository) {
+    public PurchaseCartUI(ProductService productService, RegisteredService registeredService, IProductRepository productRepository, IToken tokenService, IUserRepository userRepository) {
         this.productService = productService;
         this.registeredService = registeredService;
         this.productRepository = productRepository;
-
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        String token = (String) UI.getCurrent().getSession().getAttribute("token");
+        String username = tokenService.extractUsername(token);
+        String jsonUser = userRepository.getUser(username);
+        RegisteredUser user = null;
+        try {
+            user = mapper.readValue(jsonUser, RegisteredUser.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         // Buttons and Navigation
         Button signOut = new Button("🔐 Sign out", e -> {
             try {
-                String token = (String) UI.getCurrent().getSession().getAttribute("token");
                 UI.getCurrent().getSession().setAttribute("token", registeredService.logoutRegistered(token));
                 UI.getCurrent().navigate("");
             } catch (Exception exception) {
@@ -62,7 +76,6 @@ public class PurchaseCartUI extends VerticalLayout {
         add(topLayout);
 
         // Get User Data (Assuming logged in user is saved in session)
-        User user = (User) UI.getCurrent().getSession().getAttribute("user");
         ShoppingCart shoppingCart = user.getShoppingCart();
 
         // Display Product Grid

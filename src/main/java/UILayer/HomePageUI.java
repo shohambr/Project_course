@@ -1,5 +1,6 @@
 package UILayer;
 
+import DomainLayer.IToken;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -12,7 +13,11 @@ import com.vaadin.flow.router.Route;
 @Route("home")
 public class HomePageUI extends VerticalLayout {
 
-    public HomePageUI() {
+    private final IToken tokenService;
+
+    public HomePageUI(IToken tokenService) {
+        this.tokenService = tokenService;
+        UI.getCurrent().getSession().setAttribute("token", tokenService.generateToken("Guest"));
         setAlignItems(Alignment.CENTER);
         setSpacing(true);
         setPadding(true);

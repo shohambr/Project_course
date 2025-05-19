@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.*;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,14 @@ public class UserHomePageUI extends VerticalLayout {
         // Get current user from session
         this.tokenService = tokenService;
         this.userRepository = userRepository;
-        String token = (String) UI.getCurrent().getSession().getAttribute("user");
+        String token = (String) UI.getCurrent().getSession().getAttribute("token");
         String username = tokenService.extractUsername(token);
         String jsonUser = userRepository.getUser(username);
         RegisteredUser user = null;
         try {
             user = mapper.readValue(jsonUser, RegisteredUser.class);
         } catch (Exception e) {
-
+            Notification.show(e.getMessage());
         }
         if (user == null) {
             UI.getCurrent().navigate("");

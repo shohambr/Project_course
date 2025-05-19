@@ -4,7 +4,6 @@ import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingCart;
-import DomainLayer.User;
 import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;
 import ServiceLayer.UserService;

@@ -16,15 +16,12 @@ ServiceLayer\NotificationService.class
 DomainLayer\ManagerPermissions.class
 infrastructureLayer\NotificationRepository.class
 infrastructureLayer\CustomerInquiryRepository.class
-UILayer\NotificationSUI.class
 DomainLayer\domainServices\QueryMicroservice.class
 DomainLayer\ShoppingBag.class
 utils\JsonUtils.class
 utils\Notifications.class
 UILayer\StartingFile.class
 DomainLayer\domainServices\toNotify.class
-infrastructureLayer\NotificationWebSocketHandler.class
-infrastructureLayer\WebSocketConfigure.class
 ServiceLayer\EventLogger.class
 DomainLayer\PurchasePolicy.class
 ServiceLayer\TokenService.class

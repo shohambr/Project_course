@@ -1,4 +1,4 @@
-package infrastructureLayer;
+package InfrastructureLayer;
 
 import jakarta.websocket.ClientEndpoint;
 import org.springframework.stereotype.Repository;

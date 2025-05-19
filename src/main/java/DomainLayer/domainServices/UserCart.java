@@ -209,7 +209,7 @@ public class UserCart {
         // create an order
 //        orderRepository.addOrder(new Order(mapper.writeValueAsString(cart), username , totalPrice));
         user.setCartReserved(false);
-        user.getShoppingCart().getShoppingBags().clear();
+        user.getShoppingCart().clearBags();
         userRepository.update(username, mapper.writeValueAsString(user));
     }
 }  

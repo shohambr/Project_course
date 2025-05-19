@@ -2,7 +2,7 @@ package UILayer;
 
 import DomainLayer.IStoreRepository;
 import ServiceLayer.*;
-import infrastructureLayer.*;
+import InfrastructureLayer.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.client.WebSocketClient;

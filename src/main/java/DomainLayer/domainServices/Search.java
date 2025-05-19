@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.IProductRepository;
 import DomainLayer.IStoreRepository;
@@ -81,8 +81,6 @@ public class Search {
         EventLogger.logEvent("SEARCH_BY_STORE", "Store=" + storeId + " Matches=" + result.size());
         return mapper.writeValueAsString(result);
     }
-
-
 
     public List<String> getStoreByName(String name) {
         try {

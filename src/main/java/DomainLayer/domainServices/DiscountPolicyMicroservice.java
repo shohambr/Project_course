@@ -1,4 +1,4 @@
-package DomainLayer.domainServices;
+package DomainLayer.DomainServices;
 
 import DomainLayer.*;
 import DomainLayer.Roles.RegisteredUser;
@@ -74,12 +74,12 @@ public class DiscountPolicyMicroservice {
     public boolean removeDiscountFromDiscountPolicy(String ownerId, String storeId, String discountId) {
         if (checkPermission(ownerId, storeId, ManagerPermissions.PERM_UPDATE_POLICY)) {
             return getStoreById(storeId).removeDiscount(discountId);
+            //this.apllyDiscounts(getStoreById(storeId).getDiscounts());
         }
         return false;
     }
 
     public boolean addDiscountToDiscountPolicy(String ownerId, String storeId, String discountId,
-                                        String Id,
                                         float level,
                                         float logicComposition,
                                         float numericalComposition,
@@ -92,7 +92,7 @@ public class DiscountPolicyMicroservice {
 
 
         if(checkPermission(ownerId, storeId, ManagerPermissions.PERM_UPDATE_POLICY)){
-            return getStoreById(storeId).addDiscount(Id, level, logicComposition, numericalComposition, discountsId, percentDiscount, discounted, conditional, limiter, conditionalDiscounted);
+            return getStoreById(storeId).addDiscount(level, logicComposition, numericalComposition, discountsId, percentDiscount, discounted, conditional, limiter, conditionalDiscounted);
         }
         return false;
     }

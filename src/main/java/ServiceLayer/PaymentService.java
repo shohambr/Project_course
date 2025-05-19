@@ -1,7 +1,8 @@
 package ServiceLayer;
 
 import DomainLayer.*;
-import DomainLayer.domainServices.PaymentConnectivity;
+import DomainLayer.DomainServices.PaymentConnectivity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class PaymentService {
         this.tokenService = tokenService;
     }
 
+    @Transactional
     public boolean processPayment(String token, String paymentService, String creditCardNumber, String expirationDate, String backNumber) {
         try {
             paymentConnectivity.processPayment(tokenService.extractUsername(token), creditCardNumber, expirationDate, backNumber, paymentService);

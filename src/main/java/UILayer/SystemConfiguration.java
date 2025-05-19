@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SystemConfiguration {
 
-
     @Bean
     public OrderRepository OrderRepository() {
         return new OrderRepository();

@@ -1,34 +1,113 @@
 package DomainLayer;
 
-
-import java.util.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.micrometer.observation.Observation.Event;
 import ServiceLayer.EventLogger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Entity
+@Table(name = "stores")
 public class Store {
-    private String id= UUID.randomUUID().toString();
-    private PurchasePolicy purchasePolicy = new PurchasePolicy();
-    private DiscountPolicy discountPolicy = new DiscountPolicy();
-    private List<String> users = new ArrayList<>();
-    private Map<String, Integer> products = new HashMap<>();
-    private Map<String, Integer> reservedProducts = new HashMap<>();
-    private Map<String, String> questions = new HashMap<>();
-    private boolean openNow;
-    private double rating = 0;
-    private Map<String , Double> raterId = new HashMap<>();
 
-    // fields for managment control
-    private String founder;
-    private List<String> owners = new ArrayList<>();
-    private Map<String,ManagerPermissions> managers = new HashMap<>();
-    private Map<String,String> ownersToSuperior = new HashMap<>();
-    private Map<String,String> managersToSuperior = new HashMap<>();
-    private Map<String,List<String>> ownerToSubordinates = new HashMap<>();
+    @Id
+    @Column(name = "id", nullable = false, unique = true)
+    private String id = UUID.randomUUID().toString();
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "founder", nullable = false)
+    private String founder;
+
+    @Column(name = "open_now")
+    private boolean openNow;
+
+    @Column(name = "rating")
+    private double rating;
+
+    @Column
+    private List<String> discounts;
+
+    @Transient
+    private PurchasePolicy purchasePolicy = new PurchasePolicy();
+    //were planning to move the discount policy to a separate class but we didn't have time to do it.'
+    // we want to make it into a separate microservice
+    //@Transient
+    //private DiscountPolicy discountPolicy = new DiscountPolicy();
+
+    @ElementCollection
+    @CollectionTable(name = "store_discounts", joinColumns = @JoinColumn(name = "store_id"))
+    @Column(name = "discount_id")
+    private List<String> discountIds = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "store_users", joinColumns = @JoinColumn(name = "store_id"))
+    @Column(name = "user_id")
+    private List<String> users = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "store_products", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "product_id")
+    @Column(name = "products_quantity")
+    private Map<String, Integer> products = new HashMap<>();
+
+
+    //does reserved products should be in the database? todo
+    @ElementCollection
+    @CollectionTable(name = "reserved_products", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "product_id")
+    @Column(name = "quantity")
+    private Map<String, Integer> reservedProducts = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "store_questions", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "query_asker_ID")
+    @Column(name = "question")
+    private Map<String, String> questions = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "store_ratings", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "rater_id")
+    @Column(name = "rating")
+    private Map<String, Double> raterId = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "store_owners", joinColumns = @JoinColumn(name = "store_id"))
+    @Column(name = "owner_id")
+    private List<String> owners = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapKeyColumn(name = "manager_id")
+    @JoinColumn(name = "store_id")
+    private Map<String, ManagerPermissions> managers = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "owners_to_superior", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "owner_id")
+    @Column(name = "superior_id")
+    private Map<String, String> ownersToSuperior = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "managers_to_superior", joinColumns = @JoinColumn(name = "store_id"))
+    @MapKeyColumn(name = "manager_id")
+    @Column(name = "superior_id")
+    private Map<String, String> managersToSuperior = new HashMap<>();
+
+    /**
+     * Maps store owners to their subordinates using a more normalized approach
+     * with proper JPA collection handling.
+     */
+    @ElementCollection
+    @CollectionTable(
+            name = "owner_subordinates",
+            joinColumns = @JoinColumn(name = "store_id")
+    )
+    @MapKeyColumn(name = "owner_id")
+    @OrderColumn(name = "subordinate_index") // Preserves list order
+    @Column(name = "subordinate_id")
+    private Map<String, List<String>> ownerToSubordinates = new HashMap<>();
+    
 
     public Store(String founderID , String name) {
         this.name = name;
@@ -67,7 +146,7 @@ public class Store {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public Double getRating(){
         return rating;
     }
@@ -117,14 +196,14 @@ public class Store {
         this.purchasePolicy = purchasePolicy;
     }
     @JsonIgnore
-    public DiscountPolicy getDiscountPolicy() {
-        return discountPolicy;
-    }
-    @JsonIgnore
-    public synchronized void setDiscountPolicy(DiscountPolicy discountPolicy) {
-        this.discountPolicy = discountPolicy;
+    public List<String> getDiscounts() {
+        return discounts;
     }
 
+    @JsonIgnore
+    public synchronized void setDiscounts(List<String> discounts) {
+        this.discounts = discounts;
+    }
 
     public Boolean registerUser(String userId) {
         if(users.contains(userId)) {
@@ -220,7 +299,6 @@ public class Store {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than 0");
         }
-
         if (!reservedProducts.containsKey(productId)) {
             throw new IllegalArgumentException("Product not reserved");
         }
@@ -370,7 +448,6 @@ public class Store {
         return true;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -419,7 +496,6 @@ public class Store {
     public boolean userIsManager(String userId) {
         return managers.containsKey(userId);
     }
-
 
     /**
      * Determines if a user is a superior of another user within a management hierarchy.
@@ -499,27 +575,15 @@ public class Store {
         return subordinates;
     }
 
-
-
     public boolean removeDiscount(String discountId){
-        return discountPolicy.removeDiscount(discountId);
+        return discounts.remove(discountId);
     }
 
-
-
-    public boolean addDiscount(
-            String Id,
-            float level,
-            float logicComposition,
-            float numericalComposition,
-            List<String> discounts,
-            float percentDiscount,
-            String discounted,
-            float conditional,
-            float limiter,
-            String conditionalDiscounted
-    ){
-        discountPolicy.addDiscount(Id, level, logicComposition, numericalComposition, discounts, percentDiscount, discounted, conditional, limiter, conditionalDiscounted);
+    public boolean addDiscount(String discountId) {
+        if (discountId == null || discountId.isEmpty()) {
+            return false;
+        }
+        discounts.add(discountId);
         return true;
     }
 

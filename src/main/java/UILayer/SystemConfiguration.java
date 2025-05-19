@@ -98,24 +98,24 @@ public class SystemConfiguration {
         return new UserService(TokenService(), StoreRepository(), UserRepository(), ProductRepository(), OrderRepository(), ShippingService(), PaymentService());
     };
 
-//    @Bean
-//    public NotificationClientRepository NotificationClientRepository() {
-//        return new NotificationClientRepository();
-//    };
-//
-//    @Bean
-//    public WebSocketConfigure WebSocketConfigure() {
-//        return new WebSocketConfigure();
-//    };
-//
-//    @Bean
-//    public WebSocketClient WebSocketClient() {
-//        return new StandardWebSocketClient();
-//    };
-//
-//    @Bean
-//    public NotificationWebSocketHandler NotificationWebSocketHandler() {
-//        return new NotificationWebSocketHandler();
-//    };
+    @Bean
+    public NotificationClientRepository NotificationClientRepository() {
+        return new NotificationClientRepository();
+    };
+
+    @Bean
+    public WebSocketConfigure WebSocketConfigure() {
+        return new WebSocketConfigure();
+    };
+
+    @Bean
+    public WebSocketClient WebSocketClient() {
+        return new StandardWebSocketClient();
+    };
+
+    @Bean
+    public NotificationWebSocketHandler NotificationWebSocketHandler() {
+        return new NotificationWebSocketHandler();
+    };
 
 }

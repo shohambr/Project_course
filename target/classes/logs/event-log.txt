@@ -410,3 +410,6 @@
 [2025-05-19 18:40:21] User: a | Event: Event | Description: LOGIN
 [2025-05-19 18:40:21] User: a | Event: Event | Description: TokenService
 [2025-05-19 18:40:21] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-05-19 18:42:49] User: a | Event: Event | Description: LOGIN
+[2025-05-19 18:42:49] User: a | Event: Event | Description: TokenService
+[2025-05-19 18:42:49] User: a | Event: Event | Description: LOGIN_SUCCESS

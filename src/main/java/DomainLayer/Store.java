@@ -48,7 +48,6 @@ public class Store {
     @Column(name = "products_quantity")
     private Map<String, Integer> products = new HashMap<>();
 
-
     //does reserved products should be in the database? todo
     @ElementCollection
     @CollectionTable(name = "reserved_products", joinColumns = @JoinColumn(name = "store_id"))
@@ -90,9 +89,22 @@ public class Store {
     @Column(name = "superior_id")
     private Map<String, String> managersToSuperior = new HashMap<>();
 
+//    /**
+//     * Maps store owners to their subordinates using a more normalized approach
+//     * with proper JPA collection handling.
+//     */
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "owner_subordinates",
+//            joinColumns = @JoinColumn(name = "store_id")
+//    )
+//    @MapKeyColumn(name = "owner_id")
+//    @OrderColumn(name = "subordinate_index") // Preserves list order
+//    @Column(name = "subordinate_id")
+//    private Map<String, List<String>> ownerToSubordinates = new HashMap<>();
+
     /**
-     * Maps store owners to their subordinates using a more normalized approach
-     * with proper JPA collection handling.
+     * Maps store owners to their subordinates using a wrapper embeddable
      */
     @ElementCollection
     @CollectionTable(
@@ -100,9 +112,57 @@ public class Store {
             joinColumns = @JoinColumn(name = "store_id")
     )
     @MapKeyColumn(name = "owner_id")
-    @OrderColumn(name = "subordinate_index") // Preserves list order
-    @Column(name = "subordinate_id")
-    private Map<String, List<String>> ownerToSubordinates = new HashMap<>();
+    private Map<String, SubordinatesList> ownerToSubordinates = new HashMap<>();
+
+    // Helper methods for easier access
+    public List<String> getSubordinatesForOwner(String ownerId) {
+        SubordinatesList list = ownerToSubordinates.get(ownerId);
+        return list != null ? list.getSubordinates() : new ArrayList<>();
+    }
+
+    public void setSubordinatesForOwner(String ownerId, List<String> subordinates) {
+        ownerToSubordinates.put(ownerId, new SubordinatesList(subordinates));
+    }
+
+    public void addSubordinateToOwner(String ownerId, String subordinateId) {
+        ownerToSubordinates.computeIfAbsent(ownerId, k -> new SubordinatesList())
+                .getSubordinates()
+                .add(subordinateId);
+    }
+
+    /**
+     * Wrapper entity to handle the list of subordinates
+     */
+    @Embeddable
+    class SubordinatesList {
+        @ElementCollection
+        @CollectionTable(name = "subordinate_entries")
+        @OrderColumn(name = "subordinate_index")
+        @Column(name = "subordinate_id")
+        private List<String> subordinates = new ArrayList<>();
+
+        // Constructors
+        public SubordinatesList() {}
+
+        public SubordinatesList(List<String> subordinates) {
+            this.subordinates = subordinates != null ? subordinates : new ArrayList<>();
+        }
+
+        // Getters and setters
+        public List<String> getSubordinates() {
+            return subordinates;
+        }
+
+        public void setSubordinates(List<String> subordinates) {
+            this.subordinates = subordinates != null ? subordinates : new ArrayList<>();
+        }
+        public void addSubordinate(String newSubordinate) {
+            this.subordinates.add(newSubordinate);
+        }
+        public void removeSubordinate(String subordinateId) {
+            this.subordinates.remove(subordinateId);
+        }
+    }
 
 
     public Store(String founderID , String name) {
@@ -162,6 +222,7 @@ public class Store {
     public synchronized void setUsers(List<String> users) {
         this.users = users;
     }
+
     public Map<String, Integer> getProducts() {
         return products;
     }
@@ -194,12 +255,12 @@ public class Store {
     public synchronized void setPurchasePolicy(PurchasePolicy purchasePolicy) {
         this.purchasePolicy = purchasePolicy;
     }
-    @JsonIgnore
+
     public List<String> getDiscountPolicy() {
         return discounts;
     }
 
-    @JsonIgnore
+
     public synchronized void setDiscouns(List<String> discounts) {
         this.discounts = discounts;
     }
@@ -484,8 +545,8 @@ public class Store {
     public void addOwner(String appointerId, String userId) {
         owners.add(userId);
         ownersToSuperior.put(userId, appointerId);
-        ownerToSubordinates.put(userId, new ArrayList<>());
-        ownerToSubordinates.get(appointerId).add(userId);
+        ownerToSubordinates.put(userId, new SubordinatesList());
+        ownerToSubordinates.get(appointerId).addSubordinate(userId);
     }
 
     public boolean userIsOwner(String userId) {
@@ -558,7 +619,7 @@ public class Store {
         LinkedList<String> subordinates = new LinkedList<>();
 
         // Check if the owner exists and has subordinates
-        List<String> directSubordinates = ownerToSubordinates.get(ownerId);
+        List<String> directSubordinates = ownerToSubordinates.get(ownerId).getSubordinates();
         if (directSubordinates == null) {
             return subordinates;
         }
@@ -642,7 +703,7 @@ public class Store {
         String appointingOwner = this.managersToSuperior.get(managerId);
         this.managersToSuperior.remove(managerId);
         if (appointingOwner != null) {
-            this.ownerToSubordinates.get(appointingOwner).remove(managerId);
+            this.ownerToSubordinates.get(appointingOwner).removeSubordinate(managerId);
         }
     }
 
@@ -662,7 +723,7 @@ public class Store {
 
         // Get all subordinates (both owners and managers)
         List<String> subordinates = new ArrayList<>();
-        List<String> ownerSubordinates = ownerToSubordinates.getOrDefault(founderID, new ArrayList<>());
+        List<String> ownerSubordinates = ownerToSubordinates.get(founderID).getSubordinates();
         if (ownerSubordinates != null) {
             subordinates.addAll(ownerSubordinates);
         }

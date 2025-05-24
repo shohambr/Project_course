@@ -16,7 +16,6 @@ public class SystemConfiguration {
         return new DiscountRepository();
     };
 
-
     @Bean
     public OrderRepository OrderRepository() {
         return new OrderRepository();

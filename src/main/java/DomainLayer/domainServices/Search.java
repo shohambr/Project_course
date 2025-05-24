@@ -72,7 +72,7 @@ public class Search {
 
         List<Product> result = new ArrayList<>();
         for (String productId : store.getProducts().keySet()) {
-            Product product = productRepository.getProduct(productId);
+            Product product = productRepository.getReferenceById(productId);
             if (product != null) {
                 result.add(product);
             }

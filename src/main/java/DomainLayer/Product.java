@@ -86,4 +86,8 @@ public class Product {
                 ", category=" + category +
                 '}';
     }
+
+    public boolean addRating(String username, double rate) {
+        return false;
+    }
 }

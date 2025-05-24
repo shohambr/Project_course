@@ -23,7 +23,7 @@ public class PaymentService {
         try {
             paymentConnectivity.processPayment(tokenService.extractUsername(token), creditCardNumber, expirationDate, backNumber, paymentService);
             EventLogger.logEvent(tokenService.extractUsername(token), "Successfully payed for cart");
-        return true;
+            return true;
         } catch (Exception e) {
             ErrorLogger.logError(tokenService.extractUsername(token), "Failed to pay " , e.getMessage());
             return false;

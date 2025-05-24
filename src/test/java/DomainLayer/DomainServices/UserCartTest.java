@@ -195,11 +195,11 @@ class UserCartTest {
         when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
         when(userRepository.getUser(USER))
             .thenReturn(mapper.writeValueAsString(baseUser));
-        when(productRepository.getProduct("p1")).thenReturn(new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1"));
+        when(productRepository.getReferenceById("p1")).thenReturn(new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1"));
 
         // stub product
         Product product = new Product("p1", "name", "desc", "cat", 5, 10, 2.5, "store1");
-        when(productRepository.getProduct("p1")).thenReturn(product);
+        when(productRepository.getReferenceById("p1")).thenReturn(product);
         
         when(storeRepository.getStore("store1")).thenReturn(mapper.writeValueAsString(store));
 

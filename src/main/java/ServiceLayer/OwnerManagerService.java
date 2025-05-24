@@ -5,6 +5,7 @@ import DomainLayer.*;
 import DomainLayer.DomainServices.*;
 import InfrastructureLayer.CustomerInquiryRepository;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -208,7 +209,9 @@ public class OwnerManagerService {
                                         String conditionalDiscounted) {
         try {
             EventLogger.logEvent(ownerId, "DEFINE_DISCOUNT_POLICY_START");
+            String id = UUID.randomUUID().toString();
             boolean result = discountPolicyService.addDiscountToDiscountPolicy(ownerId,storeId,discountId,
+                                                                                id,
                                                                                 level,
                                                                                 logicComposition,
                                                                                 numericalComposition,

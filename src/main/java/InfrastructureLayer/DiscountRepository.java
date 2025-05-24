@@ -1,18 +1,45 @@
 package InfrastructureLayer;
-import DomainLayer.Discount;
-import DomainLayer.Product;
-import org.atmosphere.config.service.Get;
-import org.hibernate.sql.Update;
 
-import java.util.HashMap;
-import java.util.Map;
+import DomainLayer.*;
+import org.springframework.stereotype.Repository;
 
-public class DiscountRepository {
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;;
 
-    private final Map<String, Discount> discounts = new HashMap<>();
+@Repository
+public class DiscountRepository implements IDiscountRepository {
+
+    private final Map<String, Discount> discounts = new ConcurrentHashMap<>();
+
+    public Map<String, Discount> getAll() {
+        return Collections.unmodifiableMap(discounts);
+    }
+
+    public boolean add(Discount discount) {
+        if (discount == null || discount.Id == null) {
+            return false;
+        }
+        return discounts.putIfAbsent(discount.Id, discount) == null;
+    }
+
+    public boolean update(Discount discount) {
+        if (discount == null || discount.Id == null) {
+            return false;
+        }
+        return discounts.replace(discount.Id, discount) != null;
+    }
+
+    public Discount remove(String discountId) {
+        if (discountId == null) {
+            return null;
+        }
+        return discounts.remove(discountId);
+    }
 
     public Discount find(String discountId) {
-        Discount dis = discounts.get(discountId);
-        return dis;
+        if (discountId == null) {
+            return null;
+        }
+        return discounts.get(discountId);
     }
 }

@@ -29,20 +29,13 @@ public class Store {
     @Column(name = "rating")
     private double rating;
 
-    @Column
-    private List<String> discounts;
-
     @Transient
     private PurchasePolicy purchasePolicy = new PurchasePolicy();
-    //were planning to move the discount policy to a separate class but we didn't have time to do it.'
-    // we want to make it into a separate microservice
-    //@Transient
-    //private DiscountPolicy discountPolicy = new DiscountPolicy();
 
     @ElementCollection
     @CollectionTable(name = "store_discounts", joinColumns = @JoinColumn(name = "store_id"))
     @Column(name = "discount_id")
-    private List<String> discountIds = new ArrayList<>();
+    private List<String> discounts = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "store_users", joinColumns = @JoinColumn(name = "store_id"))
@@ -110,7 +103,7 @@ public class Store {
     @OrderColumn(name = "subordinate_index") // Preserves list order
     @Column(name = "subordinate_id")
     private Map<String, List<String>> ownerToSubordinates = new HashMap<>();
-    
+
 
     public Store(String founderID , String name) {
         this.name = name;
@@ -190,6 +183,9 @@ public class Store {
     public synchronized void setId(UUID id) {
         this.id = id.toString();
     }
+    public synchronized void setDiscountPolicy(List<String> discounts) {
+        this.discounts = discounts;
+    }
     @JsonIgnore
     public PurchasePolicy getPurchasePolicy() {
         return purchasePolicy;
@@ -199,12 +195,12 @@ public class Store {
         this.purchasePolicy = purchasePolicy;
     }
     @JsonIgnore
-    public List<String> getDiscounts() {
+    public List<String> getDiscountPolicy() {
         return discounts;
     }
 
     @JsonIgnore
-    public synchronized void setDiscounts(List<String> discounts) {
+    public synchronized void setDiscouns(List<String> discounts) {
         this.discounts = discounts;
     }
 
@@ -578,17 +574,24 @@ public class Store {
         return subordinates;
     }
 
-    public boolean removeDiscount(String discountId){
-        return discounts.remove(discountId);
-    }
 
-    public boolean addDiscount(String discountId) {
-        if (discountId == null || discountId.isEmpty()) {
+
+    public boolean removeDiscount(String id) {
+        if (id == null) {
             return false;
         }
-        discounts.add(discountId);
-        return true;
+        return discounts.remove(id);
     }
+
+
+
+    public boolean addDiscount(String discountId) {
+        if (discountId == null) {
+            return false;
+        }
+        return discounts.add(discountId);
+    }
+
 
     /**
      * Terminates the ownership of the specified owner by removing their associated

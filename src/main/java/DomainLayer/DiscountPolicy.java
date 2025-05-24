@@ -1,3 +1,4 @@
+/*
 package DomainLayer;
 
 import java.util.*;
@@ -670,4 +671,4 @@ class Discount {
             return false;
         }
     }
-}
+}*/

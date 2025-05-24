@@ -1,16 +1,18 @@
 package DomainLayer;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Map;
 
-public interface IDiscountRepository extends JpaRepository<Discount, Long> {
-//    public boolean save(String );
-//    public String findById(ID id);
-//    public List<String> findAll();
-//    public boolean findAllById(Iterable<ID> ids);
-//    public boolean existsById(ID id);
-//    public boolean deleteById(ID id);
-//    public boolean deleteAll(Iterable<? extends T> entities);
-//
+public interface IDiscountRepository {
+
+    Map<String, Discount> getAll();
+
+    boolean add(Discount discount);
+
+    boolean update(Discount discount);
+
+    Discount remove(String discountId);
+
+    Discount find(String discountId);
 }

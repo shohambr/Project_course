@@ -2,7 +2,10 @@ package DomainLayer;
 
 import ServiceLayer.EventLogger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Generated;
 import jakarta.persistence.*;
+import org.testng.annotations.Ignore;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

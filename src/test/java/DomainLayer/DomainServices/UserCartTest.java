@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import DomainLayer.*;
-import DomainLayer.domainServices.UserCart;
+import DomainLayer.DomainServices.UserCart;
 import DomainLayer.Roles.RegisteredUser;
 
 import org.junit.jupiter.api.BeforeEach;

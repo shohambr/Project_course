@@ -86,7 +86,7 @@ public class InventoryManagementMicroservice {
      */
     public String addProduct(String userId, String storeId, String productName, String description, float price, int quantity, String category) {
         // Check if user has permission
-        if (!checkPermission(userId, storeId, ManagerPermissions.PERM_ADD_PRODUCT)) {
+        if (!checkPermission(userId, storeId, ManagerPermissions.PERM_ADD_PRODUCT) || getStoreById(storeId).userIsOwner(userId)) {
             return null; // No permission
         }
 
@@ -115,7 +115,7 @@ public class InventoryManagementMicroservice {
      */
     public boolean removeProduct(String userId, String storeId, String productId) {
         // Check if user has permission
-        if (!checkPermission(userId, storeId, PERM_REMOVE_PRODUCT)) {
+        if (!checkPermission(userId, storeId, PERM_REMOVE_PRODUCT) || getStoreById(storeId).userIsOwner(userId)) {
             return false; // No permission
         }
 
@@ -125,6 +125,7 @@ public class InventoryManagementMicroservice {
         }
 
         if(store.removeProduct(productId)) {
+            productRepository.deleteById(productId);
             storeRepository.update(store);
             return true;
         }
@@ -145,7 +146,7 @@ public class InventoryManagementMicroservice {
      */
     public boolean updateProductDetails(String userId, String storeId, String productId, String productName, String description, double price, String category) {
         // Check if user has permission
-        if (!checkPermission(userId, storeId, PERM_UPDATE_PRODUCT)) {
+        if (!checkPermission(userId, storeId, PERM_UPDATE_PRODUCT) || getStoreById(storeId).userIsOwner(userId)) {
             return false; // No permission
         }
 
@@ -177,7 +178,7 @@ public class InventoryManagementMicroservice {
      */
     public boolean updateProductQuantity(String userId, String storeId, String productId, int newQuantity) {
         // Check if user has permission
-        if (!checkPermission(userId, storeId, PERM_UPDATE_PRODUCT)) {
+        if (!checkPermission(userId, storeId, PERM_UPDATE_PRODUCT) || getStoreById(storeId).userIsOwner(userId)) {
             return false; // No permission
         }
 

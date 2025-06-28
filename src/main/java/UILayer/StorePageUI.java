@@ -2,6 +2,7 @@ package UILayer;
 
 import DomainLayer.IToken;
 import DomainLayer.ManagerPermissions;
+import DomainLayer.Store;
 import InfrastructureLayer.UserRepository;
 import PresentorLayer.ButtonPresenter;
 import PresentorLayer.PermissionsPresenter;
@@ -55,16 +56,24 @@ public class StorePageUI extends VerticalLayout implements BeforeEnterObserver {
 
         Map<String, Boolean> map1 = permissionsPresenter.getPremissions(token, (String) UI.getCurrent().getSession().getAttribute("storeId"));
         if (map1 != null) {
+           Store store = userConnectivityPresenter.getStore(token, (String) UI.getCurrent().getSession().getAttribute("storeId"));
+            boolean canManageInventory =
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_MANAGE_INVENTORY"));
+
+            /* force-disable MANAGE_STAFF, VIEW_STORE, UPDATE_POLICY */
             boolean[] permsArray = {
-                    Boolean.TRUE.equals(map1.get("MANAGE_INVENTORY")),
-                    Boolean.TRUE.equals(map1.get("MANAGE_STAFF")),
-                    Boolean.TRUE.equals(map1.get("VIEW_STORE")),
-                    Boolean.TRUE.equals(map1.get("UPDATE_POLICY")),
-                    Boolean.TRUE.equals(map1.get("ADD_PRODUCT")),
-                    Boolean.TRUE.equals(map1.get("REMOVE_PRODUCT")),
-                    Boolean.TRUE.equals(map1.get("UPDATE_PRODUCT")),
-                    Boolean.TRUE.equals(map1.get("OPEN_STORE")),
-                    Boolean.TRUE.equals(map1.get("CLOSE_STORE"))};
+                    canManageInventory,
+                    false,                // MANAGE_STAFF  ❌
+                    false,                // VIEW_STORE    ❌
+                    false,                // UPDATE_POLICY ❌
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_ADD_PRODUCT")),
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_REMOVE_PRODUCT")),
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_UPDATE_PRODUCT")),
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_OPEN_STORE")),
+                    Boolean.TRUE.equals(store.userIsOwner(userConnectivityPresenter.getUserId(token)) || map1.get("PERM_CLOSE_STORE")),
+            };
+
+
 
             // if it doesnt work to check maybe to go throw that path stright to the store and in it to the mannager for premissions
             // work over the store name -> store ID

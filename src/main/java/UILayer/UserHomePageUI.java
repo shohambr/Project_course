@@ -196,10 +196,11 @@ public class UserHomePageUI extends VerticalLayout {
             Map<String, Boolean> rawPerms = pp.getPremissions(
                     user.getUsername(), store.getId(), user.getUsername());
 
+
             if (rawPerms != null) {
 
                 boolean canManageInventory =
-                        Boolean.TRUE.equals(rawPerms.get("PERM_MANAGE_INVENTORY"));
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_MANAGE_INVENTORY"));
 
                 /* force-disable MANAGE_STAFF, VIEW_STORE, UPDATE_POLICY */
                 boolean[] permsArray = {
@@ -207,11 +208,11 @@ public class UserHomePageUI extends VerticalLayout {
                         false,                // MANAGE_STAFF  ❌
                         false,                // VIEW_STORE    ❌
                         false,                // UPDATE_POLICY ❌
-                        Boolean.TRUE.equals(rawPerms.get("PERM_ADD_PRODUCT")),
-                        Boolean.TRUE.equals(rawPerms.get("PERM_REMOVE_PRODUCT")),
-                        Boolean.TRUE.equals(rawPerms.get("PERM_UPDATE_PRODUCT")),
-                        Boolean.TRUE.equals(rawPerms.get("PERM_OPEN_STORE")),
-                        Boolean.TRUE.equals(rawPerms.get("PERM_CLOSE_STORE")),
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_ADD_PRODUCT")),
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_REMOVE_PRODUCT")),
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_UPDATE_PRODUCT")),
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_OPEN_STORE")),
+                        Boolean.TRUE.equals(store.userIsOwner(userConn.getUserId(token)) || rawPerms.get("PERM_CLOSE_STORE")),
                 };
 
                 ManagerPermissions perms =

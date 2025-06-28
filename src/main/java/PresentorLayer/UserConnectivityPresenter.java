@@ -108,17 +108,10 @@ public class UserConnectivityPresenter {
         } catch (Exception e) {
             Notification.show(e.getMessage());
         }
-
-        List<String> managedStores = user.getManagedStores();
-        List<Product> products = userService.getAllProducts(token);
-        for (String managedStore : managedStores) {
-            String jsonStore = userService.getStoreById(token, managedStore);
-            Store store = null;
-            try {
-                store = mapper.readValue(jsonStore, Store.class);
-            } catch (Exception e) {
-                return e.getMessage();
-            }
+        try {
+            List<Store> managedStores = getUserStoresName(token);
+            List<Product> products = userService.getAllProducts(token);
+            for (Store store: managedStores) {
             if (store.getName().equals(storeName)) {
                 for (Product product: products) {
                     if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
@@ -127,6 +120,9 @@ public class UserConnectivityPresenter {
                 }
                 return "could not find this product in the store";
             }
+        }
+        } catch (Exception e) {
+            return e.getMessage();
         }
         return "user can't edit this store";
     }
@@ -152,21 +148,21 @@ public class UserConnectivityPresenter {
             Notification.show(e.getMessage());
         }
 
-        List<String> managedStores = user.getManagedStores();
-        for (String managedStore : managedStores) {
-            String jsonStore = userService.getStoreById(token, managedStore);
-            Store store = null;
+        try {
+            List<Store> managedStores = getUserStoresName(token);
+            List<Product> products = userService.getAllProducts(token);
+            for (Store store: managedStores) {
             try {
-                store = mapper.readValue(jsonStore, Store.class);
-                 if (store.userIsOwner(getUserId(token))) {
-                     return ownerManagerService.addProduct(user.getUsername(), store.getId(), productName, description, price.floatValue(), quantity, category);
-                 }
+
             } catch (Exception e) {
                 return e.getMessage();
             }
             if (store.getName().equals(storeName)) {
                 return ownerManagerService.addProduct(user.getUsername(), store.getId(), productName, description, price.floatValue(), quantity, category);
             }
+        }
+        } catch (Exception e) {
+            return e.getMessage();
         }
         return "user can't edit this store";
     }
@@ -180,31 +176,31 @@ public class UserConnectivityPresenter {
             Notification.show(e.getMessage());
         }
 
-        List<String> managedStores = user.getManagedStores();
-        List<Product> products = userService.getAllProducts(token);
-        for (String managedStore : managedStores) {
-            String jsonStore = userService.getStoreById(token, managedStore);
-            Store store = null;
-            try {
-                store = mapper.readValue(jsonStore, Store.class);
-                if (store.userIsOwner(getUserId(token))) {
-                    for (Product product: products) {
+        try {
+            List<Store> managedStores = getUserStoresName(token);
+            List<Product> products = userService.getAllProducts(token);
+            for (Store store: managedStores) {
+                try {
+                        for (Product product : products) {
+                            if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
+                                return ownerManagerService.removeProduct(user.getUsername(), store.getId(), product.getId());
+                            }
+
+                    }
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
+                if (store.getName().equals(storeName)) {
+                    for (Product product : products) {
                         if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
                             return ownerManagerService.removeProduct(user.getUsername(), store.getId(), product.getId());
-                            }
                         }
-                }
-                } catch (Exception e) {
-                return e.getMessage();
-            }
-            if (store.getName().equals(storeName)) {
-                for (Product product: products) {
-                    if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
-                        return ownerManagerService.removeProduct(user.getUsername(), store.getId(), product.getId());
                     }
+                    return "could not find this product in store";
                 }
-                return "could not find this product in store";
             }
+        } catch (Exception e) {
+            return e.getMessage();
         }
         return "user can't edit this store";
     }
@@ -224,20 +220,17 @@ public class UserConnectivityPresenter {
             Notification.show(e.getMessage());
         }
 
-        List<String> managedStores = user.getManagedStores();
-        List<Product> products = userService.getAllProducts(token);
-        for (String managedStore : managedStores) {
-            String jsonStore = userService.getStoreById(token, managedStore);
-            Store store = null;
+        try {
+            List<Store> managedStores = getUserStoresName(token);
+            List<Product> products = userService.getAllProducts(token);
+            for (Store store: managedStores) {
             try {
-                store = mapper.readValue(jsonStore, Store.class);
-                if (store.userIsOwner(getUserId(token))) {
                     for (Product product: products) {
                         if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
                            return ownerManagerService.updateProductDetails(user.getShoppingCart().getUserId(), store.getId(), product.getId(), newProductName, description, doublePrice, category);
                         }
 
-                    }
+
 
                 } }
             catch (Exception e) {
@@ -252,6 +245,10 @@ public class UserConnectivityPresenter {
                 return "could not find this product in the store";
             }
         }
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
         return "user can't edit this store";
     }
 

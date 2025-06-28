@@ -47,7 +47,7 @@ public class SystemConfiguration {
     @Bean public GuestRepository GuestRepository() { return new GuestRepository(); }
     @Bean public CustomerInquiryRepository CustomerInquiryRepository() { return new CustomerInquiryRepository(); }
     @Bean public NotificationService NotificationService() {
-        return new NotificationService(NotificationWebSocketHandler(), NotificationRepository(), TokenService(), UserRepository());
+        return new NotificationService(NotificationWebSocketHandler(), NotificationRepository(), TokenService(), UserRepository(), StoreRepository());
     }
     @Bean public OrderService OrderService() { return new OrderService(OrderRepository()); }
     @Bean public OwnerManagerService OwnerManagerService() {

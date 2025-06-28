@@ -3,6 +3,7 @@ package ServiceLayer;
 import DomainLayer.DomainServices.ToNotify;
 import DomainLayer.DomainServices.NotificationWebSocketHandler;
 import InfrastructureLayer.NotificationRepository;
+import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,9 @@ public class NotificationService {
     public NotificationService(NotificationWebSocketHandler handler,
                                NotificationRepository repo,
                                TokenService tokenService,
-                               UserRepository userRepository) {
-        this.toNotify = new ToNotify(repo,tokenService, handler, userRepository);
+                               UserRepository userRepository,
+                               StoreRepository storeRepository) {
+        this.toNotify = new ToNotify(repo,tokenService, handler, userRepository, storeRepository);
     }
 
     public void notifyUser(String userId, String message, String storeId) {

@@ -6,10 +6,12 @@ import java.util.List;
 
 import DomainLayer.IUserRepository;
 import DomainLayer.Roles.RegisteredUser;
+import DomainLayer.Store;
 import InfrastructureLayer.NotificationRepository;
 import DomainLayer.IToken;
 
 
+import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
 import ServiceLayer.OwnerManagerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,12 +26,14 @@ public class ToNotify {
     private NotificationWebSocketHandler notificationWebSocketHandler;
     private final ObjectMapper mapper = new ObjectMapper();
     private UserRepository userRepository;
+    private StoreRepository storeRepository;
 
-    public ToNotify(NotificationRepository notificationRepo, IToken tokenService, NotificationWebSocketHandler notificationWebSocketHandler, UserRepository userRepository) {
+    public ToNotify(NotificationRepository notificationRepo, IToken tokenService, NotificationWebSocketHandler notificationWebSocketHandler, UserRepository userRepository, StoreRepository storeRepository) {
         this.tokenService = tokenService;
         this.notificationRepo = notificationRepo;
         this.notificationWebSocketHandler = notificationWebSocketHandler;
         this.userRepository = userRepository;
+        this.storeRepository = storeRepository;
     }
 
     public List<Notifications> getUserNotifications(String token) {
@@ -38,6 +42,7 @@ public class ToNotify {
         ArrayList<Notifications> messages = new ArrayList<>();
         for (Notifications notification : notifications) {
             messages.add(notification);
+            System.out.println(notification);
         }
         return messages;
     }
@@ -51,13 +56,20 @@ public class ToNotify {
         return messages;
     }
 
-    public void sendNotificationToStore(String token, String storeId, String message) throws Exception {
+    public void sendNotificationToStore(String token, String storeName, String message) throws Exception {
         try {
             List<RegisteredUser> users = userRepository.getAll();
             for (RegisteredUser user : users) {
                 List<String> managedStores = user.getManagedStores();
                 List<String> managedStoresfg = managedStores;
-                if (managedStoresfg.contains(storeId)) {
+                List<Store> stores = storeRepository.getAll();
+                String storeId = "";
+                for(Store store : stores) {
+                    if (store.getName().equals(storeName)) {
+                        storeId = store.getId();
+                    }
+                }
+                if (managedStoresfg.contains(storeId) || user.getOwnedStores().contains(storeId)) {
                     notificationWebSocketHandler.sendNotificationToClient(user.getUsername(), message);
                 }
             }
@@ -69,11 +81,7 @@ public class ToNotify {
     public void sendNotificationToUser(String storeId, String userId, String message) throws Exception {
         try {
             Notifications notification = new Notifications(message, userId, storeId);
-            if(tokenService.getToken(userId).equals("")) {
-                notificationRepo.save(notification);
-            } else {
-                notificationWebSocketHandler.sendNotificationToClient(userId, notification.getUserId());
-            }
+                notificationWebSocketHandler.sendNotificationToClient(userId, message);
         } catch (Exception e) {
             throw new RuntimeException("Failed to serialize notification", e);
         }
@@ -91,9 +99,14 @@ public class ToNotify {
                 }
                 List<String> managedStores = user.getManagedStores();
                 List<String> managedStoresfg = managedStores;
-                if (notification.getStoreId().equals(username) && (notification.getMessage().equals("") || managedStoresfg.contains(notification.getMessage()))) {
-                    notificationWebSocketHandler.sendNotificationToClient(username, notification.getUserId());
-                    notificationRepo.delete(notification);
+                List<Store> stores = storeRepository.getAll();
+                String storeId = "";
+                for(Store store : stores) {
+                        storeId = store.getId();
+                    if (notification.getUserId().equals(username) && (notification.getStoreId().equals("") || managedStoresfg.contains(notification.getStoreId()) || user.getOwnedStores().contains(storeId))) {
+                        notificationWebSocketHandler.sendNotificationToClient(username, notification.getMessage());
+                    }
+
                 }
             }
         } catch (Exception e) {

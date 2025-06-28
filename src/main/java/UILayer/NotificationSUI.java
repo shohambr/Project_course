@@ -46,7 +46,7 @@ public class NotificationSUI extends VerticalLayout {
         Button send = new Button("send", e ->
                 notificationService.notifyUser(username.getValue(), message.getValue(), storeId.getValue()));
 
-        add(new H1("notifications"), username, message, send);
+        add(new H1("notificationss"), username, message, storeId, send);
         setAlignItems(Alignment.START);
     }
 

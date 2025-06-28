@@ -10,6 +10,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import utils.Notifications;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -97,6 +98,7 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
                 e.printStackTrace();
             }
         } else {
+            notificationRepo.save(new Notifications(payload, userId, ""));
             System.err.println("No active session found for userId: " + userId);  // If no session found
         }
     }

@@ -4,7 +4,6 @@ package DomainLayer.DomainServices;
 import java.util.ArrayList;
 import java.util.List;
 
-import DomainLayer.IUserRepository;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import InfrastructureLayer.NotificationRepository;
@@ -13,10 +12,7 @@ import DomainLayer.IToken;
 
 import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
-import ServiceLayer.OwnerManagerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vaadin.flow.component.notification.Notification;
-import org.springframework.stereotype.Repository;
 import utils.Notifications;
 
 

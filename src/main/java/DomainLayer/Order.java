@@ -1,9 +1,7 @@
 package DomainLayer;
 
-import java.util.*;
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "orders")

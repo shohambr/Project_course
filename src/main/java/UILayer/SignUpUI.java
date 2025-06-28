@@ -1,7 +1,6 @@
 package UILayer;
 
 import DomainLayer.IToken;
-import DomainLayer.Roles.RegisteredUser;
 import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
 import PresentorLayer.UserConnectivityPresenter;

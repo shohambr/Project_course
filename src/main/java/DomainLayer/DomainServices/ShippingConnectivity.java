@@ -9,8 +9,6 @@ import InfrastructureLayer.GuestRepository;
 import InfrastructureLayer.UserRepository;
 import utils.ProductKeyModule;
 
-import java.util.List;
-
 public class ShippingConnectivity {
 
     private final ObjectMapper mapper = new ObjectMapper();

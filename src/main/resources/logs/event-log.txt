@@ -463,3 +463,16 @@
 [2025-06-28 14:59:40] User: a | Event: Event | Description: REOPEN_STORE_SUCCESS
 [2025-06-28 14:59:42] User: b | Event: Event | Description: Shipping successful
 [2025-06-28 14:59:43] User: b | Event: Event | Description: Successfully payed for cart
+[2025-06-28 16:57:33] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 16:57:33] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 16:57:34] User: a | Event: Event | Description: LOGIN
+[2025-06-28 16:57:34] User: a | Event: Event | Description: TokenService
+[2025-06-28 16:57:35] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 16:57:36] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 16:57:36] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 16:57:55] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 16:57:55] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 16:57:58] User: b | Event: Event | Description: LOGIN
+[2025-06-28 16:57:58] User: b | Event: Event | Description: TokenService
+[2025-06-28 16:57:58] User: b | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 16:59:00] User: Guest | Event: Event | Description: TokenService

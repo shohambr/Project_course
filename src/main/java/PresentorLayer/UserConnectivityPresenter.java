@@ -319,7 +319,7 @@ public class UserConnectivityPresenter {
             }
         }
 
-        System.out.println("hdtfgrrrrrrrrrrrrrrrrrrr" + storeNames);
+        System.out.println(storeNames);
         return storeNames;
     }
 

@@ -359,31 +359,54 @@ public class ProductPresenter {
         return storePage;
     }
 
-    public VerticalLayout getInventoryList(String token, String storeId, OwnerManagerService ownerManagerService) {
+    public VerticalLayout getInventoryList(String token,
+                                           String storeId,
+                                           OwnerManagerService ownerManagerService) {
+
         String username = tokenService.extractUsername(token);
-        RegisteredUser user = null;
+        RegisteredUser user;
         try {
             user = userRepository.getById(username);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("dfsa");
+            Notification.show(e.getMessage());
+            return new VerticalLayout(new Span("user not found"));
         }
 
-        VerticalLayout productList = new VerticalLayout();
-        List<Product> items = userService.getAllProducts(token);
-        List<Product> products = items.stream().map(item -> {
-            try {
-                if (item.getStoreId().equals(storeId)) {
-                    return item;
-                }
-                return null;
-            } catch (Exception exception) {
-                return null;
+        /* ---------- load all products that belong to this store ---------- */
+        List<Product> all = userService.getAllProducts(token);
+        List<Product> products = new ArrayList<>();
+        for (Product p : all) {
+            if (storeId.equals(p.getStoreId())) {
+                products.add(p);
             }
-        }).filter(Objects::nonNull).toList();
-        for (Product product : products) {
-            productList.add(new VerticalLayout(new QuantiyButton(user.getShoppingCart().getUserId(), ownerManagerService, product)) );
+        }
+
+        /* ---------- pull the current on-shelf quantity from the store ---- */
+        Store store;
+        try {
+            store = mapper.readValue(userService.getStoreById(token, storeId), Store.class);
+        } catch (Exception e) {
+            Notification.show("store with id " + storeId + " does not exist");
+            return new VerticalLayout(new Span(e.getMessage()));
+        }
+
+        for (Product p : products) {
+            Integer liveQty = store.getProductQuantity(p.getId());
+            if (liveQty != null) {
+                p.setQuantity(liveQty);          // ★ keep Product object in sync
             }
-        return productList;
+        }
+
+        /* ---------- build the list --------------------------------------- */
+        VerticalLayout list = new VerticalLayout();
+        for (Product p : products) {
+            list.add(new VerticalLayout(
+                    new QuantiyButton(user.getShoppingCart().getUserId(),
+                            ownerManagerService,
+                            p)
+            ));
+        }
+        return list;
     }
+
 }

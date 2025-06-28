@@ -476,3 +476,43 @@
 [2025-06-28 16:57:58] User: b | Event: Event | Description: TokenService
 [2025-06-28 16:57:58] User: b | Event: Event | Description: LOGIN_SUCCESS
 [2025-06-28 16:59:00] User: Guest | Event: Event | Description: TokenService
+[2025-06-28 17:03:18] User: Guest | Event: Event | Description: TokenService
+[2025-06-28 17:03:24] User: Guest | Event: Event | Description: TokenService
+[2025-06-28 17:03:26] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:03:26] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:03:28] User: a | Event: Event | Description: LOGIN
+[2025-06-28 17:03:28] User: a | Event: Event | Description: TokenService
+[2025-06-28 17:03:28] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:03:47] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:03:47] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:03:50] User: b | Event: Event | Description: LOGIN
+[2025-06-28 17:03:50] User: b | Event: Event | Description: TokenService
+[2025-06-28 17:03:50] User: b | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:15:13] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:15:13] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:15:15] User: a | Event: Event | Description: LOGIN
+[2025-06-28 17:15:15] User: a | Event: Event | Description: TokenService
+[2025-06-28 17:15:15] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:15:17] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:15:17] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:15:44] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:15:44] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:15:49] User: a | Event: Event | Description: LOGIN
+[2025-06-28 17:15:49] User: a | Event: Event | Description: TokenService
+[2025-06-28 17:15:49] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:15:50] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:15:50] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:15:58] User: SEARCH_STORE_BY_NAME | Event: Event | Description: Query=store Matches=1
+[2025-06-28 17:15:58] User: a | Event: Event | Description: APPOINT_OWNER for store 8cf559ce-3055-4ca6-9ee9-000527c8ddb4
+[2025-06-28 17:16:30] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:16:30] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:16:32] User: a | Event: Event | Description: LOGIN
+[2025-06-28 17:16:32] User: a | Event: Event | Description: TokenService
+[2025-06-28 17:16:32] User: a | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:16:34] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:16:34] User: a | Event: Event | Description: SIGNUP_FAILED
+[2025-06-28 17:16:42] User: c | Event: Event | Description: LOGIN
+[2025-06-28 17:16:42] User: c | Event: Event | Description: TokenService
+[2025-06-28 17:16:42] User: c | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 17:16:47] User: a | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 17:16:47] User: a | Event: Event | Description: SIGNUP_FAILED

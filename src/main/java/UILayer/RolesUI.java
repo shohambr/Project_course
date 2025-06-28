@@ -43,6 +43,31 @@ public class RolesUI extends VerticalLayout {
         TextField storeField = new TextField("Store Name");
         TextField targetUser = new TextField("Target Username");
 
+
+
+        // ─── Appoint Manager ────────────────────
+        Checkbox[] perms = new Checkbox[] {
+                new Checkbox("MANAGE_INVENTORY"),
+                new Checkbox("MANAGE_STAFF"),
+                new Checkbox("VIEW_STORE"),
+                new Checkbox("UPDATE_POLICY"),
+                new Checkbox("ADD_PRODUCT"),
+                new Checkbox("REMOVE_PRODUCT"),
+                new Checkbox("UPDATE_PRODUCT"),
+                new Checkbox("OPEN_STORE"),
+                new Checkbox("CLOSE_STORE")
+        };
+
+
+        Button appointManager = new Button("Appoint Manager", e -> {
+            boolean[] selected = new boolean[9];
+            for (int i = 0; i < perms.length; i++)
+                selected[i] = perms[i].getValue();
+
+            String msg = presenter.appointManager(storeField.getValue(), targetUser.getValue(), selected);
+            Notification.show(msg); status.setText(msg);
+        });
+
         // ─── Appoint Owner ──────────────────────
         Button appointOwner = new Button("Appoint Owner", e -> {
             String msg = presenter.appointOwner(storeField.getValue(), targetUser.getValue());
@@ -55,27 +80,6 @@ public class RolesUI extends VerticalLayout {
             Notification.show(msg); status.setText(msg);
         });
 
-        // ─── Appoint Manager ────────────────────
-        Checkbox[] perms = new Checkbox[] {
-                new Checkbox("PERM_MANAGE_INVENTORY"),
-                new Checkbox("PERM_MANAGE_STAFF"),
-                new Checkbox("PERM_VIEW_STORE"),
-                new Checkbox("PERM_UPDATE_POLICY"),
-                new Checkbox("PERM_ADD_PRODUCT"),
-                new Checkbox("PERM_REMOVE_PRODUCT"),
-                new Checkbox("PERM_UPDATE_PRODUCT"),
-                new Checkbox("PERM_OPEN_STORE"),
-                new Checkbox("PERM_CLOSE_STORE")
-        };
-
-        Button appointManager = new Button("Appoint Manager", e -> {
-            boolean[] selected = new boolean[9];
-            for (int i = 0; i < perms.length; i++)
-                selected[i] = perms[i].getValue();
-
-            String msg = presenter.appointManager(storeField.getValue(), targetUser.getValue(), selected);
-            Notification.show(msg); status.setText(msg);
-        });
 
         // ─── Remove Manager ─────────────────────
         Button removeManager = new Button("Remove Manager", e -> {

@@ -35,7 +35,9 @@ public class AddStoreUI extends VerticalLayout {
             try {
                 userConnectivityPresenter.addStore(token, storeName.getValue());
             } catch (Exception exception) {
-                error.setText(exception.getMessage());
+                if (!exception.getMessage().equals("Transaction silently rolled back because it has been marked as rollback-only") && !exception.getMessage().equals("Transaction silently rolled back because it has been marked as rollback-only\n")) {
+                    error.setText(exception.getMessage());
+                }
             }
         });
         connectToWebSocket(token);

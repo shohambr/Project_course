@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import org.hibernate.boot.jaxb.mapping.ManagedType;
 
 import java.util.*;
 
@@ -599,6 +600,18 @@ public class Store {
         //    We use computeIfAbsent to ensure the appointer's entry exists before adding a subordinate.
         ownerToSubordinates.computeIfAbsent(appointerId, k -> new OwnerSubordinateEntry(this.id, k, new ArrayList<>()))
                 .addSubordinate(userId);
+        boolean[] mp = new boolean[9];
+        mp[0] = true;
+        mp[1] = true;
+        mp[2] = true;
+        mp[3] = true;
+        mp[4] = true;
+        mp[5] = true;
+        mp[6] = true;
+        mp[7] = true;
+        mp[8] = true;
+        ManagerPermissions mmpjk = new ManagerPermissions(mp, userId, id);
+        managers.put(userId, mmpjk); // This will now correctly persist a composite key (managerId, storeId)
     }
 
     public boolean userIsOwner(String userId) {
@@ -755,6 +768,9 @@ public class Store {
         this.managers.remove(managerId);
         String appointingOwner = this.managersToSuperior.get(managerId);
         this.managersToSuperior.remove(managerId);
+        if (!owners.contains(managerId)) {
+            managers.remove(managerId);
+        }
         if (appointingOwner != null) {
             this.ownerToSubordinates.get(appointingOwner).removeSubordinate(managerId);
         }

@@ -80,12 +80,12 @@ public class UserConnectivityPresenter {
         arr[7] = true;
         arr[8] = true;
         System.out.println(ownerManagerService.appointStoreManager(user.getUsername(), storeId, user.getUsername(), arr));
-        username = tokenService.extractUsername(token);
+        // username = tokenService.extractUsername(token);
         user = null;
         try {
-            user = userRepository.getById(username);
+       //     user = userRepository.getById(username);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+        //    throw new Exception(e.getMessage());
         }
 
         //System.out.println(mapper.writeValueAsString(user));
@@ -267,6 +267,22 @@ public class UserConnectivityPresenter {
         System.out.println("DEBUG: User '" + username + "' has managedStores: " + managedStores);
 
         for (String managedStore : managedStores) {
+            System.out.println("DEBUG: Attempting to retrieve details for storeId: " + managedStore);
+
+            String jsonStore = userService.getStoreById(token, managedStore);
+            Store  store     = mapper.readValue(jsonStore, Store.class);
+
+            /*  ★ NO filter here → managers always see their stores  */
+            storeNames.add(store);
+        }
+
+
+        List<String> owneedStores   = user.getOwnedStores();
+
+        // DEBUG lines kept
+        System.out.println("DEBUG: User '" + username + "' has managedStores: " + managedStores);
+
+        for (String managedStore : owneedStores) {
             System.out.println("DEBUG: Attempting to retrieve details for storeId: " + managedStore);
 
             String jsonStore = userService.getStoreById(token, managedStore);

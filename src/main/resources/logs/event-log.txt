@@ -476,3 +476,37 @@
 [2025-06-28 16:57:58] User: b | Event: Event | Description: TokenService
 [2025-06-28 16:57:58] User: b | Event: Event | Description: LOGIN_SUCCESS
 [2025-06-28 16:59:00] User: Guest | Event: Event | Description: TokenService
+[2025-06-28 18:39:14] User: SEARCH_STORE_BY_ID | Event: Event | Description: Store=store-1 FOUND
+[2025-06-28 18:39:14] User: SEARCH_BY_STORE | Event: Event | Description: Store=store-1 Matches=2
+[2025-06-28 18:39:14] User: SEARCH_BY_NAME | Event: Event | Description: Query=app Matches=1
+[2025-06-28 18:39:14] User: SEARCH_BY_STORE | Event: Event | Description: Store=no-such NOT_FOUND
+[2025-06-28 18:39:14] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=FOOD Matches=1
+[2025-06-28 18:39:14] User: SEARCH_BY_PRODUCT | Event: Event | Description: Name=head Category=tech Matches=1
+[2025-06-28 18:39:19] User: SEARCH_STORE_BY_ID | Event: Event | Description: Store=store-1 FOUND
+[2025-06-28 18:39:19] User: SEARCH_BY_STORE | Event: Event | Description: Store=store-1 Matches=2
+[2025-06-28 18:39:19] User: SEARCH_BY_NAME | Event: Event | Description: Query=app Matches=1
+[2025-06-28 18:39:19] User: SEARCH_BY_STORE | Event: Event | Description: Store=no-such NOT_FOUND
+[2025-06-28 18:39:19] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=FOOD Matches=1
+[2025-06-28 18:39:19] User: SEARCH_BY_PRODUCT | Event: Event | Description: Name=head Category=tech Matches=1
+[2025-06-28 18:39:40] User: removeProduct | Event: Event | Description: Product removed from cart
+[2025-06-28 18:39:40] User: removeProduct | Event: Event | Description: Product not found in cart
+[2025-06-28 18:39:40] User: removeProduct | Event: Event | Description: Shopping bag removed from cart
+[2025-06-28 18:39:40] User: removeProduct | Event: Event | Description: Product removed from cart
+[2025-06-28 18:49:43] User: SEARCH_STORE_BY_ID | Event: Event | Description: Store=store-1 FOUND
+[2025-06-28 18:49:43] User: SEARCH_BY_STORE | Event: Event | Description: Store=store-1 Matches=2
+[2025-06-28 18:49:43] User: SEARCH_BY_NAME | Event: Event | Description: Query=app Matches=1
+[2025-06-28 18:49:43] User: SEARCH_BY_STORE | Event: Event | Description: Store=no-such NOT_FOUND
+[2025-06-28 18:49:43] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=FOOD Matches=1
+[2025-06-28 18:49:43] User: SEARCH_BY_PRODUCT | Event: Event | Description: Name=head Category=tech Matches=1
+[2025-06-28 18:51:24] User: SEARCH_STORE_BY_ID | Event: Event | Description: Store=store-1 FOUND
+[2025-06-28 18:51:24] User: SEARCH_BY_STORE | Event: Event | Description: Store=store-1 Matches=2
+[2025-06-28 18:51:24] User: SEARCH_BY_NAME | Event: Event | Description: Query=app Matches=1
+[2025-06-28 18:51:24] User: SEARCH_BY_STORE | Event: Event | Description: Store=no-such NOT_FOUND
+[2025-06-28 18:51:24] User: SEARCH_BY_CATEGORY | Event: Event | Description: Category=FOOD Matches=1
+[2025-06-28 18:51:24] User: SEARCH_BY_PRODUCT | Event: Event | Description: Name=head Category=tech Matches=1
+[2025-06-28 18:51:42] User: alice | Event: Event | Description: ADD_TO_CART_SUCCESS
+[2025-06-28 18:51:49] User: bob | Event: Event | Description: LOGIN_FAILED - WRONG_PASSWORD
+[2025-06-28 18:51:49] User: Guest | Event: Event | Description: LOGOUT_FAILED - GUEST
+[2025-06-28 18:51:49] User: dup | Event: Event | Description: SIGNUP_FAILED - USER_EXIST
+[2025-06-28 18:51:49] User: alice | Event: Event | Description: LOGIN_SUCCESS
+[2025-06-28 18:51:49] User: alice | Event: Event | Description: LOGOUT_SUCCESS

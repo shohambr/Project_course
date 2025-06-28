@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import DomainLayer.Roles.Guest;
-import DomainLayer.ShoppingCart;
-import DomainLayer.ShoppingBag;
 
 class GuestTest {
 

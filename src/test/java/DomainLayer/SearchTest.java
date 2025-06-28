@@ -1,8 +1,6 @@
 package DomainLayer;
 
 import DomainLayer.DomainServices.Search;
-import DomainLayer.Product;
-import DomainLayer.Store;
 import InfrastructureLayer.ProductRepository;
 import InfrastructureLayer.StoreRepository;
 import com.fasterxml.jackson.core.type.TypeReference;

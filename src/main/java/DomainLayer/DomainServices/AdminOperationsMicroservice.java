@@ -1,13 +1,10 @@
 package DomainLayer.DomainServices;
 
-import DomainLayer.IStoreRepository;
-import DomainLayer.IUserRepository;
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.Store;
 import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
 import ServiceLayer.ErrorLogger;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 

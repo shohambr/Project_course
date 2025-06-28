@@ -2,7 +2,6 @@ package DomainLayer.DomainServices;
 
 import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.IToken;
-import DomainLayer.IUserRepository;
 import InfrastructureLayer.GuestRepository;
 import InfrastructureLayer.UserRepository;
 import ServiceLayer.EventLogger;

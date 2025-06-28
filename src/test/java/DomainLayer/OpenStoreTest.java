@@ -1,12 +1,9 @@
 package DomainLayer;
 
 import DomainLayer.DomainServices.OpenStore;
-import DomainLayer.IToken;
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.ShoppingCart;                // <-- cart lives here
 import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
-import DomainLayer.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

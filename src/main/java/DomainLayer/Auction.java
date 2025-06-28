@@ -6,7 +6,6 @@ public class Auction {
     private final String id = UUID.randomUUID().toString();
     private final String storeId;
     private final String productId;
-    private final String managerId;
     private double currentPrice;
     private String lastParty;
     private boolean waitingConsent;
@@ -19,7 +18,6 @@ public class Auction {
     public Auction(String storeId, String productId, String managerId, double startPrice) {
         this.storeId     = storeId;
         this.productId   = productId;
-        this.managerId   = managerId;
         this.currentPrice = startPrice;
         this.lastParty    = managerId;
         this.waitingConsent = false;

@@ -5,12 +5,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import DomainLayer.Store;
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.IStoreRepository;
-import InfrastructureLayer.ProductRepository;
 import InfrastructureLayer.StoreRepository;
 import InfrastructureLayer.UserRepository;
-import DomainLayer.IUserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static DomainLayer.ManagerPermissions.PERM_MANAGE_STAFF;

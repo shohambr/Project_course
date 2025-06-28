@@ -1,9 +1,7 @@
 package UILayer;
 
 import DomainLayer.IToken;
-import DomainLayer.IUserRepository;
 import DomainLayer.ManagerPermissions;
-import DomainLayer.Store;
 import InfrastructureLayer.UserRepository;
 import PresentorLayer.ButtonPresenter;
 import PresentorLayer.PermissionsPresenter;
@@ -12,13 +10,8 @@ import PresentorLayer.UserConnectivityPresenter;
 import ServiceLayer.OwnerManagerService;
 import ServiceLayer.RegisteredService;
 import ServiceLayer.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;

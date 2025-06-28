@@ -610,8 +610,8 @@ public class Store {
         mp[6] = true;
         mp[7] = true;
         mp[8] = true;
-        ManagerPermissions mmpjk = new ManagerPermissions(mp, userId, id);
-        managers.put(userId, mmpjk); // This will now correctly persist a composite key (managerId, storeId)
+       // ManagerPermissions mmpjk = new ManagerPermissions(mp, userId, id);
+       // managers.put(userId, mmpjk); // This will now correctly persist a composite key (managerId, storeId)
     }
 
     public boolean userIsOwner(String userId) {

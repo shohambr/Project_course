@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 import utils.Notifications;
 
 
-public class ToNotify {
+public class ToNotify implements IToNotify{
     private NotificationRepository notificationRepo;
     private IToken tokenService;
     private NotificationWebSocketHandler notificationWebSocketHandler;
@@ -70,6 +70,28 @@ public class ToNotify {
                     }
                 }
                 if (managedStoresfg.contains(storeId) || user.getOwnedStores().contains(storeId)) {
+                    notificationWebSocketHandler.sendNotificationToClient(user.getUsername(), message);
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void sendNotificationToStoreOwners(String token, String storeName, String message) {
+        try {
+            List<RegisteredUser> users = userRepository.getAll();
+            for (RegisteredUser user : users) {
+                List<String> managedStores = user.getManagedStores();
+                List<String> managedStoresfg = managedStores;
+                List<Store> stores = storeRepository.getAll();
+                String storeId = "";
+                for(Store store : stores) {
+                    if (store.getName().equals(storeName)) {
+                        storeId = store.getId();
+                    }
+                }
+                if (user.getOwnedStores().contains(storeId)) {
                     notificationWebSocketHandler.sendNotificationToClient(user.getUsername(), message);
                 }
             }

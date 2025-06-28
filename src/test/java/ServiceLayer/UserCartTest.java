@@ -47,7 +47,7 @@ class UserCartTest {
     @BeforeEach
     void init() {
         cartService = new UserCart(tokener, userRepo, storeRepo,
-                productRepo, orderRepo, guestRepo);
+                productRepo, orderRepo, guestRepo, null);
 
         /* ---- stub store ---- */
         stubStore = mock(Store.class);

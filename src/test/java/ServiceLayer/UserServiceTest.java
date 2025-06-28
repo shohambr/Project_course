@@ -1,9 +1,6 @@
 package ServiceLayer;
 
-import DomainLayer.DomainServices.DiscountPolicyMicroservice;
-import DomainLayer.DomainServices.Search;
-import DomainLayer.DomainServices.UserCart;
-import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.DomainServices.*;
 import DomainLayer.IToken;
 import DomainLayer.PermissionException;
 import DomainLayer.Product;
@@ -11,6 +8,7 @@ import DomainLayer.Roles.RegisteredUser;
 import DomainLayer.ShoppingBag;
 import DomainLayer.ShoppingCart;
 import InfrastructureLayer.*;
+import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -68,7 +66,7 @@ class UserServiceTest {
             UserService svc = new UserService(tokenSvc, storeRepo, userRepo,
                     productRepo, orderRepo,
                     shippingSvc, paymentSvc,
-                    guestRepo, discountRepo);
+                    guestRepo, discountRepo, new NotificationRepository(), new NotificationWebSocketHandler(tokenSvc, new NotificationRepository()));
 
             String msg = svc.addToCart("tok", "store-1", "p1", 2);
 
@@ -96,7 +94,7 @@ class UserServiceTest {
             UserService svc = new UserService(tokenSvc, storeRepo, userRepo,
                     productRepo, orderRepo,
                     shippingSvc, paymentSvc,
-                    guestRepo, discountRepo);
+                    guestRepo, discountRepo, new NotificationRepository(), new NotificationWebSocketHandler(tokenSvc, new NotificationRepository()));
 
             String msg = svc.addToCart("tok", "s", "p", 5);
 
@@ -122,7 +120,7 @@ class UserServiceTest {
             UserService svc = new UserService(tokenSvc, storeRepo, userRepo,
                     productRepo, orderRepo,
                     shippingSvc, paymentSvc,
-                    guestRepo, discountRepo);
+                    guestRepo, discountRepo, new NotificationRepository(), new NotificationWebSocketHandler(tokenSvc, new NotificationRepository()));
 
             assertThrows(PermissionException.class,
                     () -> svc.findProduct("badTok", "a", null));
@@ -164,7 +162,8 @@ class UserServiceTest {
             UserService svc = new UserService(tokenSvc, storeRepo, userRepo,
                     productRepo, orderRepo,
                     shippingSvc, paymentSvc,
-                    guestRepo, discountRepo);
+                    guestRepo, discountRepo, new NotificationRepository(), new NotificationWebSocketHandler(tokenSvc, new NotificationRepository()));
+
 
             Map<String,Integer> result = svc.getCartProducts("tok");
 

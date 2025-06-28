@@ -195,7 +195,6 @@ public class StoreManagementMicroservice {
                 if (managerUser == null) {
                     // Handle case where user is not found (e.g., log error, throw exception, return false)
                     System.err.println("Error: User with ID " + userId + " not found for manager appointment.");
-                    System.out.println("5");
                     return false;
                 }
             managerUser.addManagedStore(storeId); // Modify the user object in memory

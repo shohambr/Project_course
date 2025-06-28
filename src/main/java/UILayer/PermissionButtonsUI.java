@@ -19,21 +19,21 @@ public class PermissionButtonsUI extends VerticalLayout {
         HorizontalLayout buttonLayout1 = new HorizontalLayout();
         HorizontalLayout buttonLayout2 = new HorizontalLayout();
         boolean hasAnyPermission = false;
-        if (perms.getPermission(ManagerPermissions.PERM_VIEW_STORE)) {
+        if (perms.getPermission(ManagerPermissions.PERM_VIEW_STORE) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout1.add(new Button("🏬 View Store"));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_MANAGE_INVENTORY)) {
+        if (perms.getPermission(ManagerPermissions.PERM_MANAGE_INVENTORY) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout1.add(new Button("📦 Manage Inventory", e -> {
                 add(productPresenter.getInventoryList(token, storeName.getId(), ownerManagerService));
             }));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_MANAGE_STAFF)) {
+        if (perms.getPermission(ManagerPermissions.PERM_MANAGE_STAFF) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout1.add(new Button("👥 Manage Staff"));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_ADD_PRODUCT)) {
+        if (perms.getPermission(ManagerPermissions.PERM_ADD_PRODUCT) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout1.add(new Button("➕ Add Product", e -> {
                 TextField productName = new TextField("product name");
                 TextField description = new TextField("description");
@@ -48,7 +48,7 @@ public class PermissionButtonsUI extends VerticalLayout {
             }));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_REMOVE_PRODUCT)) {
+        if (perms.getPermission(ManagerPermissions.PERM_REMOVE_PRODUCT) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout2.add(new Button("❌ Remove Product", e -> {TextField productName = new TextField("product name");
                 Span message = new Span("");
                 Button remove = new Button("remove", x -> {
@@ -58,7 +58,7 @@ public class PermissionButtonsUI extends VerticalLayout {
 
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_UPDATE_PRODUCT)) {
+        if (perms.getPermission(ManagerPermissions.PERM_UPDATE_PRODUCT) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout2.add(new Button("✏️ Update Product", e -> {TextField productName = new TextField("product name");
                 Span detailxs = new Span("");
                 TextField description = new TextField("description");
@@ -77,18 +77,18 @@ public class PermissionButtonsUI extends VerticalLayout {
                 this.add(new Span("update product in store " + storeName.getName()), productName, getInformation, detailxs, message);}));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_UPDATE_POLICY)) {
+        if (perms.getPermission(ManagerPermissions.PERM_UPDATE_POLICY) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout2.add(new Button("📝 Update Policy"));
             hasAnyPermission = true;
         }
-        if (perms.getPermission(ManagerPermissions.PERM_OPEN_STORE)) {
+        if (perms.getPermission(ManagerPermissions.PERM_OPEN_STORE) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout2.add(new Button("open store", e -> {
                 add(new Span(userConnectivityPresenter.openStore(token, storeName.getId())));
             }));
             hasAnyPermission = true;
         }
 
-        if (perms.getPermission(ManagerPermissions.PERM_CLOSE_STORE)) {
+        if (perms.getPermission(ManagerPermissions.PERM_CLOSE_STORE) || storeName.userIsOwner(userConnectivityPresenter.getUserId(token))) {
             buttonLayout2.add(new Button("close store", e -> {
                 add(new Span(userConnectivityPresenter.closeStore(token, storeName.getId())));
             }));

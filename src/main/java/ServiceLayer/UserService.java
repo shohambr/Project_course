@@ -1,16 +1,14 @@
 package ServiceLayer;
 
 import DomainLayer.*;
-import DomainLayer.DomainServices.Search;
-import DomainLayer.DomainServices.UserCart;
-import DomainLayer.DomainServices.UserConnectivity;
-import DomainLayer.DomainServices.DiscountPolicyMicroservice;
+import DomainLayer.DomainServices.*;
 import DomainLayer.Roles.Guest;
 import DomainLayer.Roles.RegisteredUser;
 import InfrastructureLayer.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -39,7 +37,10 @@ public class UserService {
                        ShippingService shippingService,
                        PaymentService paymentService,
                        GuestRepository guestRepository,
-                       DiscountRepository discountRepository) {
+                       DiscountRepository discountRepository,
+                       NotificationRepository notificationRepository,
+                       NotificationWebSocketHandler notificationWebSocketHandler
+                       ) {
         this.productRepository = productRepository;
         this.storeRepository   = storeRepository;
         this.guestRepository   = guestRepository;
@@ -49,7 +50,7 @@ public class UserService {
         this.paymentService    = paymentService;
         this.userConnectivity  = new UserConnectivity(tokenService, userRepository, guestRepository);
         this.userCart          = new UserCart(tokenService, userRepository, storeRepository,
-                productRepository, orderRepository, guestRepository);
+                productRepository, orderRepository, guestRepository, new ToNotify(notificationRepository, tokenService, notificationWebSocketHandler,userRepository, storeRepository));
         this.search            = new Search(productRepository, storeRepository);
         this.discountPolicy    = new DiscountPolicyMicroservice(storeRepository, userRepository,
                 productRepository, discountRepository);

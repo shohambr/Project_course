@@ -158,6 +158,9 @@ public class UserConnectivityPresenter {
             Store store = null;
             try {
                 store = mapper.readValue(jsonStore, Store.class);
+                 if (store.userIsOwner(getUserId(token))) {
+                     return ownerManagerService.addProduct(user.getUsername(), store.getId(), productName, description, price.floatValue(), quantity, category);
+                 }
             } catch (Exception e) {
                 return e.getMessage();
             }
@@ -184,7 +187,14 @@ public class UserConnectivityPresenter {
             Store store = null;
             try {
                 store = mapper.readValue(jsonStore, Store.class);
-            } catch (Exception e) {
+                if (store.userIsOwner(getUserId(token))) {
+                    for (Product product: products) {
+                        if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
+                            return ownerManagerService.removeProduct(user.getUsername(), store.getId(), product.getId());
+                            }
+                        }
+                }
+                } catch (Exception e) {
                 return e.getMessage();
             }
             if (store.getName().equals(storeName)) {
@@ -221,7 +231,16 @@ public class UserConnectivityPresenter {
             Store store = null;
             try {
                 store = mapper.readValue(jsonStore, Store.class);
-            } catch (Exception e) {
+                if (store.userIsOwner(getUserId(token))) {
+                    for (Product product: products) {
+                        if (product.getStoreId().equals(store.getId()) & product.getName().equals(productName)) {
+                           return ownerManagerService.updateProductDetails(user.getShoppingCart().getUserId(), store.getId(), product.getId(), newProductName, description, doublePrice, category);
+                        }
+
+                    }
+
+                } }
+            catch (Exception e) {
                 return e.getMessage();
             }
             if (store.getName().equals(storeName)) {
@@ -289,10 +308,18 @@ public class UserConnectivityPresenter {
             Store  store     = mapper.readValue(jsonStore, Store.class);
 
             /*  ★ NO filter here → managers always see their stores  */
+            Boolean hasa = false;
+            for (Store storename : storeNames) {
+            if (user.getManagedStores().contains(storename.getId())) {
+            hasa = true;
+            }
+            }
+            if (!hasa) {
             storeNames.add(store);
+            }
         }
 
-        System.out.println(storeNames);
+        System.out.println("hdtfgrrrrrrrrrrrrrrrrrrr" + storeNames);
         return storeNames;
     }
 
@@ -454,6 +481,10 @@ public class UserConnectivityPresenter {
             Notification.show(e.getMessage());
         }
         return ownerManagerService.closeStore(user.getShoppingCart().getUserId(), storeId);
+    }
+
+    public String getUserId(String token) {
+        return userRepository.getById(tokenService.extractUsername(token)).getShoppingCart().getUserId();
     }
 
 }

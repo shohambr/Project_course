@@ -1,8 +1,7 @@
 package DomainLayer.DomainServices;
 
+import DomainLayer.IToken;
 import InfrastructureLayer.NotificationRepository;
-import ServiceLayer.TokenService;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,11 +19,11 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
     // Stores userId -> WebSocketSession mapping
     private static final ConcurrentHashMap<String, WebSocketSession> userSessions = new ConcurrentHashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();
-    private final TokenService tokenService;
+    private final IToken tokenService;
     private final NotificationRepository notificationRepo;  // Add this
 
     @Autowired
-    public NotificationWebSocketHandler(TokenService tokenService,
+    public NotificationWebSocketHandler(IToken tokenService,
                                         NotificationRepository notificationRepo) {
         this.tokenService = tokenService;
         this.notificationRepo = notificationRepo;  // Assign

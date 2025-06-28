@@ -68,7 +68,7 @@ public class SystemConfiguration {
     @Bean public UserService UserService() {
         return new UserService(TokenService(), StoreRepository(), UserRepository(),
                 ProductRepository(), OrderRepository(), ShippingService(),
-                PaymentService(), GuestRepository(), DiscountRepository());
+                PaymentService(), GuestRepository(), DiscountRepository(), NotificationRepository(), NotificationWebSocketHandler());
     }
 
     @Bean public WebSocketConfigure WebSocketConfigure() { return new WebSocketConfigure(NotificationWebSocketHandler()); }

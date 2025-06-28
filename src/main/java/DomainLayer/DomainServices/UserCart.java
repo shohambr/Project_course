@@ -18,6 +18,7 @@ public class UserCart {
     private final GuestRepository   guestRepository;
     private final ProductRepository productRepository;
     private final OrderRepository   orderRepository;
+    private final IToNotify          toNotify;
 
     /* ------------------------------------------------------------ */
     public UserCart(IToken Tokener,
@@ -25,7 +26,8 @@ public class UserCart {
                     StoreRepository storeRepository,
                     ProductRepository productRepository,
                     OrderRepository orderRepository,
-                    GuestRepository guestRepository) {
+                    GuestRepository guestRepository,
+                    IToNotify toNotify) {
 
         this.Tokener          = Tokener;
         this.userRepository   = userRepository;
@@ -33,6 +35,7 @@ public class UserCart {
         this.productRepository= productRepository;
         this.orderRepository  = orderRepository;
         this.guestRepository  = guestRepository;
+        this.toNotify         = toNotify;
     }
 
     /* ============================================================ */
@@ -270,6 +273,9 @@ public class UserCart {
                 String pid = e.getKey(); int qty = e.getValue();
                 store.sellProduct(pid, qty);
                 storeRepository.update(store);
+                if (toNotify != null) {
+                    toNotify.sendNotificationToStoreOwners(token, store.getName(), productRepository.getById(pid).getName() + " quantity " + qty +  " sold in your store " + store.getName());
+                }
                 if (customer instanceof RegisteredUser ru) {
                                         if (!ru.getProducts().contains(pid))
                                                 ru.addProduct(pid);

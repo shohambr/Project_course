@@ -453,3 +453,13 @@
 [2025-06-28 14:58:11] User: a | Event: Event | Description: CLOSE_STORE_SUCCESS
 [2025-06-28 14:58:12] User: a | Event: Event | Description: CLOSE_STORE_START
 [2025-06-28 14:58:12] User: a | Event: Event | Description: CLOSE_STORE_SUCCESS
+[2025-06-28 14:59:31] User: b | Event: Event | Description: PURCHASE_CART_FAILED Cannot purchase – store '1' is closed
+[2025-06-28 14:59:36] User: a | Event: Event | Description: REOPEN_STORE_START
+[2025-06-28 14:59:36] User: a | Event: Event | Description: REOPEN_STORE_SUCCESS
+[2025-06-28 14:59:37] User: b | Event: Event | Description: PURCHASE_CART_FAILED Cannot purchase – store 'ori' is closed
+[2025-06-28 14:59:39] User: a | Event: Event | Description: REOPEN_STORE_START
+[2025-06-28 14:59:39] User: a | Event: Event | Description: REOPEN_STORE_SUCCESS
+[2025-06-28 14:59:40] User: a | Event: Event | Description: REOPEN_STORE_START
+[2025-06-28 14:59:40] User: a | Event: Event | Description: REOPEN_STORE_SUCCESS
+[2025-06-28 14:59:42] User: b | Event: Event | Description: Shipping successful
+[2025-06-28 14:59:43] User: b | Event: Event | Description: Successfully payed for cart

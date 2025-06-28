@@ -8,6 +8,7 @@ import InfrastructureLayer.OrderRepository;
 import InfrastructureLayer.ProductRepository;
 import InfrastructureLayer.StoreRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -54,7 +55,13 @@ public class BidService {
     }
 
     /*──────────────────── bidding ─────────────────────*/
-    public void place(String bidId,String bidder,double amount) {
+    public void place(String bidId, String bidder, double amount) {
+
+        /* ★ NEW – guests may look but not bid */
+        if (bidder == null || bidder.startsWith("Guest")) {
+            throw new RuntimeException("You must be logged-in to place a bid.");
+        }
+
         bids.get(bidId).bid(bidder, amount, LocalDateTime.now());
     }
 
@@ -72,42 +79,47 @@ public class BidService {
     }
 
     /*──────────────────── payment ─────────────────────*/
+    /*──────────────────── payment ─────────────────────*/
+    @Transactional
     public void pay(String bidId,
                     String token,
-                    String name, String card,String exp,String cvv,
-                    String state,String city,String address,String id,String zip) {
+                    String name, String card, String exp, String cvv,
+                    String state, String city, String address,
+                    String id,    String zip) {
 
         BidSale b = bids.get(bidId);
-        if (b == null) throw new RuntimeException("bid not found");
+        if (b == null)              throw new RuntimeException("bid not found");
         if (!b.isAwaitingPayment()) throw new RuntimeException("not payable");
 
         String buyer = tokenService.extractUsername(token);
         if (!buyer.equals(b.getWinner())) throw new RuntimeException("not your bid");
 
-        /* 1. charge */
+        /* 1. charge card */
         paymentService.processPayment(token, name, card, exp, cvv, id);
 
-        /* 2. ship */
+        /* 2. arrange shipping */
         shippingService.processShipping(token, state, city, address, name, zip);
 
-        /* 3. update stock & store */
+        /* 3. reserve then sell one unit */
         Store   store   = storeRepo.getById(b.getStoreId());
         Product product = productRepo.getById(b.getProductId());
+        if (product == null) throw new RuntimeException("product missing");
 
-        if (product.getQuantity() < 1) throw new RuntimeException("out of stock");
-        store.sellProduct(product.getId(), 1);
+        if (!store.reserveProduct(product.getId(), 1))      // ★ NEW
+            throw new RuntimeException("out of stock");
+
+        store.sellProduct(product.getId(), 1);              // now succeeds
         product.setQuantity(product.getQuantity() - 1);
 
         storeRepo.update(store);
         productRepo.save(product);
 
         /* 4. record order */
-        orderRepo.save(new DomainLayer.Order("bid:"+bidId,
-                store.getId(),
-                buyer,
-                new Date()));
+        orderRepo.save(new DomainLayer.Order("bid:" + bidId,
+                store.getId(), buyer, new Date()));
 
-        /* 5. remove */
+        /* 5. remove bid from board */
         bids.remove(bidId);
     }
+
 }

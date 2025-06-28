@@ -93,39 +93,42 @@ public class TokenService implements IToken {
     }
 
 
-    public void suspendUser(String username){                // improved
+    /*────────────────── suspension API ──────────────────*/
+
+    public void suspendUser(String username) {               // unchanged
         if (username == null || username.isEmpty())
             throw new IllegalArgumentException("Username cannot be null or empty");
-        if (suspendedUsers.contains(username))
-            throw new IllegalArgumentException("User is already suspended");
 
-        suspendedUsers.add(username);
+        /* already suspended → nothing to do */
+        if (!suspendedUsers.add(username))
+            return;
 
-        // immediately log-out every active session of this user
+        /* log out every active session of this user */
         activeTokens.entrySet().removeIf(e -> {
             boolean sameUser = e.getValue().equals(username);
             if (sameUser) blacklistedTokens.add(e.getKey());
             return sameUser;
         });
 
-        EventLogger.logEvent(username , "User suspended");
+        EventLogger.logEvent(username, "User suspended");
     }
 
-    public void unsuspendUser(String username) {             // tiny tweak – just cleanly revert
+    public void unsuspendUser(String username) {             // ★ REWRITTEN
         if (username == null || username.isEmpty())
             throw new IllegalArgumentException("Username cannot be null or empty");
-        if (!suspendedUsers.remove(username))
-            throw new IllegalArgumentException("User is not suspended");
-        EventLogger.logEvent(username , "User unsuspended");
+
+        /* if the user wasn’t suspended, just ignore */
+        if (!suspendedUsers.remove(username)) {
+            return;      // silently succeed instead of throwing
+        }
+
+        EventLogger.logEvent(username, "User unsuspended");
     }
 
-    public List<String> showSuspended() {
-        List<String> suspendedList = new ArrayList<>();
-        for (String username : suspendedUsers) {
-            suspendedList.add(username);
-        }
-        return suspendedList;
+    public List<String> showSuspended() {                    // unchanged
+        return new ArrayList<>(suspendedUsers);
     }
+
 
     public String getToken(String username) {
         for(String token : activeTokens.keySet()) {

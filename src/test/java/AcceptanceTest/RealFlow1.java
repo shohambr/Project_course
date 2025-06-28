@@ -54,7 +54,7 @@ class RealFlow1Test {
        openStoreMS = new OpenStore(tokenSvc, storeRepo, userRepo);
        inventoryMS = new InventoryManagementMicroservice(storeRepo, productRepo);
        discountMS = new DiscountPolicyMicroservice(storeRepo, userRepo, productRepo, discountRepo);
-       cartMS = new UserCart(tokenSvc, userRepo, storeRepo, productRepo, orderRepo, guestRepo);
+       cartMS = new UserCart(tokenSvc, userRepo, storeRepo, productRepo, orderRepo, guestRepo, null);
    }
 
    @AfterAll

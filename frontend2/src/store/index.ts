@@ -4,6 +4,7 @@ import storeSlice from './slices/storeSlice';
 import productSlice from './slices/productSlice';
 import cartSlice from './slices/cartSlice';
 import settingsSlice from './slices/settingsSlice';
+import { loggingMiddleware } from './middleware/loggingMiddleware';
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST'],
       },
-    }),
+    }).concat(loggingMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

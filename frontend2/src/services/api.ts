@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { 
   ApiResponse, 
@@ -10,6 +10,7 @@ import {
   CartItem,
   Order 
 } from '../types';
+import { debugLogger, logApiCall, logApiResponse, logError } from './debugLogger';
 
 // Configure base URL - update this to your backend URL
 const BASE_URL = 'http://localhost:8080/api';
@@ -43,6 +44,162 @@ class ApiService {
         return Promise.reject(error);
       }
     );
+
+    // Request interceptor - Log all outgoing requests
+    this.axios.interceptors.request.use(
+      (config) => {
+        const startTime = Date.now();
+        config.metadata = { startTime };
+
+        // Log the API call
+        logApiCall(
+          config.method?.toUpperCase() || 'GET',
+          config.url || '',
+          config.data,
+          config.headers
+        );
+
+        console.log('🚀 API REQUEST:', {
+          method: config.method?.toUpperCase(),
+          url: `${config.baseURL}${config.url}`,
+          headers: config.headers,
+          data: config.data,
+          timestamp: new Date().toISOString(),
+        });
+
+        debugLogger.customEvent('API', 'REQUEST_START', {
+          method: config.method?.toUpperCase(),
+          url: config.url,
+          hasData: !!config.data,
+          hasAuth: !!config.headers?.Authorization,
+          timeout: config.timeout,
+        });
+
+        return config;
+      },
+      (error) => {
+        logError('API_REQUEST', error, {
+          message: 'Request interceptor error',
+          timestamp: new Date().toISOString(),
+        });
+
+        console.error('❌ API REQUEST ERROR:', error);
+        return Promise.reject(error);
+      }
+    );
+
+    // Response interceptor - Log all responses and errors
+    this.axios.interceptors.response.use(
+      (response: AxiosResponse) => {
+        const endTime = Date.now();
+        const startTime = response.config.metadata?.startTime || endTime;
+        const duration = endTime - startTime;
+
+        // Log the API response
+        logApiResponse(
+          response.config.method?.toUpperCase() || 'GET',
+          response.config.url || '',
+          response.status,
+          response.data,
+          duration
+        );
+
+        console.log('✅ API RESPONSE:', {
+          method: response.config.method?.toUpperCase(),
+          url: `${response.config.baseURL}${response.config.url}`,
+          status: response.status,
+          statusText: response.statusText,
+          duration: `${duration}ms`,
+          dataSize: JSON.stringify(response.data).length,
+          timestamp: new Date().toISOString(),
+        });
+
+        debugLogger.customEvent('API', 'RESPONSE_SUCCESS', {
+          method: response.config.method?.toUpperCase(),
+          url: response.config.url,
+          status: response.status,
+          duration: `${duration}ms`,
+          responseSize: JSON.stringify(response.data).length,
+          success: true,
+        });
+
+        return response;
+      },
+      (error: AxiosError) => {
+        const endTime = Date.now();
+        const startTime = error.config?.metadata?.startTime || endTime;
+        const duration = endTime - startTime;
+
+        // Log the API error
+        debugLogger.apiError(
+          error.config?.method?.toUpperCase() || 'UNKNOWN',
+          error.config?.url || 'unknown',
+          error,
+          duration
+        );
+
+        const errorDetails = {
+          method: error.config?.method?.toUpperCase(),
+          url: error.config ? `${error.config.baseURL}${error.config.url}` : 'unknown',
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          message: error.message,
+          duration: `${duration}ms`,
+          responseData: error.response?.data,
+          timestamp: new Date().toISOString(),
+        };
+
+        console.error('❌ API ERROR:', errorDetails);
+
+        debugLogger.customEvent('API', 'RESPONSE_ERROR', {
+          method: error.config?.method?.toUpperCase(),
+          url: error.config?.url,
+          status: error.response?.status,
+          duration: `${duration}ms`,
+          errorMessage: error.message,
+          errorType: error.code,
+          hasResponse: !!error.response,
+        });
+
+        // Enhanced error handling
+        if (error.code === 'ECONNABORTED') {
+          console.error('🕒 API TIMEOUT ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'TIMEOUT_ERROR', errorDetails);
+        } else if (error.code === 'ERR_NETWORK') {
+          console.error('🌐 NETWORK ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'NETWORK_ERROR', errorDetails);
+        } else if (error.response?.status === 401) {
+          console.error('🔒 AUTHENTICATION ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'AUTH_ERROR', errorDetails);
+        } else if (error.response?.status === 403) {
+          console.error('🚫 AUTHORIZATION ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'AUTHZ_ERROR', errorDetails);
+        } else if (error.response?.status === 404) {
+          console.error('🔍 NOT FOUND ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'NOT_FOUND_ERROR', errorDetails);
+        } else if (error.response?.status === 500) {
+          console.error('💥 SERVER ERROR:', errorDetails);
+          debugLogger.customEvent('API', 'SERVER_ERROR', errorDetails);
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
+    // Add request ID for tracking
+    let requestId = 0;
+    this.axios.interceptors.request.use((config) => {
+      requestId++;
+      config.headers['X-Request-ID'] = `req_${requestId}_${Date.now()}`;
+      
+      debugLogger.customEvent('API', 'REQUEST_ID_ASSIGNED', {
+        requestId: config.headers['X-Request-ID'],
+        url: config.url,
+        method: config.method,
+      });
+
+      return config;
+    });
   }
 
   // Auth Token Management
@@ -276,3 +433,12 @@ class ApiService {
 
 export const apiService = new ApiService();
 export default apiService;
+
+// Extend AxiosRequestConfig to include metadata
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    metadata?: {
+      startTime: number;
+    };
+  }
+}

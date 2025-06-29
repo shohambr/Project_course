@@ -2,6 +2,8 @@ package InfrastructureLayer;
 import DomainLayer.IOrderRepository;
 import DomainLayer.Order;
 import ServiceLayer.EventLogger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ import java.util.Map;
 public class OrderRepository implements IOrderRepository {
     private Map<String, List<String>> Orders = new HashMap<>();
     private static OrderRepository instance;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public OrderRepository() {}
 
@@ -20,6 +23,18 @@ public class OrderRepository implements IOrderRepository {
             instance = new OrderRepository();
         }
         return instance;
+    }
+
+    public void save(Order order) {
+        try {
+            String orderJson = mapper.writeValueAsString(order);
+            // Assuming the order has methods to get storeId and userId
+            String storeId = order.getStoreId();
+            String userId = order.getUserId();
+            addOrder(orderJson, storeId, userId);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to save order", e);
+        }
     }
 
     @Override
@@ -47,36 +62,33 @@ public class OrderRepository implements IOrderRepository {
             lst.add(order);
             Orders.put(userId, lst);
         }
+        EventLogger.logEvent("addOrder", "Order added successfully");
     }
 
     @Override
     public void removeOrder(String order, String storeId, String userId) {
-        List<String> lst = this.Orders.get(storeId);
-        boolean remove = lst.remove(order);
-        this.Orders.put(storeId, lst);
+        List<String> orderByStore = Orders.get(storeId);
+        if(orderByStore != null) {
+            orderByStore.remove(order);
+            Orders.put(storeId, orderByStore);
+        }
 
-        List<String> lst1 = this.Orders.get(userId);
-        boolean remove1 = lst.remove(order);
-        this.Orders.put(userId, lst1);
-
-        EventLogger.logEvent("remove order in order repository",
-                "removed order from the OrderRepository adding the 2 booleans " +remove+ " "+ remove1);
+        List<String> orderByUser = Orders.get(userId);
+        if(orderByUser != null) {
+            orderByUser.remove(order);
+            Orders.put(userId, orderByUser);
+        }
+        EventLogger.logEvent("removeOrder", "Order removed successfully");
     }
 
     @Override
     public List<String> getOrderByStoreId(String storeId) {
-        List<String> lst = this.Orders.get(storeId);
-        List<String> clone = new ArrayList<>();
-        clone.addAll(lst);
-        return clone;
+        return Orders.getOrDefault(storeId, new ArrayList<>());
     }
 
     @Override
     public List<String> getOrderByUserId(String userId) {
-        List<String> lst = this.Orders.get(userId);
-        List<String> clone = new ArrayList<>();
-        clone.addAll(lst);
-        return clone;
+        return Orders.getOrDefault(userId, new ArrayList<>());
     }
 
     @Override

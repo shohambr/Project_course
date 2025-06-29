@@ -37,13 +37,42 @@ public class UserRepository implements IUserRepository {
         return rep.containsKey(username);
     }
 
+    public boolean existsById(String username) {
+        return rep.containsKey(username);
+    }
+
+    public RegisteredUser getById(String username) {
+        String json = rep.get(username);
+        if (json == null) {
+            return null;
+        }
+        try {
+            return mapper.readValue(json, RegisteredUser.class);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
     public boolean update(String name, String s) {
 
         if(!rep.containsKey(s)){
             return false;
         }
-        rep.replace(name , s);
-        return true;
+        else{
+            rep.put(s, name);
+            return true;
+        }
+
+
+    }
+
+    public void update(RegisteredUser user) {
+        try {
+            String json = mapper.writeValueAsString(user);
+            rep.put(user.getUsername(), json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to update user", e);
+        }
     }
 
     public String getUser(String username) {

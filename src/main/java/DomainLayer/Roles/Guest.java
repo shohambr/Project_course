@@ -35,6 +35,11 @@ public class Guest {
     public Guest() {
     }
 
+    public Guest(String username) {
+        this.username = username;
+        this.shoppingCart = new ShoppingCart(id);
+    }
+
     public void addProduct(String storeId, String productId, Integer quantity) {
         boolean found = false;
         for (ShoppingBag shoppingBag : shoppingCart.getShoppingBags()) {
@@ -76,14 +81,25 @@ public class Guest {
         return this.id;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public void setCartReserved(Boolean cartReserved) {
         this.cartReserved = cartReserved;
     }
-
 
     public Boolean getCartReserved() {
         return cartReserved;

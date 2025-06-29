@@ -29,6 +29,25 @@ public class Store {
     @Column(name = "rating")
     private double rating;
 
+    // New image and branding fields
+    @Column(name = "banner_image_url", length = 500)
+    private String bannerImageUrl;
+
+    @Column(name = "logo_image_url", length = 500)
+    private String logoImageUrl;
+
+    @Column(name = "established_year")
+    private Integer establishedYear;
+
+    @Column(name = "total_products")
+    private int totalProducts = 0;
+
+    @Column(name = "total_sales")
+    private int totalSales = 0;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Transient
     private PurchasePolicy purchasePolicy = new PurchasePolicy();
 
@@ -210,6 +229,25 @@ public class Store {
     public synchronized void setRating(Double rating){
         this.rating = rating;
     }
+
+    // New getters and setters for image and branding fields
+    public String getBannerImageUrl() { return bannerImageUrl; }
+    public synchronized void setBannerImageUrl(String bannerImageUrl) { this.bannerImageUrl = bannerImageUrl; }
+
+    public String getLogoImageUrl() { return logoImageUrl; }
+    public synchronized void setLogoImageUrl(String logoImageUrl) { this.logoImageUrl = logoImageUrl; }
+
+    public Integer getEstablishedYear() { return establishedYear; }
+    public synchronized void setEstablishedYear(Integer establishedYear) { this.establishedYear = establishedYear; }
+
+    public int getTotalProducts() { return totalProducts; }
+    public synchronized void setTotalProducts(int totalProducts) { this.totalProducts = totalProducts; }
+
+    public int getTotalSales() { return totalSales; }
+    public synchronized void setTotalSales(int totalSales) { this.totalSales = totalSales; }
+
+    public String getDescription() { return description; }
+    public synchronized void setDescription(String description) { this.description = description; }
     public String getFounder() {
         return founder;
     }

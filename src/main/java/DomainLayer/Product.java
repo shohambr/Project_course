@@ -33,6 +33,28 @@ public class Product {
     @Column(name = "category")
     private String category;
 
+    // New image and product enhancement fields
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
+    @Column(name = "gallery_images", columnDefinition = "TEXT")
+    private String galleryImages; // JSON array of image URLs
+
+    @Column(name = "discount_percentage")
+    private float discountPercentage = 0.0f;
+
+    @Column(name = "review_count")
+    private int reviewCount = 0;
+
+    @Column(name = "is_featured")
+    private boolean isFeatured = false;
+
+    @Column(name = "brand", length = 100)
+    private String brand;
+
+    @Column(name = "sku", length = 50)
+    private String sku;
+
     // Constructors
     public Product(String id, String storeId, String name, String description, float price , int quantity, double rating, String category) {
         if(quantity > 0) {
@@ -63,6 +85,15 @@ public class Product {
     public double getRating() { return rating; }
     public String getCategory() { return category; }
 
+    // New getters for image and enhancement fields
+    public String getImageUrl() { return imageUrl; }
+    public String getGalleryImages() { return galleryImages; }
+    public float getDiscountPercentage() { return discountPercentage; }
+    public int getReviewCount() { return reviewCount; }
+    public boolean isFeatured() { return isFeatured; }
+    public String getBrand() { return brand; }
+    public String getSku() { return sku; }
+
     // Setters
     public synchronized void setId(String id) { this.id = id; }
     public synchronized void setStoreId(String storeId) { this.storeId = storeId; }
@@ -72,6 +103,15 @@ public class Product {
     public synchronized void setQuantity(int quantity) { this.quantity = quantity; }
     public synchronized void setRating(double rating) { this.rating = rating; }
     public synchronized void setCategory(String category) { this.category = category; }
+
+    // New setters for image and enhancement fields
+    public synchronized void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public synchronized void setGalleryImages(String galleryImages) { this.galleryImages = galleryImages; }
+    public synchronized void setDiscountPercentage(float discountPercentage) { this.discountPercentage = discountPercentage; }
+    public synchronized void setReviewCount(int reviewCount) { this.reviewCount = reviewCount; }
+    public synchronized void setFeatured(boolean featured) { this.isFeatured = featured; }
+    public synchronized void setBrand(String brand) { this.brand = brand; }
+    public synchronized void setSku(String sku) { this.sku = sku; }
 
     @Override
     public String toString() {

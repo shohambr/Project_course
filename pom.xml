@@ -70,13 +70,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.17.0</version>
+            <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.11.0</version>
+            <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -181,6 +181,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
+                <configuration>
+                    <argLine>
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.text=ALL-UNNAMED
+                        --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+                    </argLine>
+                    <systemPropertyVariables>
+                        <mockito.mock.maker>mock-maker-inline</mockito.mock.maker>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
 
             <plugin>

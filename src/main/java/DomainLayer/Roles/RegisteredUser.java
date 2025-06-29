@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.*;
 
 import DomainLayer.ShoppingCart;
+import DomainLayer.ShoppingBag;
 import DomainLayer.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -67,6 +68,23 @@ public class RegisteredUser extends User {
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
+    }
+
+    /**
+     * Returns all products in the user's shopping cart.
+     * This method aggregates products from all shopping bags.
+     */
+    public Map<String, Integer> getProducts() {
+        Map<String, Integer> allProducts = new HashMap<>();
+        if (shoppingCart != null) {
+            for (ShoppingBag bag : shoppingCart.getShoppingBags()) {
+                Map<String, Integer> bagProducts = bag.getProducts();
+                for (Map.Entry<String, Integer> entry : bagProducts.entrySet()) {
+                    allProducts.merge(entry.getKey(), entry.getValue(), Integer::sum);
+                }
+            }
+        }
+        return allProducts;
     }
 
 

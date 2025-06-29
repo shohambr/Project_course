@@ -1,9 +1,9 @@
 package ServiceLayer;
 
 import DomainLayer.IToken;
-import DomainLayer.DomainServices.Search;
-import DomainLayer.DomainServices.UserCart;
-import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.domainServices.Search;
+import DomainLayer.domainServices.UserCart;
+import DomainLayer.domainServices.UserConnectivity;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IUserRepository;
 import DomainLayer.Product;
@@ -25,8 +25,8 @@ import utils.ProductKeyModule;
 
 import DomainLayer.Store;
 import DomainLayer.User;
-import DomainLayer.DomainServices.UserCart;
-import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.domainServices.UserCart;
+import DomainLayer.domainServices.UserConnectivity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;

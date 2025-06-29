@@ -7,7 +7,7 @@ import DomainLayer.IProductRepository;
 import DomainLayer.IToken;
 import DomainLayer.IUserRepository;
 import DomainLayer.User;
-import DomainLayer.DomainServices.*;
+import DomainLayer.domainServices.*;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package ServiceLayer;
 import DomainLayer.*;
-import DomainLayer.DomainServices.ShippingConnectivity;
+import DomainLayer.domainServices.ShippingConnectivity;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

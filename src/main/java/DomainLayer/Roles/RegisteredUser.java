@@ -23,6 +23,25 @@ public class RegisteredUser extends User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    // New user profile fields
+    @Column(name = "email", unique = true)
+    private String email;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "profile_image_url", length = 500)
+    private String profileImageUrl;
+
+    @Column(name = "bio", columnDefinition = "TEXT")
+    private String bio;
+
+    @Column(name = "location", length = 100)
+    private String location;
+
     @ElementCollection
     @CollectionTable(name = "owned_stores", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "store_id")
@@ -86,4 +105,23 @@ public class RegisteredUser extends User {
     public void setAnswers(Map<String, String> answers) {
         this.answers = answers;
     }
+
+    // New getters and setters for profile fields
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getProfileImageUrl() { return profileImageUrl; }
+    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
+
+    public String getBio() { return bio; }
+    public void setBio(String bio) { this.bio = bio; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 }

@@ -10,6 +10,7 @@ import {
   Alert,
   Share,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { debugLogger, LogEntry } from '../services/debugLogger';
@@ -29,6 +30,7 @@ const DebugPanel: React.FC<DebugPanelProps> = ({ visible, onClose }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [autoScroll, setAutoScroll] = useState(true);
   const [maxLogs, setMaxLogs] = useState(100);
+  const scrollViewRef = React.useRef<ScrollView>(null);
 
   // Refresh logs every second
   useEffect(() => {
@@ -41,6 +43,13 @@ const DebugPanel: React.FC<DebugPanelProps> = ({ visible, onClose }) => {
       return () => clearInterval(interval);
     }
   }, [visible, maxLogs]);
+
+  // Auto scroll to bottom when new logs arrive
+  useEffect(() => {
+    if (autoScroll && scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [filteredLogs, autoScroll]);
 
   // Filter logs based on category, level, and search query
   useEffect(() => {
@@ -306,9 +315,9 @@ const DebugPanel: React.FC<DebugPanelProps> = ({ visible, onClose }) => {
 
         {/* Logs List */}
         <ScrollView 
+          ref={scrollViewRef}
           style={styles.logsList}
           showsVerticalScrollIndicator={true}
-          scrollToEnd={autoScroll}
         >
           {filteredLogs.length === 0 ? (
             <View style={styles.noLogsContainer}>

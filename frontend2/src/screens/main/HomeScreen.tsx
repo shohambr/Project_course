@@ -17,6 +17,8 @@ import { fetchStores } from '../../store/slices/storeSlice';
 import { fetchProducts } from '../../store/slices/productSlice';
 import { fetchCartTotal } from '../../store/slices/cartSlice';
 import { RootStackParamList } from '../../types';
+import AdminAccessButton from '../../components/AdminAccessButton';
+import { logScreenEnter, logScreenLeave, logUserInteraction } from '../../services/debugLogger';
 
 const { width } = Dimensions.get('window');
 
@@ -38,10 +40,30 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const isLoading = storesLoading || productsLoading;
 
   useEffect(() => {
+    // Log screen enter
+    logScreenEnter('HomeScreen', {
+      user: user?.username,
+      theme: theme,
+      storesCount: stores.length,
+      productsCount: products.length,
+      cartItems: items.length,
+      cartTotal: total,
+    });
+
     loadData();
+
+    // Log screen leave on cleanup
+    return () => {
+      logScreenLeave('HomeScreen');
+    };
   }, []);
 
   const loadData = () => {
+    logUserInteraction('DATA_REFRESH', 'HOME_SCREEN', {
+      triggeredBy: 'user',
+      timestamp: new Date().toISOString(),
+    }, 'HomeScreen');
+
     dispatch(fetchStores());
     dispatch(fetchProducts());
     dispatch(fetchCartTotal());
@@ -62,7 +84,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   }) => (
     <TouchableOpacity
       style={[styles.quickActionCard, { backgroundColor: isDark ? '#1a1a1a' : '#fff' }]}
-      onPress={onPress}
+      onPress={() => {
+        logUserInteraction('QUICK_ACTION_PRESS', title.toUpperCase().replace(' ', '_'), {
+          title,
+          subtitle,
+          color,
+        }, 'HomeScreen');
+        onPress();
+      }}
     >
       <View style={[styles.quickActionIcon, { backgroundColor: color + '20' }]}>
         <Ionicons name={icon as any} size={24} color={color} />
@@ -128,7 +157,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={[styles.profileButton, { backgroundColor: isDark ? '#1a1a1a' : '#fff' }]}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => {
+              logUserInteraction('PROFILE_BUTTON_PRESS', 'NAVIGATION', {
+                destination: 'Profile',
+              }, 'HomeScreen');
+              navigation.navigate('Profile');
+            }}
           >
             <Ionicons name="person" size={24} color="#007AFF" />
           </TouchableOpacity>
@@ -228,7 +262,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </Text>
           <TouchableOpacity
             style={[styles.featuredCard, { backgroundColor: isDark ? '#1a1a1a' : '#fff' }]}
-            onPress={() => navigation.navigate('Stores')}
+            onPress={() => {
+              logUserInteraction('FEATURED_CARD_PRESS', 'DISCOVER_STORES', {
+                destination: 'Stores',
+              }, 'HomeScreen');
+              navigation.navigate('Stores');
+            }}
           >
             <View style={styles.featuredContent}>
               <View style={[styles.featuredIcon, { backgroundColor: '#007AFF' + '20' }]}>
@@ -247,6 +286,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Admin Access Button - Floating button for admin terminal access */}
+      <AdminAccessButton />
     </View>
   );
 };

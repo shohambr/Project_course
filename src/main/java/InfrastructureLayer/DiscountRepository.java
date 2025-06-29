@@ -46,13 +46,15 @@ public class DiscountRepository implements IDiscountRepository {
     }
 
     @Override
+    @Deprecated
     public Discount getOne(String s) {
-        return null;
+        return getReferenceById(s);
     }
 
     @Override
+    @Deprecated
     public Discount getById(String s) {
-        return null;
+        return getReferenceById(s);
     }
 
     @Override

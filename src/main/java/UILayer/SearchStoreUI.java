@@ -2,6 +2,7 @@ package UILayer;
 
 import DomainLayer.Store;
 import ServiceLayer.UserService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -31,7 +32,7 @@ public class SearchStoreUI extends VerticalLayout {
         Button searchStore = new Button("search store", e -> {
             try {
                 String jsonItems = userService.searchStoreByName(storeName.getValue(), token);
-                List<String> items = (List<String>) mapper.readValue(jsonItems, List.class);
+                List<String> items = mapper.readValue(jsonItems, new TypeReference<List<String>>() {});
                 List<Store> stores = items.stream().map(item -> {
                     try {
                         return mapper.readValue(item, Store.class);

@@ -2,7 +2,7 @@ package ServiceLayer;
 
 
 import DomainLayer.*;
-import DomainLayer.DomainServices.*;
+import DomainLayer.domainServices.*;
 import InfrastructureLayer.CustomerInquiryRepository;
 import java.util.List;
 import java.util.UUID;

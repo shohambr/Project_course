@@ -1,9 +1,9 @@
-package DomainLayer.DomainServices;
+package DomainLayer.domainServices;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import DomainLayer.DomainServices.OpenStore;
+import DomainLayer.domainServices.OpenStore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import DomainLayer.IStoreRepository;
 import DomainLayer.IToken;

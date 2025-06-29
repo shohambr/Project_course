@@ -1,9 +1,9 @@
-package DomainLayer.DomainServices;
+package DomainLayer.domainServices;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import DomainLayer.DomainServices.UserConnectivity;
+import DomainLayer.domainServices.UserConnectivity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import DomainLayer.IToken;

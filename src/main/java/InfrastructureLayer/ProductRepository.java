@@ -70,13 +70,15 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
+    @Deprecated
     public Product getOne(String s) {
-        return null;
+        return getReferenceById(s);
     }
 
     @Override
+    @Deprecated
     public Product getById(String s) {
-        return null;
+        return getReferenceById(s);
     }
 
     @Override

@@ -2,7 +2,7 @@ package UILayer;
 
 import DomainLayer.*;
 import DomainLayer.Roles.RegisteredUser;
-import DomainLayer.DomainServices.DiscountPolicyMicroservice;
+import DomainLayer.domainServices.DiscountPolicyMicroservice;
 import InfrastructureLayer.StoreRepository;
 import ServiceLayer.ProductService;
 import ServiceLayer.RegisteredService;

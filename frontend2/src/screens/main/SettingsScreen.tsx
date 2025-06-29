@@ -133,7 +133,9 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             rightComponent={
               <Switch
                 value={settings.theme === 'dark'}
-                onValueChange={(value) => dispatch(setTheme(value ? 'dark' : 'light'))}
+                onValueChange={(value) => {
+                  dispatch(setTheme(value ? 'dark' : 'light'));
+                }}
                 trackColor={{ false: '#767577', true: '#007AFF' }}
                 thumbColor={settings.theme === 'dark' ? '#007AFF' : '#f4f3f4'}
               />
@@ -172,7 +174,9 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             rightComponent={
               <Switch
                 value={settings.notifications}
-                onValueChange={(value) => dispatch(setNotifications(value))}
+                onValueChange={(value) => {
+                  dispatch(setNotifications(value));
+                }}
                 trackColor={{ false: '#767577', true: '#007AFF' }}
                 thumbColor={settings.notifications ? '#007AFF' : '#f4f3f4'}
               />
@@ -185,7 +189,9 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             rightComponent={
               <Switch
                 value={settings.autoSync}
-                onValueChange={(value) => dispatch(setAutoSync(value))}
+                onValueChange={(value) => {
+                  dispatch(setAutoSync(value));
+                }}
                 trackColor={{ false: '#767577', true: '#007AFF' }}
                 thumbColor={settings.autoSync ? '#007AFF' : '#f4f3f4'}
               />

@@ -16,7 +16,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <vaadin.version>24.2.4</vaadin.version>
     </properties>
 
@@ -172,7 +172,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
                     <useIncrementalCompilation>false</useIncrementalCompilation>
                 </configuration>
             </plugin>
@@ -187,9 +187,15 @@
                         --add-opens java.base/java.util=ALL-UNNAMED
                         --add-opens java.base/java.text=ALL-UNNAMED
                         --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.base/java.util.concurrent=ALL-UNNAMED
+                        --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+                        --add-opens java.base/sun.util.calendar=ALL-UNNAMED
+                        --illegal-access=permit
                     </argLine>
                     <systemPropertyVariables>
                         <mockito.mock.maker>mock-maker-inline</mockito.mock.maker>
+                        <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

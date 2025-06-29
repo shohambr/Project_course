@@ -82,7 +82,8 @@ public class UserCart {
             if (g.getShoppingCart() == null)             // double-safety
                 g.setShoppingCart(new ShoppingCart(guestId));
 
-            return guestRepository.save(g);
+            guestRepository.save(g);
+            return g;
         }
     }
 
@@ -271,8 +272,8 @@ public class UserCart {
                 store.sellProduct(pid, qty);
                 storeRepository.update(store);
                 if (customer instanceof RegisteredUser ru) {
-                                        if (!ru.getProducts().contains(pid))
-                                                ru.addProduct(pid);
+                                        if (!ru.getProducts().containsKey(pid))
+                                                ru.addProduct(bag.getStoreId(), pid, qty);
                                     }
                 orderRepository.save(new Order(cart.toString(), store.getId(), username, new Date()));
             }
